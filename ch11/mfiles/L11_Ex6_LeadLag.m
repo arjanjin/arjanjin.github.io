@@ -13,15 +13,7 @@ L0 = Kc*G;
 fprintf('  Uncompensated : PM = %.2f deg @ %.3f , GM = %.2f dB @ %.3f rad/s\n', ...
         PM0, Wg0, 20*log10(GM0), Wp0);
 
-%  หมายเหตุ: ในสไลด์อ่าน PM = 27 deg @ 1.42 rad/s ซึ่งเป็น Bode ของ G(s) (Kc = 1)
-%  ถ้าใส่ Kc = 2 จริง จะได้ PM = 13.6 deg @ 2.10 rad/s -> phi_max = 50 - 14 + 5 = 41 deg
-%  ตั้ง useSlide = true เพื่อทำซ้ำตัวเลขในสไลด์ (phi_max = 28 deg)
-useSlide = false;
-
-%% Step 2 : Lead  phi_max = PM_req - PM + 5
-if useSlide
-    PM0 = 27;                       % ค่าที่อ่านในสไลด์
-end
+%% Step 2 : Lead  phi_max = 50 - 14 + 5 = 41 deg  (PM ของ Kc*G = 13.6 deg @ 2.10 rad/s)
 phi_max = 50 - round(PM0) + 5;
 [Glead, iLead] = L11_lead_design(L0, phi_max);
 L1 = Glead*L0;

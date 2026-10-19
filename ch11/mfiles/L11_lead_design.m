@@ -6,13 +6,13 @@ function [Gc, info] = L11_lead_design(L0, phi_max_deg, wg_user)
 %   L0          : open-loop TF ที่ปรับเกน Kc แล้ว  (Kc*G(s))
 %   phi_max_deg : มุมเฟสที่ต้องการเพิ่ม  phi_max = PM_req - PM_now + (5..12 deg)
 %
-%   ขั้นตอน (ตามสไลด์):
+%   ขั้นตอน:
 %     1) alpha = (1 - sin phi_max) / (1 + sin phi_max)
 %     2) หา wg ใหม่ ที่ |Kc G(jw)| = -20log(1/sqrt(alpha)) dB
 %     3) z = wg*sqrt(alpha) ,  p = z/alpha
 %     4) Gc(s) = (1/alpha) * (s+z)/(s+p)      (DC gain = 1)
 %
-%   wg_user (optional) : กำหนด wg เองแทนการคำนวณ (เช่น ใช้ค่าที่อ่านจากกราฟในสไลด์)
+%   wg_user (optional) : กำหนด wg เองแทนการคำนวณ (เช่น ค่าที่อ่านจากกราฟ Bode)
 
 alpha  = (1 - sind(phi_max_deg)) / (1 + sind(phi_max_deg));
 magdB  = -20*log10(1/sqrt(alpha));          % ขนาดที่ wg ใหม่ (dB)

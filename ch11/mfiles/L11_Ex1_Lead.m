@@ -16,7 +16,7 @@ L0 = Kc*G;
 [GM0,PM0,~,Wg0] = margin(L0);
 fprintf('  Uncompensated : PM = %.2f deg @ wg = %.3f rad/s\n', PM0, Wg0);
 
-%% Step 3 : phi_max = PM_req - PM + 6  (ตามสไลด์ 50 - 18 + 6 = 38 deg)
+%% Step 3 : phi_max = PM_req - PM + 6  (50 - 18 + 6 = 38 deg)
 PM_req  = 50;
 phi_max = PM_req - round(PM0) + 6;
 [Glead, info] = L11_lead_design(L0, phi_max);

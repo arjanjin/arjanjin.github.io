@@ -17,7 +17,7 @@ PM_target = 50 + 6;
 w = logspace(-3,2,20000);
 ph = squeeze(angle(freqresp(L0,w)))*180/pi;
 w_ideal = interp1(ph, w, -180+PM_target);
-fprintf('  w ที่เฟส = %.0f deg : %.3f rad/s  (สไลด์เลือก wg = 1 rad/s)\n', -180+PM_target, w_ideal);
+fprintf('  w ที่เฟส = %.0f deg : %.3f rad/s  (ตัวอย่างนี้เลือก wg = 1 rad/s)\n', -180+PM_target, w_ideal);
 
 %% Step 3 : ออกแบบ lag ที่ wg = 1 rad/s  (|KcG| = 25 dB -> beta = 17.78)
 wg = 1;

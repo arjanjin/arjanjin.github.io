@@ -5,9 +5,9 @@ function [Gc, info] = L11_lag_design(L0, wg)
 %
 %   L0 : open-loop TF ก่อนใส่ lag (Kc*G หรือ Gc_lead*Kc*G)
 %   wg : gain crossover ใหม่ที่เลือก ณ จุดที่เฟส ~ -180 + PM_req + (5..6 deg)
-%        (ในสไลด์เลือก wg = 1 rad/s)
+%        (ตัวอย่างในบทนี้เลือก wg = 1 rad/s)
 %
-%   ขั้นตอน (ตามสไลด์):
+%   ขั้นตอน:
 %     1) อ่าน |L0(jwg)| = 20log(beta) dB  -> beta
 %     2) z = wg/10 ,  p = z/beta
 %     3) Gc(s) = (1/beta) * (s+z)/(s+p)       (DC gain = 1)
