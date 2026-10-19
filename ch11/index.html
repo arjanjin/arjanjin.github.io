@@ -1,0 +1,551 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chapter 11: การออกแบบตัวชดเชยโดยใช้แผนภาพโบด</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600&family=Sarabun:wght@400;600;700&display=swap">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:#0b1222;overflow:hidden}
+#stage{position:fixed;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+.slide{position:absolute!important;left:0;top:0;width:1920px;height:1080px;overflow:hidden}
+.slide:not(.on){display:none!important}
+aside{display:none}
+table{border-collapse:collapse;width:100%}th,td{padding:.35em .6em;vertical-align:middle;text-align:left;border-bottom:1px solid rgba(20,33,61,.15)}
+ol,ul{padding-left:1.4em}li{margin:2px 0}
+#bar{position:fixed;top:10px;right:14px;opacity:.35;transition:opacity .2s;font:14px Sarabun,sans-serif;color:#C9D3E0;display:flex;gap:8px;align-items:center;z-index:9}
+#bar:hover{opacity:1}#bar button{background:#26365A;color:#F7F5F0;border:0;border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
+#bar a{color:#F2A27A}
+@media print{html,body{overflow:visible;background:#fff}#stage{position:static;transform:none!important}.slide{position:relative!important;display:flex!important;page-break-after:always}#bar{display:none}}
+</style></head><body>
+<div id="stage">
+<section class="slide" id="cover" data-transition="fade" style="background:#14213D;color:#F7F5F0;font-family:'Sarabun', Tahoma, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="position:absolute;left:0;top:0;width:24px;height:1080px;background:#E35205"></div>
+<p style="font-size:32px;color:#F2A27A;font-weight:600;letter-spacing:2px">01068007 CONTROL SYSTEMS · CHAPTER 11</p>
+<h1 style="font-family:'Kanit', Tahoma, sans-serif;font-size:96px;font-weight:600;line-height:1.2;color:#F7F5F0">การออกแบบตัวชดเชย<br>โดยใช้แผนภาพโบด</h1>
+<p style="font-size:44px;color:#C9D3E0">Compensator Design using Bode Diagram — Lead · Lag · Lead-Lag · PID</p>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:32px;color:#F7F5F0;font-weight:600">รศ. ดร. อาจินต์ น่วมสำราญ</p>
+<p style="font-size:26px;color:#C9D3E0">ภาควิชาวิศวกรรมการวัดและควบคุม คณะวิศวกรรมศาสตร์ สจล.</p>
+</div>
+<aside>บทนี้ออกแบบตัวชดเชยแบบ cascade โดย reshape แผนภาพโบดของ open loop ให้ได้ Kv, PM และ GM ตามสเปก มีตัวอย่าง 7 ข้อ และแบบฝึกหัด 1 ข้อ ทุกข้อมี m-file ประกอบ</aside>
+</section>
+
+<section class="slide" id="overview" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">ภาพรวม</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#14213D;line-height:1.15">Reshape แผนภาพโบดให้ผ่านสเปก 3 ข้อพร้อมกัน</h2>
+</div>
+<p style="font-size:32px;line-height:1.5">แบ่งแกนความถี่ของ open loop L(jω) = Gc(jω)·G(jω) เป็น 3 ช่วง แต่ละช่วงคุมสเปกคนละตัว</p>
+<table style="font-size:30px;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:20px">
+<tr style="background:#14213D"><th style="width:24%;color:#F7F5F0">ช่วงความถี่</th><th style="width:40%;color:#F7F5F0">สิ่งที่กำหนด</th><th style="width:36%;color:#F7F5F0">ตัวช่วยที่ใช้</th></tr>
+<tr style="background:#FFFDF8"><td>ต่ำ (ω → 0)</td><td>ความผิดพลาดสถานะคงตัว Kv, Ka</td><td>เกน Kc, Lag หรือเทอม I ของ PID</td></tr>
+<tr style="background:#F1EEE7"><td>กลาง (รอบ ωgc)</td><td>เสถียรภาพสัมพัทธ์ PM, GM และ %OS</td><td>Lead หรือเทอม D เติมเฟส, Lag ย้าย ωgc ลง</td></tr>
+<tr style="background:#FFFDF8"><td>สูง</td><td>การกรองสัญญาณรบกวน</td><td>Lag ลดเกนความถี่สูง</td></tr>
+</table>
+<div style="display:flex;gap:24px;align-items:center">
+<div style="display:flex;align-items:center;background:#FFFDF8;border:1px solid #E2DED6;padding:16px 28px;border-radius:12px"><img src="assets/eq_ov_kv.png" alt="Kv เท่ากับลิมิต s เข้าใกล้ 0 ของ s Kc G(s)" style="width:290px;height:62px;object-fit:contain"></div>
+<div style="display:flex;align-items:center;background:#FFFDF8;border:1px solid #E2DED6;padding:16px 28px;border-radius:12px"><img src="assets/eq_ov_ka.png" alt="Ka เท่ากับลิมิต s เข้าใกล้ 0 ของ s กำลังสอง Kc G(s)" style="width:299px;height:66px;object-fit:contain"></div>
+<div style="display:flex;align-items:center;background:#FFFDF8;border:1px solid #E2DED6;padding:16px 28px;border-radius:12px"><img src="assets/eq_ov_gc.png" alt="Gc(s) เท่ากับ Kc คูณ 1 ส่วน alpha คูณ (s+z)/(s+p) โดย z/p เท่ากับ alpha" style="width:440px;height:86px;object-fit:contain"></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">2</p>
+<aside>ตัวชดเชยทุกตัวเขียนให้ DC gain = 1 เพื่อไม่ไปกระทบ Kv ที่ล็อกไว้แล้วด้วย Kc</aside>
+</section>
+
+<section class="slide" id="workflow" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">ขั้นตอนร่วมทุกตัวอย่าง</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#14213D;line-height:1.15">ล็อก Kv ก่อน แล้วค่อยแก้ PM</h2>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF8;border:1px solid #E2DED6;border-radius:16px;padding:36px">
+<p style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#E35205">1</p>
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:36px;font-weight:500;color:#14213D">หา Kc</h3>
+<p style="font-size:28px;line-height:1.45">จากสเปก Kv หรือ Ka</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF8;border:1px solid #E2DED6;border-radius:16px;padding:36px">
+<p style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#E35205">2</p>
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:36px;font-weight:500;color:#14213D">วาด Bode</h3>
+<p style="font-size:28px;line-height:1.45">ของ Kc·G(s) อ่าน PM, GM และ ωgc</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF8;border:1px solid #E2DED6;border-radius:16px;padding:36px">
+<p style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#E35205">3</p>
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:36px;font-weight:500;color:#14213D">เลือกตัวชดเชย</h3>
+<p style="font-size:28px;line-height:1.45">Lead, Lag, Lead-Lag หรือ PID ตามช่องว่างของ PM</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF8;border:1px solid #E2DED6;border-radius:16px;padding:36px">
+<p style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#E35205">4</p>
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:36px;font-weight:500;color:#14213D">ตรวจผล</h3>
+<p style="font-size:28px;line-height:1.45">Bode ใหม่, step และ ramp response</p>
+</div>
+</div>
+<p style="font-size:32px;line-height:1.5">ทุกข้อเผื่อเฟสไว้ <b>5–6°</b> เพราะ ωgc จะเลื่อนหลังใส่ตัวชดเชย ถ้ายังไม่ถึงสเปกให้เพิ่มค่าเผื่อแล้วทำซ้ำ</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">3</p>
+<aside>ลำดับนี้ใช้กับทุกตัวอย่างในบท ข้อ 1 ทำให้ส่วนความถี่ต่ำผ่านสเปกเลย ที่เหลือคือการจัดการช่วงความถี่กลาง</aside>
+</section>
+
+<section class="slide" id="lead" data-transition="fade" style="background:#EEF1F4;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">LEAD COMPENSATOR</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#14213D;line-height:1.15">Lead เติมเฟสที่ ωgc ใหม่ ระบบเร็วขึ้น</h2>
+</div>
+<div style="display:flex;gap:40px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FFFDF8;border:1px solid #D9DEE5;border-radius:16px;padding:40px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:36px;font-weight:500;color:#14213D">สูตร</h3>
+<img src="assets/eq_ld_1.png" alt="Gc lead เท่ากับ 1/alpha คูณ (s+z)/(s+p) โดย 0 น้อยกว่า alpha น้อยกว่า 1" style="width:601px;height:104px;object-fit:contain">
+<img src="assets/eq_ld_2.png" alt="alpha เท่ากับ (1 ลบ sin phi max) ส่วน (1 บวก sin phi max)" style="width:313px;height:106px;object-fit:contain">
+<img src="assets/eq_ld_3.png" alt="omega max เท่ากับรากที่สองของ z p และขนาดเพิ่ม 20 log 1 ส่วนรากที่สองของ alpha dB" style="width:703px;height:106px;object-fit:contain">
+<img src="assets/eq_ld_4.png" alt="z เท่ากับ omega g คูณรากที่สองของ alpha และ p เท่ากับ z ส่วน alpha" style="width:397px;height:88px;object-fit:contain">
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:36px;font-weight:500;color:#14213D">ขั้นตอน</h3>
+<ol style="font-size:30px;line-height:1.5">
+<li>φmax = PM ที่ต้องการ − PM เดิม + 5–6°</li>
+<li>คำนวณ α จาก φmax</li>
+<li>หา ωg ใหม่ ที่ |Kc·G(jω)| = −20log(1/√α) dB</li>
+<li>คำนวณ z, p แล้วตรวจ Bode อีกครั้ง</li>
+</ol>
+<p style="font-size:28px;line-height:1.45;background:#FBE3D6;color:#7A2E0B;padding:20px 28px;border-radius:12px">φmax เกิน 55–60° ทำให้ α เล็กมาก เกนความถี่สูงพุ่ง ใช้ Lead สองตัวหรือ Lead-Lag แทน</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">4</p>
+<aside>หัวใจคือวาง ωmax ของ Lead ให้ตรงกับ gain crossover ใหม่ จุดที่ |KcG| = −20log(1/√α) dB จะกลายเป็น 0 dB พอดีหลังใส่ Lead</aside>
+</section>
+
+<section class="slide" id="ex1" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">ตัวอย่างที่ 1 · LEAD</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:56px;font-weight:600;color:#14213D;line-height:1.15">G(s) = 4/(s(s+2)) : PM เพิ่มจาก 18° เป็น 50.7°</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;background:#E3E9F2;color:#14213D;padding:14px 24px;border-radius:12px">สเปก: Kv = 20 s⁻¹ , PM ≥ 50° , GM ≥ 10 dB</p>
+<ol style="font-size:28px;line-height:1.5">
+<li>Kv = 2Kc = 20 → Kc = 10</li>
+<li>Bode ของ 40/(s(s+2)): PM = 18° @ 6.17 rad/s</li>
+<li>φmax = 50 − 18 + 6 = 38° → α = 0.24</li>
+<li>|KcG| = −6.2 dB ที่ ωg ≈ 9 rad/s</li>
+<li>z = 9·√0.24 = 4.39 , p = 18.45</li>
+</ol>
+<div style="display:flex;background:#FFFDF8;border:1px solid #E2DED6;border-radius:12px;padding:16px 28px"><img src="assets/eq_ex1.png" alt="Gc lead เท่ากับ 4.17 (s+4.39)/(s+18.45)" style="width:478px;height:99px;object-fit:contain"></div>
+<p style="font-size:28px;line-height:1.45">ผล: <b>PM = 50.7° @ 8.87 rad/s</b> , GM = ∞ , ramp e_ss = 1/Kv = 0.05</p>
+</div>
+<div style="width:470px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/figs_ex1_bode.png" alt="Bode ของ Kc·G ก่อนและหลังใส่ Lead ในตัวอย่างที่ 1" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+<img src="assets/figs_ex1_time.png" alt="Step และ ramp response ก่อนและหลังชดเชยในตัวอย่างที่ 1" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11 · L11_Ex1_Lead.m</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">5</p>
+<aside>ω gc ขยับจาก 6.17 ไป 8.87 rad/s ระบบเร็วขึ้นและ overshoot ลดลงชัดเจนใน step response</aside>
+</section>
+
+<section class="slide" id="ex2" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">ตัวอย่างที่ 2 · LEAD กับ PLANT TYPE-2</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:56px;font-weight:600;color:#14213D;line-height:1.15">G(s) = 1/s² : จากขอบเสถียร (PM = 0°) เป็น 55°</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;background:#E3E9F2;color:#14213D;padding:14px 24px;border-radius:12px">สเปก: Ka = 10 s⁻² , PM ≥ 50° , GM ≥ 10 dB</p>
+<ol style="font-size:28px;line-height:1.5">
+<li>Ka = lim s²·Kc/s² = Kc = 10</li>
+<li>เฟส −180° ตลอด → PM = 0° @ 3.16 rad/s</li>
+<li>φmax = 50 − 0 + 5 = 55° → α = 0.0994</li>
+<li>|KcG| = −10 dB ที่ ωg = 5.63 rad/s</li>
+<li>z = 1.78 , p = 17.86</li>
+</ol>
+<div style="display:flex;background:#FFFDF8;border:1px solid #E2DED6;border-radius:12px;padding:16px 28px"><img src="assets/eq_ex2.png" alt="Gc lead เท่ากับ 10.06 (s+1.78)/(s+17.86)" style="width:498px;height:99px;object-fit:contain"></div>
+<p style="font-size:28px;line-height:1.45">ผล: <b>PM = 55° @ 5.63 rad/s</b> , ramp e_ss = 0 , parabolic e_ss = 1/Ka = 0.1</p>
+</div>
+<div style="width:470px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/figs_ex2_bode.png" alt="Bode ของ 10/s² ก่อนและหลังใส่ Lead" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+<img src="assets/figs_ex2_time.png" alt="Step ramp และ parabolic response ของตัวอย่างที่ 2" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11 · L11_Ex2_Lead_Type2.m</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">6</p>
+<aside>ระบบ Type-2 ไม่มี damping เลย Lead เป็นตัวเดียวที่ทำให้เสถียรได้ เพราะ Lag เติมเฟสลบเพิ่ม</aside>
+</section>
+
+<section class="slide" id="lag" data-transition="fade" style="background:#EEF1F4;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">LAG COMPENSATOR</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#14213D;line-height:1.15">Lag ลดเกน ย้าย ωgc ลงไปหาเฟสที่ยังดีอยู่</h2>
+</div>
+<div style="display:flex;gap:40px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FFFDF8;border:1px solid #D9DEE5;border-radius:16px;padding:40px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:36px;font-weight:500;color:#14213D">สูตร</h3>
+<img src="assets/eq_lg_1.png" alt="Gc lag เท่ากับ 1/beta คูณ (s+z)/(s+p) โดย beta มากกว่า 1" style="width:510px;height:104px;object-fit:contain">
+<img src="assets/eq_lg_2.png" alt="beta เท่ากับ 10 ยกกำลัง ขนาด Kc G ที่ omega g หน่วย dB หาร 20" style="width:387px;height:61px;object-fit:contain">
+<img src="assets/eq_lg_3.png" alt="z เท่ากับ omega g หาร 10 และ p เท่ากับ z หาร beta" style="width:348px;height:96px;object-fit:contain">
+<p style="font-size:28px;line-height:1.45;color:#4A5568">เกนที่ ω → 0 ไม่เปลี่ยน Kv จึงคงเดิม แลกกับ bandwidth ที่แคบลง</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:36px;font-weight:500;color:#14213D">ขั้นตอน</h3>
+<ol style="font-size:30px;line-height:1.5">
+<li>PM เป้าหมาย = PM ที่ต้องการ + 5–6°</li>
+<li>เลือก ωg ที่เฟส Kc·G ≈ −180° + PM เป้าหมาย</li>
+<li>อ่านขนาดที่ ωg ได้ 20logβ dB</li>
+<li>zero ต่ำกว่า ωg หนึ่ง decade, p = z/β</li>
+</ol>
+<p style="font-size:28px;line-height:1.45;background:#FBE3D6;color:#7A2E0B;padding:20px 28px;border-radius:12px">pole ของ Lag อยู่ใกล้ 0 มาก (เช่น 0.0056) step response จึงมี slow tail</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">7</p>
+<aside>ในสไลด์เดิมเลือก ωg = 1 rad/s ทุกข้อ ค่าเผื่อ 5–6° ชดเชยเฟสลบประมาณ 5.7° ที่ Lag ยังทิ้งไว้ที่ ωg เมื่อวาง zero ที่ ωg/10</aside>
+</section>
+
+<section class="slide" id="ex3" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">ตัวอย่างที่ 3 · LAG</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:56px;font-weight:600;color:#14213D;line-height:1.15">โจทย์เดียวกับตัวอย่างที่ 1 แก้ด้วย Lag ได้ PM 57.9°</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;background:#E3E9F2;color:#14213D;padding:14px 24px;border-radius:12px">G(s) = 20/(s(s+2)) , Kv = 20 s⁻¹ , PM ≥ 50° , GM ≥ 10 dB</p>
+<ol style="font-size:28px;line-height:1.5">
+<li>Kv = 10Kc = 20 → Kc = 2 (Kc·G = 40/(s(s+2)))</li>
+<li>PM เป้าหมาย 56° → เลือก ωg = 1 rad/s</li>
+<li>|KcG(j1)| = 25 dB → β = 17.78 , z = 0.1 , p = 0.0056</li>
+</ol>
+<div style="display:flex;background:#FFFDF8;border:1px solid #E2DED6;border-radius:12px;padding:16px 28px"><img src="assets/eq_ex3.png" alt="Gc lag เท่ากับ 0.0562 (s+0.1)/(s+0.0056)" style="width:522px;height:99px;object-fit:contain"></div>
+<table style="font-size:26px;color:#3D4756;padding:12px">
+<tr style="background:#14213D"><th style="width:34%;color:#F7F5F0"></th><th style="width:33%;color:#F7F5F0">Ex1 Lead</th><th style="width:33%;color:#F7F5F0">Ex3 Lag</th></tr>
+<tr style="background:#FFFDF8"><td>ωgc (rad/s)</td><td>8.87</td><td>1.01</td></tr>
+<tr style="background:#F1EEE7"><td>PM</td><td>50.7°</td><td>57.9°</td></tr>
+<tr style="background:#FFFDF8"><td>Rise time</td><td>≈ 0.13 s (เร็ว)</td><td>≈ 1.2 s (ช้า)</td></tr>
+</table>
+</div>
+<div style="width:470px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/figs_ex3_bode.png" alt="Bode ก่อนและหลังใส่ Lag ในตัวอย่างที่ 3" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+<img src="assets/figs_ex3_time.png" alt="Step และ ramp response ของตัวอย่างที่ 3" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11 · L11_Ex3_Lag.m</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">8</p>
+<aside>เทียบตัวอย่างที่ 1 กับ 3: Kv เท่ากัน PM ผ่านทั้งคู่ แต่ Lead ได้ระบบเร็วกว่าเกือบ 10 เท่า</aside>
+</section>
+
+<section class="slide" id="ex4" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">ตัวอย่างที่ 4 · LAG กับ PLANT อันดับ 3</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:56px;font-weight:600;color:#14213D;line-height:1.15">G(s) = 100/(s(s+5)(s+10)) : PM จาก 11.4° เป็น 67.8°</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;background:#E3E9F2;color:#14213D;padding:14px 24px;border-radius:12px">สเปก: Kv = 10 s⁻¹ , PM ≥ 50° , GM ≥ 10 dB</p>
+<ol style="font-size:28px;line-height:1.5">
+<li>Kv = 2Kc = 10 → Kc = 5</li>
+<li>PM = 11.4° @ 5.72 rad/s , GM = 3.52 dB @ 7.07 rad/s</li>
+<li>เฟสลดเร็วหลัง ωgc ถ้าใช้ Lead ต้องเติมเฟสมาก จึงเลือก Lag</li>
+<li>ωg = 1 rad/s : 19.8 dB → β = 9.77 , z = 0.1 , p = 0.0102</li>
+</ol>
+<div style="display:flex;background:#FFFDF8;border:1px solid #E2DED6;border-radius:12px;padding:16px 28px"><img src="assets/eq_ex4.png" alt="Gc lag เท่ากับ 0.1024 (s+0.1)/(s+0.0102)" style="width:522px;height:99px;object-fit:contain"></div>
+<p style="font-size:28px;line-height:1.45">ผล: <b>PM = 67.8° @ 1 rad/s</b> , <b>GM = 23.1 dB @ 6.98 rad/s</b> ผ่านทั้งสองสเปก</p>
+</div>
+<div style="width:470px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/figs_ex4_bode.png" alt="Bode ก่อนและหลังใส่ Lag ในตัวอย่างที่ 4" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+<img src="assets/figs_ex4_time.png" alt="Step และ ramp response ของตัวอย่างที่ 4" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11 · L11_Ex4_Lag.m</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">9</p>
+<aside>Lag ช่วย GM ด้วย เพราะลดเกนที่ phase crossover ประมาณ 20 dB ทำให้ GM เพิ่มจาก 3.5 เป็น 23 dB</aside>
+</section>
+
+<section class="slide" id="leadlag" data-transition="fade" style="background:#EEF1F4;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">LEAD-LAG COMPENSATOR</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#14213D;line-height:1.15">Lead เติมเฟสส่วนหนึ่ง Lag ปิดช่องที่เหลือ</h2>
+</div>
+<div style="display:flex;justify-content:center;background:#FFFDF8;border:1px solid #D9DEE5;border-radius:16px;padding:28px 40px"><img src="assets/eq_ll_1.png" alt="Gc(s) เท่ากับ Kc คูณ Lead คูณ Lag" style="width:770px;height:126px;object-fit:contain"></div>
+<p style="font-size:30px;line-height:1.5">ใช้เมื่อ Lead ตัวเดียวเติมเฟสไม่พอ และ Lag ตัวเดียวทำให้ระบบช้าเกินไป</p>
+<div style="display:flex;align-items:center;gap:20px">
+<p style="flex:1;font-size:28px;line-height:1.4;background:#14213D;color:#F7F5F0;padding:24px;border-radius:12px;text-align:center">1. Kc จาก Kv</p>
+<svg width="56" height="28" viewBox="0 0 56 28" aria-hidden="true"><path d="M0 9h34V0l22 14-22 14v-9H0z" fill="#E35205"/></svg>
+<p style="flex:1;font-size:28px;line-height:1.4;background:#14213D;color:#F7F5F0;padding:24px;border-radius:12px;text-align:center">2. ออกแบบ Lead</p>
+<svg width="56" height="28" viewBox="0 0 56 28" aria-hidden="true"><path d="M0 9h34V0l22 14-22 14v-9H0z" fill="#E35205"/></svg>
+<p style="flex:1;font-size:28px;line-height:1.4;background:#14213D;color:#F7F5F0;padding:24px;border-radius:12px;text-align:center">3. อ่าน PM ที่ขาด</p>
+<svg width="56" height="28" viewBox="0 0 56 28" aria-hidden="true"><path d="M0 9h34V0l22 14-22 14v-9H0z" fill="#E35205"/></svg>
+<p style="flex:1;font-size:28px;line-height:1.4;background:#14213D;color:#F7F5F0;padding:24px;border-radius:12px;text-align:center">4. Lag ที่ ωg = 1</p>
+<svg width="56" height="28" viewBox="0 0 56 28" aria-hidden="true"><path d="M0 9h34V0l22 14-22 14v-9H0z" fill="#E35205"/></svg>
+<p style="flex:1;font-size:28px;line-height:1.4;background:#14213D;color:#F7F5F0;padding:24px;border-radius:12px;text-align:center">5. ตรวจ PM, GM</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">10</p>
+<aside>ขั้นที่ 4 ออกแบบ Lag บนระบบที่ใส่ Lead แล้ว คือใช้ Glead·Kc·G เป็น L0 ของ Lag</aside>
+</section>
+
+<section class="slide" id="ex56" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">ตัวอย่างที่ 5–6 · LEAD-LAG</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:56px;font-weight:600;color:#14213D;line-height:1.15">Lead อย่างเดียวได้ 34–45° ต้องเติม Lag จึงผ่าน 50°</h2>
+</div>
+<table style="font-size:26px;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:12px">
+<tr style="background:#14213D"><th style="width:20%;color:#F7F5F0">ขั้น</th><th style="width:40%;color:#F7F5F0">ตัวอย่างที่ 5 : 10/(s(s+1)(s+5))</th><th style="width:40%;color:#F7F5F0">ตัวอย่างที่ 6 : 25/(s(s+1)(s+10))</th></tr>
+<tr style="background:#FFFDF8"><td>สเปก, Kc</td><td>Kv = 5, GM ≥ 10 dB → Kc = 2.5</td><td>Kv = 5, GM ≥ 20 dB → Kc = 2</td></tr>
+<tr style="background:#F1EEE7"><td>ก่อนชดเชย</td><td>PM 3.94° @ 2.04, GM 1.58 dB</td><td>PM 27° @ 1.42 (ตามสไลด์เดิม)</td></tr>
+<tr style="background:#FFFDF8"><td>φmax, α</td><td>51°, α = 0.125</td><td>28°, α = 0.361</td></tr>
+<tr style="background:#F1EEE7"><td>Lead</td><td>8(s+1.19)/(s+9.46) @ ωg 3.35</td><td>2.77(s+1.14)/(s+3.16) @ ωg 1.9</td></tr>
+<tr style="background:#FFFDF8"><td>หลัง Lead</td><td>PM 33.7°, GM 10.1 dB</td><td>PM 44.9°, GM 15 dB</td></tr>
+<tr style="background:#F1EEE7"><td>Lag @ ωg 1</td><td>13 dB, β 4.47: 0.2239(s+0.1)/(s+0.0224)</td><td>6.9 dB, β 2.21: 0.4525(s+0.1)/(s+0.0452)</td></tr>
+<tr style="background:#FBE3D6"><td><b>ผลสุดท้าย</b></td><td><b>PM 63.2° @ 1.02, GM 22.9 dB</b></td><td><b>PM 59.6° @ 1.03, GM 21.7 dB</b></td></tr>
+</table>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11 · L11_Ex5_LeadLag.m, L11_Ex6_LeadLag.m</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">11</p>
+<aside>ตัวอย่างที่ 6: PM 27° ในสไลด์เดิมเป็น Bode ของ G(s) ที่ยังไม่คูณ Kc = 2 ถ้าคูณ Kc จะได้ PM 13.6° @ 2.10 rad/s และต้องใช้ φmax = 41° ผลสุดท้ายจาก MATLAB คือ PM 61.5°, GM 25.1 dB ซึ่งผ่านสเปกเช่นกัน</aside>
+</section>
+
+<section class="slide" id="ex56plot" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">ตัวอย่างที่ 5–6 · ผลจาก MATLAB</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:56px;font-weight:600;color:#14213D;line-height:1.15">ωgc ลดลงเหลือ 1 rad/s แต่ overshoot ต่ำกว่า 12%</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;font-weight:600;color:#14213D">ตัวอย่างที่ 5 : PM 63.3° , GM 23.0 dB , Mp 9.5%</p>
+<div style="display:flex;gap:12px">
+<img src="assets/figs_ex5_bode.png" alt="Bode ตัวอย่างที่ 5 ก่อนและหลังชดเชย Lead-Lag" style="width:404px;height:300px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+<img src="assets/figs_ex5_time.png" alt="Step และ ramp response ตัวอย่างที่ 5" style="width:404px;height:300px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;font-weight:600;color:#14213D">ตัวอย่างที่ 6 : PM 61.5° , GM 25.1 dB , Mp 11.5%</p>
+<div style="display:flex;gap:12px">
+<img src="assets/figs_ex6_bode.png" alt="Bode ตัวอย่างที่ 6 ก่อนและหลังชดเชย Lead-Lag" style="width:404px;height:300px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+<img src="assets/figs_ex6_time.png" alt="Step และ ramp response ตัวอย่างที่ 6" style="width:404px;height:300px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+</div>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.45">ค่าจาก m-file ที่ใส่ Kc ครบทุกขั้น ตัวอย่างที่ 6 จึงใช้ φmax = 41° แทน 28° ในสไลด์เดิม</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">12</p>
+<aside>settling time ราว 13 วินาทีมาจาก slow tail ของ pole Lag ที่ 0.02 rad/s</aside>
+</section>
+
+<section class="slide" id="pid" data-transition="fade" style="background:#EEF1F4;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">PID ในโดเมนความถี่</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#14213D;line-height:1.15">PID = PD (คล้าย Lead) × PI (คล้าย Lag)</h2>
+</div>
+<div style="display:flex;justify-content:center;background:#FFFDF8;border:1px solid #D9DEE5;border-radius:16px;padding:24px 40px"><img src="assets/eq_pid_0.png" alt="Gc(s) เท่ากับ Kp บวก Ki/s บวก Kd s เท่ากับ Kc (1 + Td s)(s + zI)/s" style="width:834px;height:98px;object-fit:contain"></div>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF8;border:1px solid #D9DEE5;border-radius:16px;padding:36px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:36px;font-weight:500;color:#14213D">วิธี A : คำนวณตรงที่ ωc</h3>
+<img src="assets/eq_pidA_1.png" alt="L ที่ j omega c เท่ากับ 1 มุม ลบ 180 องศา บวก PM" style="width:413px;height:47px;object-fit:contain">
+<img src="assets/eq_pidA_2.png" alt="theta เท่ากับ ลบ 180 องศา บวก PM ลบ มุมของ G ที่ j omega c" style="width:431px;height:47px;object-fit:contain">
+<div style="display:flex;gap:40px;align-items:center">
+<img src="assets/eq_pidA_3.png" alt="Kp เท่ากับ cos theta ส่วนขนาด G ที่ j omega c" style="width:230px;height:90px;object-fit:contain">
+<img src="assets/eq_pidA_5.png" alt="Ki เท่ากับ Kv ส่วน G(0)" style="width:173px;height:90px;object-fit:contain">
+</div>
+<img src="assets/eq_pidA_4.png" alt="Kd omega c ลบ Ki ส่วน omega c เท่ากับ sin theta ส่วนขนาด G ที่ j omega c" style="width:357px;height:90px;object-fit:contain">
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF8;border:1px solid #D9DEE5;border-radius:16px;padding:36px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:36px;font-weight:500;color:#14213D">วิธี B : Reshape แบบ PD × PI</h3>
+<p style="font-size:26px;color:#4A5568">PI วาง zero ต่ำกว่า ωc หนึ่ง decade</p>
+<img src="assets/eq_pidB_1.png" alt="zI เท่ากับ omega c หาร 10 เสียเฟสประมาณ 5.7 องศา" style="width:308px;height:73px;object-fit:contain">
+<p style="font-size:26px;color:#4A5568">PD เติมเฟสที่เหลือ แล้วปรับ Kc ให้ 0 dB ที่ ωc</p>
+<div style="display:flex;gap:40px;align-items:center">
+<img src="assets/eq_pidB_2.png" alt="Td เท่ากับ tan phi PD ส่วน omega c" style="width:218px;height:87px;object-fit:contain">
+<img src="assets/eq_pidB_3.png" alt="Kc ทำให้ขนาด L ที่ j omega c เท่ากับ 0 dB" style="width:325px;height:47px;object-fit:contain">
+</div>
+<img src="assets/eq_pidB_4.png" alt="Kp เท่ากับ Kc(1 + Td zI), Ki เท่ากับ Kc zI, Kd เท่ากับ Kc Td" style="width:686px;height:48px;object-fit:contain">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">13</p>
+<aside>สไลด์เดิมหัวข้อ PID ใช้รูปจาก control-class.com สไลด์นี้เขียนตามหลักการทั่วไป และตัวอย่างที่ 7 ใน m-file L11_Ex7_PID_FreqDomain.m</aside>
+</section>
+
+<section class="slide" id="pidshape" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">PID ในโดเมนความถี่</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:60px;font-weight:600;color:#14213D;line-height:1.15">แต่ละเทอมของ PID คือตัวชดเชยที่เรียนมาแล้ว</h2>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFDF8;border:1px solid #E2DED6;border-radius:16px;padding:28px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:40px;font-weight:600;color:#E35205">P</h3>
+<img src="assets/eq2_pP.png" alt="Gc(s) เท่ากับ Kp" style="width:182px;height:48px;object-fit:contain">
+<p style="font-size:26px;line-height:1.45"><b>เทียบได้กับ</b> เกน Kc</p>
+<p style="font-size:26px;line-height:1.45">ยกกราฟขนาดทั้งเส้น เฟสไม่เปลี่ยน</p>
+<p style="font-size:26px;line-height:1.45">ใช้ตั้ง Kv แต่ PM ลดเมื่อ Kp สูง</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFDF8;border:1px solid #E2DED6;border-radius:16px;padding:28px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:40px;font-weight:600;color:#E35205">PI</h3>
+<img src="assets/eq2_pPI.png" alt="Gc(s) เท่ากับ Kp (s + 1/Ti)/s" style="width:300px;height:80px;object-fit:contain">
+<p style="font-size:26px;line-height:1.45"><b>เทียบได้กับ</b> Lag ที่ p → 0</p>
+<p style="font-size:26px;line-height:1.45">pole ที่ s = 0 เพิ่ม system type เฟส −90° → 0°</p>
+<p style="font-size:26px;line-height:1.45">วาง zero 1/Ti ต่ำกว่า ωc</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFDF8;border:1px solid #E2DED6;border-radius:16px;padding:28px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:40px;font-weight:600;color:#E35205">PD</h3>
+<img src="assets/eq2_pPD.png" alt="Gc(s) เท่ากับ Kp (1 + Td s)" style="width:300px;height:45px;object-fit:contain">
+<p style="font-size:26px;line-height:1.45"><b>เทียบได้กับ</b> Lead ที่ p → ∞</p>
+<p style="font-size:26px;line-height:1.45">เฟส 0° → +90° ขนาด +20 dB/dec</p>
+<p style="font-size:26px;line-height:1.45">ไวต่อ noise ต้องมี filter</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#14213D;border-radius:16px;padding:28px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:40px;font-weight:600;color:#F2A27A">PID</h3>
+<div style="display:flex;background:#FFFDF8;border-radius:8px;padding:6px 8px"><img src="assets/eq2_pPID.png" alt="Gc(s) เท่ากับ Kp (1 + 1/(Ti s) + Td s)" style="width:300px;height:64px;object-fit:contain"></div>
+<p style="font-size:26px;line-height:1.45;color:#F7F5F0"><b>เทียบได้กับ</b> Lead-Lag</p>
+<p style="font-size:26px;line-height:1.45;color:#C9D3E0">zero 2 ตัว + pole ที่ 0</p>
+<p style="font-size:26px;line-height:1.45;color:#C9D3E0">PI คุมความถี่ต่ำ PD เติมเฟสที่ ωc</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.45">ดังนั้นขั้นตอนออกแบบ PID ใช้แนวคิดเดียวกับ Lead-Lag: ล็อกความถี่ต่ำด้วย Ki แล้วเติมเฟสที่ ωc ด้วยเทอม D</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">14</p>
+<aside>PI = Lag ที่ pole เลื่อนไปอยู่ที่ศูนย์ ทำให้เกนที่ความถี่ต่ำเป็นอนันต์ (system type เพิ่ม 1) ส่วน PD = Lead ที่ pole เลื่อนไปอนันต์ เติมเฟสได้ถึง 90° แต่ขนาดความถี่สูงโตไม่หยุด</aside>
+</section>
+
+<section class="slide" id="ex7calc" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">ตัวอย่างที่ 7 · G(s) = 10/((s+1)(s+2)(s+5)) , PM = 50° @ ωc = 3 rad/s , Kv = 4</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:56px;font-weight:600;color:#14213D;line-height:1.15">คำนวณ Kp, Ki, Kd ทีละขั้น</h2>
+</div>
+<div style="display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFDF8;border:1px solid #E2DED6;border-radius:16px;padding:32px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:34px;font-weight:500;color:#14213D">วิธี A : คำนวณตรงที่ ωc</h3>
+<p style="font-size:24px;color:#4A5568">1. อ่านขนาดและเฟสของ plant ที่ ωc</p>
+<img src="assets/eq2_cA1.png" alt="ขนาด G ที่ j3 เท่ากับ 0.1504 และเฟสเท่ากับ ลบ 158.84 องศา" style="width:584px;height:47px;object-fit:contain">
+<p style="font-size:24px;color:#4A5568">2. มุมที่ PID ต้องให้</p>
+<img src="assets/eq2_cA2.png" alt="theta เท่ากับ 28.84 องศา" style="width:538px;height:41px;object-fit:contain">
+<p style="font-size:24px;color:#4A5568">3. Kp จากส่วนจริง และ Ki จาก Kv</p>
+<div style="display:flex;gap:36px;align-items:center">
+<img src="assets/eq2_cA3.png" alt="Kp เท่ากับ cos 28.84 องศา หาร 0.1504 เท่ากับ 5.824" style="width:370px;height:82px;object-fit:contain">
+<img src="assets/eq2_cA4.png" alt="Ki เท่ากับ Kv หาร G(0) เท่ากับ 4" style="width:240px;height:71px;object-fit:contain">
+</div>
+<p style="font-size:24px;color:#4A5568">4. Kd จากส่วนจินตภาพ</p>
+<img src="assets/eq2_cA5.png" alt="Kd เท่ากับ 1.513" style="width:476px;height:93px;object-fit:contain">
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFDF8;border:1px solid #E2DED6;border-radius:16px;padding:32px">
+<h3 style="font-family:'Kanit', Tahoma, sans-serif;font-size:34px;font-weight:500;color:#14213D">วิธี B : PD × PI แบบ reshape Bode</h3>
+<p style="font-size:24px;color:#4A5568">1. วาง zero ของ PI ที่ ωc/10</p>
+<img src="assets/eq2_cB1.png" alt="zI เท่ากับ 0.3 เฟสของ PI ที่ j3 เท่ากับ ลบ 5.71 องศา" style="width:478px;height:83px;object-fit:contain">
+<p style="font-size:24px;color:#4A5568">2. เฟสที่ PD ต้องเติม</p>
+<img src="assets/eq2_cB2.png" alt="phi PD เท่ากับ 34.55 องศา" style="width:611px;height:44px;object-fit:contain">
+<p style="font-size:24px;color:#4A5568">3. Td และ Kc ให้ |L(jωc)| = 0 dB</p>
+<img src="assets/eq2_cB3.png" alt="Td เท่ากับ 0.2295 และ Kc เท่ากับ 5.449" style="width:591px;height:82px;object-fit:contain">
+<p style="font-size:24px;color:#4A5568">4. แปลงเป็นรูปขนาน</p>
+<img src="assets/eq2_cB4.png" alt="Kp 5.824 Ki 1.635 Kd 1.251" style="width:596px;height:46px;object-fit:contain">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11 · L11_Ex7_PID_FreqDomain.m</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">15</p>
+<aside>ทั้งสองวิธีได้ Kp เท่ากันเพราะใช้เงื่อนไขขนาดและเฟสที่ ωc เดียวกัน ต่างกันที่การเลือก Ki วิธี A ล็อก Ki จาก Kv ส่วนวิธี B ได้ Ki จาก zI = ωc/10 จึงได้ Kv แค่ 1.6</aside>
+</section>
+
+<section class="slide" id="ex7" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">ตัวอย่างที่ 7 · PID</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:56px;font-weight:600;color:#14213D;line-height:1.15">วิธี A ผ่านทั้ง PM และ Kv วิธี B ได้ Kv แค่ 1.6</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;background:#E3E9F2;color:#14213D;padding:14px 24px;border-radius:12px">G(s) = 10/((s+1)(s+2)(s+5)) , PM = 50° @ ωc = 3 rad/s , Kv = 4</p>
+<p style="font-size:28px;line-height:1.45">ที่ ωc = 3 : |G| = 0.150 , ∠G = −158.8° → θ = 28.8°</p>
+<table style="font-size:26px;color:#3D4756;padding:12px">
+<tr style="background:#14213D"><th style="width:28%;color:#F7F5F0">วิธี</th><th style="width:12%;color:#F7F5F0">Kp</th><th style="width:12%;color:#F7F5F0">Ki</th><th style="width:12%;color:#F7F5F0">Kd</th><th style="width:12%;color:#F7F5F0">PM</th><th style="width:12%;color:#F7F5F0">Mp</th><th style="width:12%;color:#F7F5F0">Kv</th></tr>
+<tr style="background:#FBE3D6"><td><b>A คำนวณตรง</b></td><td>5.82</td><td>4.00</td><td>1.51</td><td>50.0°</td><td>18.2%</td><td>4.0</td></tr>
+<tr style="background:#FFFDF8"><td>B PD × PI</td><td>5.82</td><td>1.63</td><td>1.25</td><td>50.0°</td><td>12.6%</td><td>1.6</td></tr>
+<tr style="background:#F1EEE7"><td>pidtune</td><td>5.19</td><td>3.74</td><td>1.80</td><td>59.9°</td><td>9.5%</td><td>3.7</td></tr>
+<tr style="background:#FFFDF8"><td>A + filter N=10</td><td>5.82</td><td>4.00</td><td>1.51</td><td>47.5°</td><td>20.5%</td><td>4.0</td></tr>
+</table>
+<p style="font-size:28px;line-height:1.45">filter Kd·s/(Tf·s + 1) ลด PM ราว 2.5° จึงควรเผื่อ PM ไว้ 3–5°</p>
+</div>
+<div style="width:470px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/figs_ex7_bode.png" alt="Bode ของ PID ทั้งสี่แบบเทียบกับ plant" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+<img src="assets/figs_ex7_time.png" alt="Step response และสัญญาณควบคุมของ PID" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11 · L11_Ex7_PID_FreqDomain.m</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">16</p>
+<aside>วิธี B ได้ PM ตามสเปกแต่ Ki เล็กเพราะ zI = ωc/10 เมื่อมีสเปก Kv จึงควรใช้วิธี A ที่ล็อก Ki จาก Kv โดยตรง</aside>
+</section>
+
+<section class="slide" id="practice" data-transition="fade" style="background:#F7F5F0;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">แบบฝึกหัดข้อ 1 · เฉลย LAG-LEAD</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:56px;font-weight:600;color:#14213D;line-height:1.15">Kv = 20 ทำให้ระบบไม่เสถียร ต้องใช้ Lead เต็ม 55°</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;background:#E3E9F2;color:#14213D;padding:14px 24px;border-radius:12px">G(s) = 10/(s(s+1)(s+5)) , Kv = 20 , PM &gt; 50° , GM &gt; 10 dB</p>
+<ol style="font-size:28px;line-height:1.5">
+<li>Kc = 10 : PM, GM ติดลบ (MATLAB −23.7°, −10.5 dB)</li>
+<li>Lead φmax = 55° , α = 0.0994 , ωg = 2.9 → 10(s+0.91)/(s+9.20)</li>
+<li>หลัง Lead : PM 18.5° , GM 6.74 dB (ตามเฉลย)</li>
+<li>Lag @ ωg = 1 : 13.5 dB , β = 4.73 → 0.21(s+0.1)/(s+0.02)</li>
+</ol>
+<p style="font-size:28px;line-height:1.45">ผลตามเฉลย <b>PM 55.6° , GM 19.8 dB</b> · m-file (ωg คำนวณ = 6.25) ได้ <b>PM 52.3° , GM 28.9 dB</b></p>
+<p style="font-size:26px;line-height:1.45;background:#FBE3D6;color:#7A2E0B;padding:18px 24px;border-radius:12px">ที่ Kc = 10 จุด −10 dB อยู่ที่ 6.25 rad/s ไม่ใช่ 2.9 ตั้ง useSlide = true ใน m-file เพื่อใช้ค่าตามเฉลย</p>
+</div>
+<div style="width:470px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/figs_pr1_bode.png" alt="Bode ของแบบฝึกหัดข้อ 1 ก่อนและหลังชดเชย" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+<img src="assets/figs_pr1_time.png" alt="Step และ ramp response ของแบบฝึกหัดข้อ 1" style="width:470px;height:330px;object-fit:contain;background:#FFFFFF;border-radius:8px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11 · L11_Practice1_LagLead.m</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">17</p>
+<aside>โจทย์ให้พล็อต step และ ramp response ด้วย MATLAB รูปด้านขวามาจาก L11_Practice1_LagLead.m ที่ค่าเริ่มต้น useSlide = false</aside>
+</section>
+
+<section class="slide" id="summary" data-transition="fade" style="background:#EEF1F4;color:#3D4756;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#C2410C;font-weight:700;letter-spacing:1px">สรุป</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#14213D;line-height:1.15">ทุกข้อผ่านสเปก รวม PID ในตัวอย่างที่ 7</h2>
+</div>
+<table style="font-size:26px;color:#3D4756;padding:12px">
+<tr style="background:#14213D"><th style="width:20%;color:#F7F5F0">ตัวอย่าง</th><th style="width:20%;color:#F7F5F0">ชนิด</th><th style="width:20%;color:#F7F5F0">PM สไลด์เดิม</th><th style="width:20%;color:#F7F5F0">PM MATLAB</th><th style="width:20%;color:#F7F5F0">GM MATLAB</th></tr>
+<tr style="background:#FFFDF8"><td>1</td><td>Lead</td><td>50.7°</td><td>50.6°</td><td>∞</td></tr>
+<tr style="background:#F7F5F0"><td>2</td><td>Lead (Type-2)</td><td>55°</td><td>55.0°</td><td>∞</td></tr>
+<tr style="background:#FFFDF8"><td>3</td><td>Lag</td><td>57.9°</td><td>58.0°</td><td>∞</td></tr>
+<tr style="background:#F7F5F0"><td>4</td><td>Lag</td><td>67.8°</td><td>67.8°</td><td>23.1 dB</td></tr>
+<tr style="background:#FFFDF8"><td>5</td><td>Lead-Lag</td><td>63.2°</td><td>63.3°</td><td>23.0 dB</td></tr>
+<tr style="background:#FBE3D6"><td>6</td><td>Lead-Lag</td><td>59.6°</td><td>61.5° (Kc ครบ)</td><td>25.1 dB</td></tr>
+<tr style="background:#E3E9F2"><td>7 (วิธี A)</td><td>PID</td><td>ตัวอย่างใหม่</td><td>50.0° @ 3 rad/s</td><td>∞</td></tr>
+<tr style="background:#E3E9F2"><td>7 + filter</td><td>PID (N = 10)</td><td>ตัวอย่างใหม่</td><td>47.5° @ 3.1 rad/s</td><td>21.1 dB</td></tr>
+<tr style="background:#FBE3D6"><td>แบบฝึกหัด 1</td><td>Lag-Lead</td><td>55.6°</td><td>52.3° (ωg 6.25)</td><td>28.9 dB</td></tr>
+</table>
+<p style="font-size:28px;line-height:1.45">Lead เร็วแต่เติมเฟสได้จำกัด · Lag ช้าแต่ไม่แตะ Kv · Lead-Lag และ PID รวมข้อดีทั้งสอง (PI ≈ Lag, PD ≈ Lead)</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">18</p>
+<aside>แถวสีส้มคือข้อที่ตัวเลขระหว่างทางในสไลด์เดิมคำนวณซ้ำไม่ได้ แต่ผลสุดท้ายยังผ่านสเปก</aside>
+</section>
+
+<section class="slide" id="mfiles" data-transition="fade" style="background:#14213D;color:#F7F5F0;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<div style="position:absolute;left:0;top:0;width:24px;height:1080px;background:#E35205"></div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;color:#F2A27A;font-weight:700;letter-spacing:1px">m-file ประกอบ · Q &amp; A</p>
+<h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#F7F5F0;line-height:1.15">รัน L11_run_all.m เพื่อดูทุกตัวอย่างต่อกัน</h2>
+</div>
+<table style="font-size:28px;color:#E6ECF4;padding:14px">
+<tr style="background:#26365A"><th style="width:45%;color:#F7F5F0">ไฟล์</th><th style="width:55%;color:#F7F5F0">เนื้อหา</th></tr>
+<tr style="background:#1B2A4A"><td>L11_lead_design.m , L11_lag_design.m</td><td>ฟังก์ชันออกแบบ Lead และ Lag</td></tr>
+<tr style="background:#14213D"><td>L11_compare.m</td><td>PM/GM/Kv และพล็อต Bode, step, ramp</td></tr>
+<tr style="background:#1B2A4A"><td>L11_Ex1 … L11_Ex6</td><td>ตัวอย่างที่ 1–6</td></tr>
+<tr style="background:#14213D"><td>L11_Ex7_PID_FreqDomain.m</td><td>PID วิธี A, B, pidtune และ filter</td></tr>
+<tr style="background:#1B2A4A"><td>L11_Practice1_LagLead.m</td><td>เฉลยแบบฝึกหัดข้อ 1</td></tr>
+<tr style="background:#14213D"><td>L11_make_figures.m</td><td>สร้างรูป PNG ที่ใช้ในสไลด์นี้</td></tr>
+</table>
+<p style="font-size:28px;color:#C9D3E0">ต้องใช้ Control System Toolbox · ทดสอบบน MATLAB R2026a</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#C9D3E0">01068007 Control Systems · Chapter 11</p>
+<p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#C9D3E0;text-align:right">19</p>
+<aside>ไฟล์ทั้งหมดอยู่ในโฟลเดอร์ CH11_mfiles</aside>
+</section>
+
+</div>
+<div id="bar"><a href="mfiles/">m-files</a><button id="prev" aria-label="ก่อนหน้า">◀</button><span id="num"></span><button id="next" aria-label="ถัดไป">▶</button><button id="fs">เต็มจอ</button></div>
+<script>
+const S=[...document.querySelectorAll('.slide')],st=document.getElementById('stage');let i=0;
+function fit(){const k=Math.min(innerWidth/1920,innerHeight/1080);st.style.transform=`scale(${k}) translate(-50%,-50%)`;st.style.transformOrigin='0 0';st.style.left='50%';st.style.top='50%';st.style.transform=`translate(-50%,-50%) scale(${k})`;st.style.transformOrigin='center'}
+function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((s,j)=>s.classList.toggle('on',j===i));document.getElementById('num').textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1))}
+addEventListener('resize',fit);
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))go(i+1);if(['ArrowLeft','PageUp'].includes(e.key))go(i-1);if(e.key==='Home')go(0);if(e.key==='End')go(S.length-1)});
+document.getElementById('next').onclick=()=>go(i+1);document.getElementById('prev').onclick=()=>go(i-1);
+document.getElementById('fs').onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+let x0=null;addEventListener('touchstart',e=>x0=e.touches[0].clientX);addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>50)go(i+(d<0?1:-1));x0=null});
+addEventListener('hashchange',()=>{const n=(parseInt(location.hash.slice(1))||1)-1;if(n!==i)go(n)});fit();go((parseInt(location.hash.slice(1))||1)-1);
+</script></body></html>
