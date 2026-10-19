@@ -498,21 +498,21 @@ ol,ul{padding-left:1.4em}li{margin:2px 0}
 <h2 style="font-family:'Kanit', Tahoma, sans-serif;font-size:64px;font-weight:600;color:#14213D;line-height:1.15">ทุกข้อผ่านสเปก รวม PID ในตัวอย่างที่ 7</h2>
 </div>
 <table style="font-size:26px;color:#3D4756;padding:12px">
-<tr style="background:#14213D"><th style="width:20%;color:#F7F5F0">ตัวอย่าง</th><th style="width:20%;color:#F7F5F0">ชนิด</th><th style="width:20%;color:#F7F5F0">PM สไลด์เดิม</th><th style="width:20%;color:#F7F5F0">PM MATLAB</th><th style="width:20%;color:#F7F5F0">GM MATLAB</th></tr>
-<tr style="background:#FFFDF8"><td>1</td><td>Lead</td><td>50.7°</td><td>50.6°</td><td>∞</td></tr>
-<tr style="background:#F7F5F0"><td>2</td><td>Lead (Type-2)</td><td>55°</td><td>55.0°</td><td>∞</td></tr>
-<tr style="background:#FFFDF8"><td>3</td><td>Lag</td><td>57.9°</td><td>58.0°</td><td>∞</td></tr>
-<tr style="background:#F7F5F0"><td>4</td><td>Lag</td><td>67.8°</td><td>67.8°</td><td>23.1 dB</td></tr>
-<tr style="background:#FFFDF8"><td>5</td><td>Lead-Lag</td><td>63.2°</td><td>63.3°</td><td>23.0 dB</td></tr>
-<tr style="background:#FBE3D6"><td>6</td><td>Lead-Lag</td><td>59.6°</td><td>61.5° (Kc ครบ)</td><td>25.1 dB</td></tr>
-<tr style="background:#E3E9F2"><td>7 (วิธี A)</td><td>PID</td><td>ตัวอย่างใหม่</td><td>50.0° @ 3 rad/s</td><td>∞</td></tr>
-<tr style="background:#E3E9F2"><td>7 + filter</td><td>PID (N = 10)</td><td>ตัวอย่างใหม่</td><td>47.5° @ 3.1 rad/s</td><td>21.1 dB</td></tr>
-<tr style="background:#FBE3D6"><td>แบบฝึกหัด 1</td><td>Lag-Lead</td><td>55.6°</td><td>52.3° (ωg 6.25)</td><td>28.9 dB</td></tr>
+<tr style="background:#14213D"><th style="width:25%;color:#F7F5F0">ตัวอย่าง</th><th style="width:25%;color:#F7F5F0">ชนิด</th><th style="width:25%;color:#F7F5F0">PM (MATLAB)</th><th style="width:25%;color:#F7F5F0">GM (MATLAB)</th></tr>
+<tr style="background:#FFFDF8"><td>1</td><td>Lead</td><td>50.6°</td><td>∞</td></tr>
+<tr style="background:#F7F5F0"><td>2</td><td>Lead (Type-2)</td><td>55.0°</td><td>∞</td></tr>
+<tr style="background:#FFFDF8"><td>3</td><td>Lag</td><td>58.0°</td><td>∞</td></tr>
+<tr style="background:#F7F5F0"><td>4</td><td>Lag</td><td>67.8°</td><td>23.1 dB</td></tr>
+<tr style="background:#FFFDF8"><td>5</td><td>Lead-Lag</td><td>63.3°</td><td>23.0 dB</td></tr>
+<tr style="background:#F7F5F0"><td>6</td><td>Lead-Lag</td><td>61.5°</td><td>25.1 dB</td></tr>
+<tr style="background:#E3E9F2"><td>7 (วิธี A)</td><td>PID</td><td>50.0° @ 3 rad/s</td><td>∞</td></tr>
+<tr style="background:#E3E9F2"><td>7 + filter</td><td>PID (N = 10)</td><td>47.5° @ 3.1 rad/s</td><td>21.1 dB</td></tr>
+<tr style="background:#FFFDF8"><td>แบบฝึกหัด 1</td><td>Lag-Lead</td><td>52.3°</td><td>28.9 dB</td></tr>
 </table>
 <p style="font-size:28px;line-height:1.45">Lead เร็วแต่เติมเฟสได้จำกัด · Lag ช้าแต่ไม่แตะ Kv · Lead-Lag และ PID รวมข้อดีทั้งสอง (PI ≈ Lag, PD ≈ Lead)</p>
 <p style="position:absolute;left:128px;bottom:64px;width:1200px;font-size:24px;color:#6B7280">01068007 Control Systems · Chapter 11</p>
 <p style="position:absolute;right:128px;bottom:64px;width:200px;font-size:24px;color:#6B7280;text-align:right">18</p>
-<aside>แถวสีส้มคือข้อที่ตัวเลขระหว่างทางในสไลด์เดิมคำนวณซ้ำไม่ได้ แต่ผลสุดท้ายยังผ่านสเปก</aside>
+<aside>ค่า PM และ GM ทั้งหมดได้จาก m-file ประกอบบทนี้ แถวสีฟ้าคือ PID ในตัวอย่างที่ 7</aside>
 </section>
 
 <section class="slide" id="mfiles" data-transition="fade" style="background:#14213D;color:#F7F5F0;font-family:'Sarabun', Tahoma, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
