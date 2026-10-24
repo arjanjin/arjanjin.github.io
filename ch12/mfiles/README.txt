@@ -9,6 +9,13 @@ Helpers
   ch12_metrics.m       IAE, IE, ISE, ITAE, TV, emax, ts
   ch12_write_dat.m     writes pgfplots .dat files
 
+Interactive app
+  PIDTunerApp2.m            2-DOF PID tuner: 25 process cards + TCLab case + custom plant,
+                            b/c weights, D-filter N, anti-windup (none/clamping/back-calc),
+                            SIMC / ZN / Cohen-Coon, servo/regulatory/effort metrics,
+                            Ms, Mt, GM, PM, Nyquist.  No toolbox needed.   >> PIDTunerApp2
+                            Headless: P = PIDTunerApp2.plantFromCard(0); (see slides 47-49)
+
 Scripts (section in the chapter)
   ch12_01_pid_forms.m       12.2   form conversions, Theorem 12.1, Ex 12.2-12.3
   ch12_02_deriv_filter.m    12.3   derivative filter N, Ex 12.4
@@ -30,3 +37,8 @@ Verified: scripts 01-06 and 08-10 run in GNU Octave 8.4 and reproduce every
 number in the chapter; data/*.dat is byte-for-byte equal to gen_ch12_data.py.
 ch12_07 and the toolbox cross-checks in 05, 06, 08 (margin, diskmargin, pidtune,
 systune, c2d) need MATLAB and were not run.
+
+PIDTunerApp2 checked on R2026a (TCLab, SIMC PI, no saturation): Kc 2.0833, Ti 150,
+Ms 1.5905, GM 9.94 dB, PM 61.35 deg, Mp(b=1) 4.11 %, IE_r 59.9/209.9 (b=1/0),
+IE_d +/-14.36 for d = -/+0.2.  Note: the TCLab preset (d = -0.2, 0 <= u <= 1) needs
+u = 1.033 > umax at steady state -> permanent offset e = 0.04 (IE_d = 41.1).
