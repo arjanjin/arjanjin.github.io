@@ -40,5 +40,5 @@ systune, c2d) need MATLAB and were not run.
 
 PIDTunerApp2 checked on R2026a (TCLab, SIMC PI, no saturation): Kc 2.0833, Ti 150,
 Ms 1.5905, GM 9.94 dB, PM 61.35 deg, Mp(b=1) 4.11 %, IE_r 59.9/209.9 (b=1/0),
-IE_d +/-14.36 for d = -/+0.2.  Note: the TCLab preset (d = -0.2, 0 <= u <= 1) needs
-u = 1.033 > umax at steady state -> permanent offset e = 0.04 (IE_d = 41.1).
+IE_d +/-14.36 for d = -/+0.2.  v2.1: TCLab preset d = -0.1 (u_ss = 0.933 <= umax)
+gives IE_d = 7.18 (theory 7.20); v2 used d = -0.2, which saturated (offset e = 0.04).

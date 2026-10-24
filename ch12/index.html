@@ -389,7 +389,7 @@ step(Tr,Tdist,t), legend(&#x27;r \rightarrow y&#x27;,&#x27;d \rightarrow y&#x27;
 <li><b><code>systune</code> กับ delay</b>: ต้องใช้ <code>pade(G,3)</code> ในขั้นจูน แล้ว<b>ตรวจ $M_s$ กับ $G$ ตัวจริง</b></li>
 <li><b><code>exist('data','dir')</code></b> คืนค่าจริงถ้ามีโฟลเดอร์ชื่อ <code>data</code> ที่ใดก็ได้ใน MATLAB path → ใช้ <code>isfolder(fullfile(pwd,'data'))</code></li></ol>
 <div class="box key"><h4>ทัศนคติของบท</h4>ตรวจผลด้วยหลายวิธีเสมอ: ผลเชิงปิด ($IE_d=-d_0/K_i$, $IE_r$) คือเครื่องมือจับความผิดพลาดของการจำลองที่ดีที่สุด</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>46 / 55</span></div></section><section class="slide"><div class="hdr"><h2>PIDTunerApp2: เครื่องมือประกอบบทที่ 12</h2><span class="sec">เครื่องมือ: PIDTunerApp2</span></div>
-<div class="body"><img class="fig" src="assets/app_time.png" alt="หน้าจอ PIDTunerApp2 แท็บ Time response: กรณี TCLab, PI SIMC, b = 1, back-calculation" style="width:100%;max-height:330px">
+<div class="body"><img class="fig" src="assets/app_time.png" alt="หน้าจอ PIDTunerApp2 แท็บ Time response: กรณี TCLab (ค่าตั้งต้น d = −0.1), PI SIMC, b = 1, back-calculation" style="width:100%;max-height:330px">
 <div class="small" style="margin-top:4px;font-size:17px"><ul style="columns:2;column-gap:28px;margin:2px 0">
 <li><b>Plant</b>: การ์ด 25 ใบ, TCLab ของบท $1.2e^{-30s}/(150s+1)$ หรือ $Ke^{-\theta s}/((\tau_1s+1)(\tau_2s+1))$</li>
 <li><b>ISA 2-DOF</b>: $b$, $c$ (PID / PI-D / I-PD), filter $T_d/N$ → 12.3, 12.5</li>
@@ -424,7 +424,7 @@ Sim = PIDTunerApp2.defaultSim(P);
 S = PIDTunerApp2.simulate(P,K,Sim);
 M = PIDTunerApp2.metrics(S);
 R = PIDTunerApp2.robustness(P,K);</code></pre>
-<div class="box warn"><h4>ระวัง: ค่าตั้งต้น $d=-0.2$ กับ $u_{max}=1$</h4><span class="small">ต้องใช้ $u_{ss}=1/K-d=0.833+0.2=1.033>u_{max}$ → อิ่มตัวถาวร, $e_{ss}=0.04$, $IE_d=41.1$ (ไม่ใช่ 14.4) ใช้ $d=+0.2$ หรือ $u_{max}\ge1.2$</span></div>
+<div class="box note"><h4>v2.1: ค่าตั้งต้นของการ์ด TCLab $d=-0.1$</h4><span class="small">$u_{ss}=1/K-d=0.833+0.1=0.933\le u_{max}=1$ → $IE_d=7.18\approx-d_0/K_i=7.20$ (v2 ใช้ $d=-0.2$ ซึ่งต้องการ $u_{ss}=1.033>u_{max}$ → offset ถาวร $e=0.04$)</span></div>
 </div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>49 / 55</span></div></section><section class="slide"><div class="hdr"><h2>12.11.1 สรุป</h2><span class="sec">12.11 สรุป</span></div>
 <div class="body">
 <ol><li>PID ในอุดมคติต้องเสริม <b>derivative filter</b>, <b>anti-windup</b> และ <b>bumpless transfer</b> ก่อนใช้จริงเสมอ</li>
