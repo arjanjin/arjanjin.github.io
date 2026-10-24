@@ -1,4 +1,4 @@
-# Chapter 13 — Model-Based Design and V-Model Verification (การออกแบบเชิงแบบจำลองและการทวนสอบแบบ V-Model)
+# Chapter 13 — Model-Based Design and V-Model Verification (การออกแบบระบบควบคุมโดยอ้างอิงโมเดลทางคณิตศาสตร์และการทวนสอบแบบ V-Model)
 
 01068007 Control Systems, KMITL
 
