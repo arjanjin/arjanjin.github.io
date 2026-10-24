@@ -1,0 +1,467 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chapter 12: การเพิ่มสมรรถนะการควบคุมแบบพีไอดี</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lib/katex/katex.min.css">
+<link rel="stylesheet" href="lib/hljs/github.min.css">
+<style>
+:root{--dark:#1F2A44;--or:#E35205;--mil:#0072BD;--sil:#D95319;--pil:#77AC30;--hil:#7E2F8E;--bg:#0f1524;--paper:#ffffff;--ink:#1F2A44;--muted:#6b7280}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);font-family:'Sarabun','Noto Sans Thai',sans-serif;color:var(--ink)}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+.slide{position:absolute;width:1280px;height:720px;background:var(--paper);display:none;flex-direction:column;transform-origin:center center;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+.slide.on{display:flex}
+.hdr{background:var(--dark);color:#fff;padding:14px 36px 12px;display:flex;justify-content:space-between;align-items:baseline;border-bottom:4px solid var(--or)}
+.hdr h2{margin:0;font-size:30px;font-weight:700}.hdr .sec{color:#f7b28e;font-size:17px}
+.body{flex:1;padding:18px 40px 8px;font-size:22px;line-height:1.45;overflow:hidden}
+.ftr{display:flex;justify-content:space-between;padding:6px 24px;font-size:13px;color:#8b93a3;border-top:1px solid #eee}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}.cols.c{align-items:center}
+.fig{display:block;margin:4px auto;max-height:420px;object-fit:contain}
+.box{border-radius:6px;margin:10px 0;border:1.5px solid;overflow:hidden}.box h4{margin:0;padding:4px 12px;color:#fff;font-size:19px}
+.box{padding:0 12px 6px}.box h4{margin:0 -12px 4px!important}
+.box.key{border-color:var(--or);background:#fdf0e8}.box.key h4{background:var(--or)}
+.box.note{border-color:#0b5a93;background:#eef5fb}.box.note h4{background:#0b5a93}
+.box.thm{border-color:#0b5a93;background:#f1f7fc}.box.thm h4{background:#0b5a93}
+.box.warn{border-color:#a12a2a;background:#fcf0f0}.box.warn h4{background:#a12a2a}
+.box.ex{border-color:#4d7a1e;background:#f3f8ec}.box.ex h4{background:#4d7a1e}
+.tbl.tight td,.tbl.tight th{padding-top:1px;padding-bottom:1px}.box ul,.box ol{margin:6px 0}.hl{color:var(--or)}.muted{color:var(--muted);font-size:.8em}
+.small{font-size:19px}.tiny{font-size:14px;color:var(--muted)}.center{text-align:center}
+table.tbl{border-collapse:collapse;margin:8px auto;font-size:.92em}table.tbl th,table.tbl td{padding:4px 12px;border-bottom:1px solid #d6d9df;text-align:left}
+table.tbl th{border-bottom:2px solid var(--dark)}table.tbl tr:last-child td{border-bottom:2px solid var(--dark)}
+table.plain td{padding:3px 8px;vertical-align:top}tr.hlrow{background:#fdf0e8}td.bad{color:#a12a2a}
+.c-mil{color:var(--mil)}.c-sil{color:var(--sil)}.c-pil{color:#4d7a1e}.c-hil{color:var(--hil)}
+code{font-family:'JetBrains Mono',Consolas,monospace;font-size:.85em;background:#f3f4f6;padding:0 4px;border-radius:3px}
+pre{margin:6px 0;font-size:14.5px;line-height:1.35;background:#f6f7f9;border:1px solid #dde;border-radius:6px;padding:10px 14px;overflow:auto;max-height:470px}pre code{background:none;padding:0}
+ol.ex{list-style:none;padding-left:0}ol.ex li{counter-increment:ex;margin:6px 0;padding-left:66px;position:relative}
+ol.ex li:before{content:"12." counter(ex);position:absolute;left:0;color:var(--or);font-weight:700}
+ol.refs{font-size:15px;line-height:1.4}
+.title{background:var(--dark);color:#fff;justify-content:center;padding:0 90px}
+.title .k{color:#f7b28e;font-size:20px}.title h1{font-size:76px;margin:10px 0 0}.title h3{font-size:44px;margin:4px 0}.title .en{color:#f7a06b;font-size:32px}
+.title .bar{height:5px;background:var(--or);margin:34px -90px 26px}.title .s{font-size:21px}.title .a{font-size:20px;margin-top:14px}.title .i{font-size:16px;color:#c9cfdb}
+#nav{position:fixed;bottom:14px;right:18px;display:flex;gap:8px;z-index:9}
+#nav button{background:rgba(31,42,68,.85);color:#fff;border:1px solid #f7b28e55;border-radius:6px;padding:8px 14px;font-size:16px;cursor:pointer;font-family:inherit}
+#nav button:hover{background:var(--or)}#cnt{color:#cfd5e1;font-size:14px;align-self:center;margin-right:6px}
+.katex{font-size:1.02em}.katex-display{margin:.5em 0}
+@media print{#nav{display:none}.slide{display:flex!important;position:relative;transform:none!important;page-break-after:always;box-shadow:none}#stage{position:static;display:block}}
+</style></head><body>
+<div id="stage"><section class="slide title"><div class="k">01068007 ระบบควบคุม: การวิเคราะห์และการออกแบบเชิงแบบจำลอง</div>
+<h1>บทที่ 12</h1><h3>การเพิ่มสมรรถนะการควบคุมแบบพีไอดี</h3><div class="en">PID Control Enhancement</div>
+<div class="bar"></div><div class="s">derivative filter · anti-windup · 2-DOF PID · ดัชนีสมรรถนะ · M<sub>s</sub> · SIMC / pidtune / systune · digital PID</div>
+<div class="a">รศ.ดร.อาจินต์ น่วมสำราญ</div><div class="i">ภาควิชาวิศวกรรมการวัดและควบคุม คณะวิศวกรรมศาสตร์ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</div></section><section class="slide"><div class="hdr"><h2>ทำไมต้องมีบทนี้</h2><span class="sec">ภาพรวม</span></div>
+<div class="body">
+<div class="cols"><div>
+<p>PID ในตำรา (บทที่ 8) ยังใช้กับระบบจริงไม่ได้ทันที:</p>
+<ul><li><b class="hl">derivative kick</b> เมื่อ setpoint เปลี่ยน</li>
+<li><b class="hl">noise amplification</b> จากพจน์อนุพันธ์</li>
+<li><b class="hl">integrator windup</b> เมื่อแอคชูเอเตอร์อิ่มตัว</li>
+<li><b class="hl">1-DOF trade-off</b>: servo กับ regulatory ผูกกัน</li></ul>
+<p>แกนหลักของบทคือ <b>2-DOF PID</b> ที่ออกแบบภายใต้เงื่อนไข <b>robustness</b></p>
+</div><div>
+<div class="box key"><h4>ประโยชน์ 4 ด้าน</h4><ul>
+<li><b>ใช้งานจริงได้</b>: filter, anti-windup, bumpless</li>
+<li><b>ออกแบบอย่างมีหลักการ</b>: แยก disturbance ออกจาก setpoint</li>
+<li><b>ประเมินอย่างเป็นระบบ</b>: ดัชนี + $M_s$</li>
+<li><b>ต่อยอด MBD</b>: ตัวควบคุมนี้ไปทำ MIL/SIL/PIL/HIL ในบทที่ 13</li></ul></div>
+</div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>2 / 52</span></div></section><section class="slide"><div class="hdr"><h2>ผลลัพธ์การเรียนรู้ (LO12.1–12.10)</h2><span class="sec">ภาพรวม</span></div>
+<div class="body">
+<div class="cols small"><div><table class="plain">
+<tr><td class="hl">LO12.1</td><td>อธิบายข้อจำกัดของ PID ในอุดมคติ</td><td class="muted">U</td></tr>
+<tr><td class="hl">LO12.2</td><td>แปลง ideal / parallel / series</td><td class="muted">Ap</td></tr>
+<tr><td class="hl">LO12.3</td><td>ออกแบบ derivative filter, เลือก PID / PI-D / I-PD</td><td class="muted">Ap</td></tr>
+<tr><td class="hl">LO12.4</td><td>วิเคราะห์ saturation, เลือก anti-windup และ $T_t$</td><td class="muted">An</td></tr>
+<tr><td class="hl">LO12.5</td><td>พิสูจน์การแยก servo / regulatory</td><td class="muted">An</td></tr></table></div>
+<div><table class="plain">
+<tr><td class="hl">LO12.6</td><td>คำนวณดัชนีสมรรถนะ 4 กลุ่ม</td><td class="muted">E</td></tr>
+<tr><td class="hl">LO12.7</td><td>Gang of Four, $M_s$, $M_t$ ↔ GM/PM</td><td class="muted">An</td></tr>
+<tr><td class="hl">LO12.8</td><td>ออกแบบ 2-DOF PID สองขั้นภายใต้ $M_s$</td><td class="muted">C</td></tr>
+<tr><td class="hl">LO12.9</td><td>เลือก feedforward / cascade / Smith / gain scheduling</td><td class="muted">U</td></tr>
+<tr><td class="hl">LO12.10</td><td>PID ดิจิทัล + MATLAB/Simulink</td><td class="muted">Ap</td></tr></table></div></div>
+<div class="box note"><h4>CLO ที่เกี่ยวข้อง</h4>CLO6 (หลัก) · CLO5 (รอง) · CLO7 (เชื่อมต่อบทที่ 13 MBD V-Model) · พื้นฐาน: PID (บทที่ 8), time-domain spec (บทที่ 5), Nyquist/Bode, GM/PM (บทที่ 10–11)</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>3 / 52</span></div></section><section class="slide"><div class="hdr"><h2>กรณีศึกษาหลักของบท</h2><span class="sec">ภาพรวม</span></div>
+<div class="body">
+<div class="cols"><div>
+$$G(s)=\frac{K\,e^{-\theta s}}{\tau s+1}=\frac{1.2\,e^{-30s}}{150s+1}$$
+<ul><li>$K=1.2$, $\tau=150$ s, $\theta=30$ s, $\theta/\tau=0.2$</li>
+<li>กระบวนการอุณหภูมิแบบ FOPDT เดียวกับชุด <b>TCLab</b> ของรายวิชา</li>
+<li>ทุกตัวเลขในบทคำนวณด้วย <code>ch12_*.m</code> (ตรวจซ้ำบน MATLAB R2026a)</li></ul>
+</div><div>
+<div class="box ex"><h4>ค่าอ้างอิงที่จะพบตลอดบท</h4>
+SIMC ($\lambda=\theta$): $K_p=2.0833$, $T_i=150$ s<br>$M_s=1.5905$, $M_t=1.0000$<br>GM $=3.14$ (9.94 dB), PM $=61.4^\circ$<br>$IE_d=-72.00$, $e_{max}=0.3510$<br>disk margin $\alpha=0.8832$</div>
+</div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>4 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.1 ทบทวน PID ในอุดมคติ (ISA / ideal form)</h2><span class="sec">12.1 ข้อจำกัด</span></div>
+<div class="body">
+$$u(t)=K_p\left[e(t)+\frac{1}{T_i}\int_0^t e(\xi)\,d\xi+T_d\frac{de(t)}{dt}\right],\qquad C(s)=K_p\left(1+\frac{1}{T_i s}+T_d s\right)$$
+<div class="cols"><div><ol>
+<li><b>Derivative kick</b>: $r$ เป็นขั้น → $T_d\,de/dt$ เป็นอิมพัลส์ → แอคชูเอเตอร์กระชาก</li>
+<li><b>Noise amplification</b>: $|K_pT_d\,j\omega|$ โตไม่มีขอบเขตตามความถี่</li></ol></div>
+<div><ol start="3">
+<li><b>Integrator windup</b>: อิ่มตัวแล้วพจน์ $I$ ยังสะสม → overshoot ใหญ่ ฟื้นตัวนาน</li>
+<li><b>1-DOF trade-off</b>: เร่ง disturbance rejection → setpoint overshoot มากขึ้น</li></ol></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>5 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.1.3 Trade-off ของโครงสร้าง 1-DOF</h2><span class="sec">12.1 ข้อจำกัด</span></div>
+<div class="body">
+<div class="cols c"><div><img class="fig" src="assets/fig01.svg" alt="ลูปป้อนกลับ 1-DOF: r ผ่านตัวรวมไปยัง C(s) แล้ว u รวมกับ d เข้า G(s) ได้ y ป้อนกลับลบ" style="width:100%"></div>
+<div>$$Y=\underbrace{\frac{GC}{1+GC}}_{T}R+\underbrace{\frac{G}{1+GC}}_{GS}D$$</div></div>
+<div class="box key"><h4>ปัญหา</h4>$S=1/(1+GC)$ และ $T=GC/(1+GC)$ ถูกกำหนดโดย $C(s)$ <b>ตัวเดียว</b> → ปรับเพื่อ $r$ ย่อมกระทบ $d$ เสมอ<br>หัวข้อ 12.5 จะแสดงว่า <b>2-DOF</b> แยกสองงานนี้ออกจากกันได้อย่างสมบูรณ์</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>6 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.2.1 รูปแบบ Ideal, Parallel และ Series</h2><span class="sec">12.2 รูปแบบ PID</span></div>
+<div class="body">
+<table class="tbl center"><tr><th>รูปแบบ</th><th>ฟังก์ชันถ่ายโอน</th><th>พารามิเตอร์</th></tr>
+<tr><td>Ideal (ISA)</td><td>$K_p\left(1+\dfrac{1}{T_is}+T_ds\right)$</td><td>$K_p,\ T_i,\ T_d$</td></tr>
+<tr><td>Parallel</td><td>$K_p+\dfrac{K_i}{s}+K_ds$</td><td>$K_p,\ K_i,\ K_d$</td></tr>
+<tr><td>Series (interacting)</td><td>$K_c'\left(1+\dfrac{1}{T_i's}\right)(1+T_d's)$</td><td>$K_c',\ T_i',\ T_d'$</td></tr></table>
+<div class="cols"><div><b>Ideal ↔ Parallel</b> ตรงไปตรงมา: $$K_i=\frac{K_p}{T_i},\qquad K_d=K_pT_d$$</div>
+<div><b>Series → Ideal</b> ได้เสมอ (กระจายผลคูณ): $$K_p=K_c'\frac{T_i'+T_d'}{T_i'},\ T_i=T_i'+T_d',\ T_d=\frac{T_i'T_d'}{T_i'+T_d'}$$</div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>7 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.2.2 ทฤษฎีบท 12.1: Ideal → Series ได้เมื่อใด</h2><span class="sec">12.2 รูปแบบ PID</span></div>
+<div class="body">
+<div class="box thm"><h4>ทฤษฎีบท 12.1</h4>PID แบบ ideal แปลงเป็นแบบ series ได้ <b>ก็ต่อเมื่อ</b> $T_i\ge4T_d$ โดย
+$$K_c'=\frac{K_p}{2}\Bigl(1+\sqrt{1-4T_d/T_i}\Bigr),\quad T_i'=\frac{T_i}{2}\Bigl(1+\sqrt{1-4T_d/T_i}\Bigr),\quad T_d'=\frac{T_i}{2}\Bigl(1-\sqrt{1-4T_d/T_i}\Bigr)$$</div>
+<p><b>พิสูจน์โดยย่อ</b>: จาก series → ideal ได้ $T_i'+T_d'=T_i$ และ $T_i'T_d'=T_iT_d$ ดังนั้น $T_i',T_d'$ คือรากของ $x^2-T_ix+T_iT_d=0$ ซึ่งเป็นจำนวนจริง ⇔ $T_i^2-4T_iT_d\ge0$ ⇔ $T_d/T_i\le1/4$ ∎</p>
+<div class="box ex"><h4>ตัวอย่าง 12.2–12.3 (<code>ch12_01_pid_forms.m</code>)</h4>series $(2,10,2)$ → ideal: $K_p=2.4$, $T_i=12$ s, $T_d=1.6667$ s<br>ideal $(3,20,5)$ → parallel: $K_i=0.15$, $K_d=15$ · series: $T_d/T_i=1/4$ <b>พอดี</b> → $K_c'=1.5$, $T_i'=T_d'=10$ s</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>8 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.2.3 ข้อควรระวังกับ PLC/DCS ต่างผู้ผลิต</h2><span class="sec">12.2 รูปแบบ PID</span></div>
+<div class="body">
+<div class="box warn"><h4>สาเหตุที่พบบ่อยของลูปที่แกว่งหลังเปลี่ยนอุปกรณ์</h4>ผู้ผลิตแต่ละรายใช้รูปแบบ PID และหน่วยต่างกัน การนำค่าที่จูนจากรูปแบบหนึ่งไปใส่อีกรูปแบบโดยไม่แปลง</div>
+<div class="cols"><div><ul>
+<li><b>Proportional band</b>: $PB=100/K_p$ (%)</li><li><b>Reset rate</b>: repeats/min $=1/T_i$</li>
+<li>หน่วยเวลา: <b>วินาที</b> หรือ <b>นาที</b></li><li>รูปแบบ: ideal, parallel หรือ series</li></ul></div>
+<div><div class="box ex"><h4>$K_p=3$, $T_i=20$ s</h4>$PB=33.33\%$<br>reset rate $=0.05$ repeats/s $=3.0$ repeats/min</div></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>9 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.3.1 Derivative filter และการเลือก N</h2><span class="sec">12.3 พจน์อนุพันธ์</span></div>
+<div class="body">
+<div class="cols c"><div>
+$$D(s)=\frac{K_pT_d\,s}{1+\dfrac{T_d}{N}s}$$
+<ul><li>$T_f=T_d/N$</li><li>อัตราขยายความถี่สูงจำกัดที่ $K_p(1+N)$</li>
+<li>$N$ ทั่วไป 5–20: $N$ น้อย → กรอง noise ดี แต่ D ทำงานน้อยลง</li></ul>
+<table class="tbl small"><tr><th>$N$</th><th>$T_f$ (s)</th><th>HF gain</th></tr>
+<tr><td>5</td><td>1.00</td><td>12 (21.6 dB)</td></tr><tr><td>10</td><td>0.50</td><td>22 (26.9 dB)</td></tr><tr><td>20</td><td>0.25</td><td>42 (32.5 dB)</td></tr></table>
+</div><div><img class="fig" src="assets/fig02.svg" alt="Bode ขนาดของ PID Kp=2 Td=5 s เทียบ ideal กับ N=5, 10, 20 ความถี่สูงถูกจำกัดที่ Kp(1+N)" style="width:100%"></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>10 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.3.2 Derivative kick และ PI-D (derivative on measurement)</h2><span class="sec">12.3 พจน์อนุพันธ์</span></div>
+<div class="body">
+<div class="cols c"><div>
+<p>$r$ คงที่เป็นช่วง ๆ → $de/dt=-dy/dt$ ทุกช่วง <b>ยกเว้นขณะที่ $r$ เปลี่ยน</b></p>
+$$u=K_pe+\frac{K_p}{T_i}\!\int\! e\,dt-\frac{K_pT_ds}{1+T_ds/N}\,y$$
+<div class="box ex"><h4>จำลองกรณีศึกษา, $T_d=10$ s, $N=10$</h4>$r$: 0 → 1 ที่ $t=10$ s<br>PID: $u_{max}=\mathbf{22.5}$ ($=K_p(1+N)$)<br>PI-D: $u_{max}=\mathbf{2.50}$</div>
+</div><div><img class="fig" src="assets/fig03.svg" alt="u(t) ของ PID พุ่งถึง 22.5 ทันทีที่ setpoint เปลี่ยน ส่วน PI-D สูงสุด 2.5" style="width:100%"></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>11 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.3.3 โครงสร้าง I-PD</h2><span class="sec">12.3 พจน์อนุพันธ์</span></div>
+<div class="body">
+<p>ย้ายพจน์สัดส่วนไปกระทำกับ $-y$ ด้วย → setpoint เข้าสู่ตัวควบคุม<b>ผ่านพจน์อินทิกรัลเท่านั้น</b></p>
+$$u=\frac{K_p}{T_i}\int e\,dt-K_p\,y-\frac{K_pT_ds}{1+T_ds/N}\,y\qquad\text{(I-PD)}$$
+<div class="cols"><div><ul><li>$u$ เปลี่ยนอย่างนุ่มนวลมากเมื่อ setpoint เปลี่ยน</li><li>แลกกับการตอบสนองต่อ setpoint ที่ช้าลง</li></ul></div>
+<div><div class="box key"><h4>มองไปข้างหน้า</h4>PI-D และ I-PD คือ<b>กรณีพิเศษ</b>ของโครงสร้าง 2-DOF ในหัวข้อ 12.5<br>PI-D: $b=1,c=0$ · I-PD: $b=c=0$</div></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>12 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.4.1 Actuator saturation และกลไกการเกิด windup</h2><span class="sec">12.4 Anti-windup</span></div>
+<div class="body">
+<div class="cols c"><div><ul>
+<li>แอคชูเอเตอร์จริงมี $u_{min}\le u\le u_{max}$ เสมอ (วาล์ว 0–100%, กำลังฮีตเตอร์)</li>
+<li>$v$ เกินขีดจำกัด → <b>ลูปเปิดชั่วคราว</b> ($u=u_{max}$ คงที่)</li>
+<li>แต่พจน์ $I$ ยังสะสม $e$ ต่อไป</li>
+<li>เมื่อ $y$ ถึง setpoint: $I$ สูงเกินจำเป็นมาก ต้องรอให้ $e&lt;0$ นานพอจึง "คลาย"</li>
+<li>ผล: <b class="hl">overshoot ใหญ่ + เวลาเข้าที่ยาว</b></li></ul></div>
+<div><img class="fig" src="assets/fig04.svg" alt="ฟังก์ชัน saturation u = sat(v) จำกัดที่ umin และ umax" style="width:70%"></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>13 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.4.2–12.4.3 Clamping และ Back-calculation</h2><span class="sec">12.4 Anti-windup</span></div>
+<div class="body">
+<div class="cols"><div>
+<b>Conditional integration (clamping)</b>
+$$\frac{dI}{dt}=\begin{cases}0,&(v>u_{max}\wedge e>0)\ \vee\ (v\lt u_{min}\wedge e\lt 0)\\K_ie,&\text{กรณีอื่น}\end{cases}$$
+<b>Back-calculation</b>
+$$\frac{dI}{dt}=K_ie+\frac{1}{T_t}\bigl(u-v\bigr)$$
+<p class="small">ไม่อิ่มตัว: $u=v$ → อินทิกรัลปกติ · อิ่มตัว: $(u-v)/T_t$ ดึง $I$ กลับด้วยค่าคงตัวเวลา $T_t$</p>
+</div><div><img class="fig" src="assets/fig05.svg" alt="บล็อกไดอะแกรม PI พร้อม back-calculation: สัญญาณ u-v ป้อนกลับเข้าอินทิเกรเตอร์ผ่าน 1/Tt" style="width:100%">
+<div class="box key"><h4>การเลือก $T_t$</h4>$T_d&lt;T_t&lt;T_i$ · PID: $T_t=\sqrt{T_iT_d}$ · PI (ไม่มี $T_d$): บทนี้ใช้ $T_t=T_i/2$</div></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>14 / 52</span></div></section><section class="slide"><div class="hdr"><h2>ตัวอย่าง 12.1: ผลของ windup ต่อกรณีศึกษา</h2><span class="sec">12.4 Anti-windup</span></div>
+<div class="body">
+<div class="cols c"><div><img class="fig" src="assets/fig06.svg" alt="y(t) เมื่ออิ่มตัวที่ umax=1: ไม่มี AW overshoot 17.4% ส่วน back-calculation และ conditional ไม่มี overshoot" style="width:100%"><img class="fig" src="assets/fig07.svg" alt="u(t) ของสามกรณี" style="width:100%"></div>
+<div class="small"><p>PI ($K_p=2.0833$, $T_i=150$ s, $b=1$), $0\le u\le1.0$ (ค่าคงตัวที่ต้องการ $1/K=0.833$), step $r=1$</p>
+<table class="tbl"><tr><th>กรณี</th><th>$M_p$ %</th><th>$t_s$ (s)</th><th>$I_{max}$</th></tr>
+<tr><td>เชิงเส้น</td><td>4.06</td><td>181.7</td><td>–</td></tr>
+<tr><td>ไม่มี AW</td><td><b>17.39</b></td><td><b>957.4</b></td><td><b>1.753</b></td></tr>
+<tr><td>BC ($T_t$=75)</td><td>0.00</td><td>501.4</td><td>0.833</td></tr>
+<tr><td>conditional</td><td>0.00</td><td>557.9</td><td>0.833</td></tr></table>
+<p>$I_{max}$ ไม่มี AW เกินค่าที่ต้องการ <b>มากกว่า 2 เท่า</b> ทั้งสองวิธีจำกัด $I$ ไว้ที่ 0.833 = $u$ คงตัวพอดี</p></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>15 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.4.4 Bumpless transfer</h2><span class="sec">12.4 Anti-windup</span></div>
+<div class="body">
+<div class="cols c"><div>
+<p><b>ปัญหา</b>: สลับ Manual → Auto ขณะที่ $I$ ไม่สอดคล้องกับสัญญาณที่ผู้ปฏิบัติงานจ่ายอยู่ → $u$ <b>กระโดดทันที</b></p>
+<p><b>วิธีแก้</b>: ในโหมด Manual ให้อินทิเกรเตอร์<b>ติดตาม</b>สัญญาณ manual ตลอดเวลา</p>
+$$\frac{dI}{dt}=K_ie+\frac{1}{T_t}\bigl(u_{man}-v\bigr)$$
+<p>= โครงสร้าง back-calculation เดิม เพียงแทน $u$ ด้วย $u_{man}$</p></div>
+<div><div class="box key"><h4>ทำไม PLC/DCS ใช้โครงสร้างเดียวกัน</h4>โครงสร้าง tracking เดียวใช้ได้ทั้ง<ul><li>anti-windup</li><li>bumpless transfer</li><li>override / selector control</li></ul></div></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>16 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.5.1 นิยาม 12.2: 2-DOF PID แบบ setpoint weighting</h2><span class="sec">12.5 2-DOF PID</span></div>
+<div class="body">
+<div class="box thm"><h4>นิยาม 12.2 (Araki &amp; Taguchi, Åström &amp; Hägglund)</h4>
+$$U(s)=K_p\bigl(b\,R-Y\bigr)+\frac{K_i}{s}\bigl(R-Y\bigr)+\frac{K_ds}{1+T_fs}\bigl(c\,R-Y\bigr),\qquad 0\le b,c\le1$$
+พจน์อินทิกรัลต้องใช้ค่าผิดพลาดจริง $R-Y$ <b>เสมอ</b> เพื่อให้ $e_{ss}=0$</div>
+<table class="tbl center"><tr><th>$b$</th><th>$c$</th><th>โครงสร้าง</th><th>ลักษณะ</th></tr>
+<tr><td>1</td><td>1</td><td>PID ปกติ (1-DOF)</td><td>เร็ว แต่ kick + overshoot</td></tr>
+<tr><td>1</td><td>0</td><td>PI-D</td><td>ไม่มี derivative kick</td></tr>
+<tr><td>0</td><td>0</td><td>I-PD</td><td>นุ่มนวลที่สุด ช้าที่สุด</td></tr>
+<tr><td>$0&lt;b&lt;1$</td><td>0</td><td>2-DOF ทั่วไป</td><td>ปรับ servo ได้ต่อเนื่อง</td></tr></table></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>17 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.5.2 โครงสร้าง prefilter ที่สมมูลกัน</h2><span class="sec">12.5 2-DOF PID</span></div>
+<div class="body">
+<p>จัดรูปใหม่เป็น $U=C_r(s)R-C_y(s)Y$:</p>
+$$C_y(s)=K_p+\frac{K_i}{s}+\frac{K_ds}{1+T_fs}=C(s),\qquad C_r(s)=bK_p+\frac{K_i}{s}+\frac{cK_ds}{1+T_fs}$$
+<img class="fig" src="assets/fig08.svg" alt="prefilter F(s)=Cr/C ต่อหน้าลูป 1-DOF เดิม ลูปกำหนด S,T,GS,CS ส่วน prefilter ปรับ servo เท่านั้น" style="width:88%"></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>18 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.5.3 ทฤษฎีบท 12.3: การแยก servo ออกจาก regulatory</h2><span class="sec">12.5 2-DOF PID</span></div>
+<div class="body">
+<div class="box thm"><h4>ทฤษฎีบท 12.3 (decoupling theorem)</h4>
+$$Y=\underbrace{\frac{G\,C_r}{1+GC}}_{\text{servo}}R+\underbrace{\frac{G}{1+GC}}_{\text{regulatory}}D$$
+$b$ และ $c$ ปรากฏใน $C_r$ <b>เท่านั้น</b> จึง<b>ไม่มีผล</b>ต่อ $S$, $T$, $GS$, $CS$ = ไม่มีผลต่อ disturbance rejection, ความทนทาน, เสถียรภาพ และการขยาย measurement noise</div>
+<div class="box key"><h4>ประเด็นสำคัญ</h4>2-DOF <b>ไม่ได้</b>ทำให้ระบบ "ดีขึ้นทุกด้าน" แต่ทำให้ผู้ออกแบบ<b>ตัดสินใจแยกกันได้</b>: <b>(1)</b> เลือก $C(s)$ เพื่อ disturbance rejection + robustness → <b>(2)</b> เลือก $b,c$ เพื่อ setpoint tracking โดยไม่ต้องกลับไปแก้ขั้นแรก</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>19 / 52</span></div></section><section class="slide"><div class="hdr"><h2>ยืนยันทฤษฎีบท 12.3 ด้วยการจำลอง</h2><span class="sec">12.5 2-DOF PID</span></div>
+<div class="body">
+<div class="cols"><div><img class="fig" src="assets/fig09.svg" alt="servo: setpoint step ที่ b=0, 0.25, 0.5, 0.75, 1 ยิ่ง b มากยิ่งเร็ว" style="width:100%"></div><div><img class="fig" src="assets/fig10.svg" alt="regulatory: load step d0=1 เส้นของ b=0 และ b=1 ทับกันสนิท" style="width:100%"></div></div>
+<p class="center">$C(s)$ เดียวกันทุกเส้น · servo เปลี่ยนตาม $b$ · regulatory: $\max|y_{b=0}-y_{b=1}|=\mathbf{0.000}$ <b>(ทับกันสนิท)</b></p></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>20 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.5.4 ทฤษฎีบท 12.4: ค่าผิดพลาดสะสมต่อ load disturbance</h2><span class="sec">12.5 2-DOF PID</span></div>
+<div class="body">
+<div class="box thm"><h4>ทฤษฎีบท 12.4</h4>PI/PID ใด ๆ ที่ทำให้วงปิดเสถียร, load disturbance ขั้น $d_0$ ที่ด้านเข้า ($r=0$):
+$$IE_d=\int_0^\infty e(t)\,dt=-\frac{d_0}{K_i}$$ <b>ไม่ขึ้นกับ</b> $K_p$, $K_d$, $b$, $c$ และอัตราขยายของกระบวนการ</div>
+<p><b>พิสูจน์</b>: สถานะคงตัว $e(\infty)=0$ และพจน์ D $=0$ → $u(\infty)=K_i\int_0^\infty e\,dt$ แต่ $y=0$ ในสถานะคงตัวต้องการ $u(\infty)+d_0=0$ ⇒ $K_i\,IE_d=-d_0$ ∎</p>
+<div class="box ex"><h4>กรณีศึกษา $K_i=0.013889$</h4>$IE_d=-72.00$ (ทฤษฎี $-1/K_i=-72.00$) · $IAE_d=72.00$ · $e_{max}=0.3510$ ที่ $t\approx104$ s</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>21 / 52</span></div></section><section class="slide"><div class="hdr"><h2>ผลเชิงปิดฝั่ง servo: IEr</h2><span class="sec">12.5 2-DOF PID</span></div>
+<div class="body">
+<p>สำหรับ setpoint ขั้นขนาด 1 กับ 2-DOF PI: $u(\infty)=1/K$ และ $u(\infty)=K_p(b-1)+K_i\,IE_r$</p>
+$$\boxed{IE_r=\frac{1}{K_iK}+T_i(1-b)}$$
+<div class="cols"><div><ul><li>ลด $b$ → servo ช้าลง<b>เชิงเส้น</b>ตาม $T_i(1-b)$</li>
+<li>ขณะที่ $IE_d=-d_0/K_i$ ยืนยันว่า $b$ ไม่มีผลต่อ regulatory เลย</li>
+<li>ไม่มีการข้ามศูนย์ → $IAE=|IE|$ คำนวณได้ทันที</li></ul></div>
+<div><div class="box ex"><h4>ตรวจด้วยตัวเลข</h4>$b=0$: $\dfrac{1}{0.013889\times1.2}+150=60+150=\mathbf{210}$<br>$b=1$: $IE_r=60.0$ แต่มี overshoot → $IAE_r=65.07>IE_r$</div></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>22 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.6.1–12.6.2 Integral และ time-domain indices</h2><span class="sec">12.6 ดัชนีสมรรถนะ</span></div>
+<div class="body">
+$$IAE=\int_0^\infty|e|\,dt,\qquad ISE=\int_0^\infty e^2\,dt,\qquad ITAE=\int_0^\infty t\,|e|\,dt$$
+<div class="cols"><div><ul><li><b>IAE</b>: ลงโทษทุกขนาดเท่ากัน</li><li><b>ISE</b>: ลงโทษค่าผิดพลาดขนาดใหญ่มากกว่า</li>
+<li><b>ITAE</b>: ลงโทษค่าผิดพลาดที่<b>ค้างนาน</b> → วัดความเร็วในการเข้าที่</li></ul></div>
+<div><ul><li>$M_p$, $t_s$ (2%) จากบทที่ 5 ยังใช้ได้</li><li>regulatory ใช้ $e_{max}$ แทน $M_p$</li><li>ไม่ข้ามศูนย์ ⇒ $IAE=|IE|$ จาก (12.13)–(12.14)</li></ul></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>23 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.6.3 Control effort: Total Variation</h2><span class="sec">12.6 ดัชนีสมรรถนะ</span></div>
+<div class="body">
+<div class="box thm"><h4>นิยาม 12.5: Total Variation</h4>
+$$TV=\sum_k\bigl|u_{k+1}-u_k\bigr|\;\approx\;\int_0^\infty\left|\frac{du}{dt}\right|dt$$
+วัดปริมาณการเคลื่อนที่ทั้งหมดของแอคชูเอเตอร์: TV สูง = สึกหรอ + ใช้พลังงานมาก</div>
+<div class="cols"><div><b>ตัวชี้วัด control effort อื่น</b><ul><li>$u(0^+)=bK_p$ (ขนาดการกระโดดทันที)</li><li>$\max|u|$ (เทียบกับขีดจำกัด)</li></ul></div>
+<div><div class="box note"><h4>ข้อสังเกต</h4>TV <b>ไม่ได้</b>ต่ำสุดที่ $b=0$ เสมอ (ดูกรณีศึกษา 12.8)</div></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>24 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.6.4 ทำไมดัชนีเดียวทำลายคุณค่าของ 2-DOF</h2><span class="sec">12.6 ดัชนีสมรรถนะ</span></div>
+<div class="body">
+<p>รวม servo กับ regulatory เป็นดัชนีเดียว (เช่น IAE รวม) → ผู้ออกแบบถูกบังคับให้<b>แลกเปลี่ยนสองงานนี้อีกครั้ง</b> ซึ่งเป็นสิ่งที่ 2-DOF ถูกออกแบบมาเพื่อขจัด</p>
+<table class="tbl center"><tr><th>กลุ่ม</th><th>ดัชนี</th><th>ขึ้นกับ</th></tr>
+<tr><td class="c-mil"><b>Regulatory</b></td><td>$IAE_d$, $e_{max}$, $t_{s,d}$</td><td>$C(s)$ เท่านั้น</td></tr>
+<tr><td class="c-sil"><b>Servo</b></td><td>$IAE_r$, $ITAE_r$, $M_p$, $t_s$</td><td>$C(s)$ และ $b,c$</td></tr>
+<tr><td class="c-pil"><b>Control effort</b></td><td>TV, $u(0^+)$, $\max|u|$</td><td>$C(s)$ และ $b,c$</td></tr>
+<tr><td class="c-hil"><b>Robustness (constraint)</b></td><td>$M_s$, $M_t$, GM, PM</td><td>$C(s)$ เท่านั้น</td></tr></table>
+<div class="box key"><h4>หลักคิด</h4>Robustness เป็น<b>เงื่อนไขบังคับ</b> ไม่ใช่สิ่งที่นำไปถ่วงน้ำหนักรวมกับดัชนีอื่น</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>25 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.7.1 Sensitivity และ complementary sensitivity</h2><span class="sec">12.7 ความทนทาน</span></div>
+<div class="body">
+$$S(s)=\frac{1}{1+L(s)},\qquad T(s)=\frac{L(s)}{1+L(s)},\qquad S+T=1,\qquad L=GC$$
+<div class="cols c"><div><ul><li>$|S(j\omega)|$: disturbance ที่ $\omega$ ถูก<b>ลดทอน</b>หรือ<b>ขยาย</b></li>
+<li>$|T(j\omega)|$: การตอบสนองต่อ setpoint (1-DOF) และการส่งผ่าน measurement noise</li>
+<li>$S+T=1$ ⇒ ลดทั้งสองพร้อมกันที่ความถี่เดียวกัน<b>ไม่ได้</b></li></ul></div>
+<div><img class="fig" src="assets/fig11.svg" alt="|S| และ |T| ของกรณีศึกษา Ms = 1.5905 (4.03 dB) ที่ 0.0381 rad/s" style="width:100%"></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>26 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.7.2 Gang of Four</h2><span class="sec">12.7 ความทนทาน</span></div>
+<div class="body">
+<div class="cols c"><div><p>ลูปที่มีอินพุตภายนอก 3 ตัว $(r,d,n)$ บรรยายครบด้วย</p>
+$$S=\tfrac{1}{1+GC},\quad T=\tfrac{GC}{1+GC},\quad GS=\tfrac{G}{1+GC},\quad CS=\tfrac{C}{1+GC}$$
+<ul><li><b>internally stable</b> ⇔ ทั้งสี่เสถียร</li><li>$GS$: $d\to y$ (load disturbance)</li><li>$CS$: $n\to u$ (noise → แอคชูเอเตอร์)</li></ul></div>
+<div><img class="fig" src="assets/fig12.svg" alt="ขนาดของ S, T, GS, CS ของกรณีศึกษา" style="width:100%"></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>27 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.7.3 นิยาม 12.6: Maximum sensitivity Ms</h2><span class="sec">12.7 ความทนทาน</span></div>
+<div class="body">
+<div class="cols c"><div><div class="box thm"><h4>นิยาม 12.6</h4>
+$$M_s=\max_\omega|S(j\omega)|=\frac{1}{\min_\omega|1+L(j\omega)|},\qquad M_t=\max_\omega|T(j\omega)|$$</div>
+<p>$1/M_s$ = ระยะที่<b>สั้นที่สุด</b>จากเส้นโค้ง Nyquist ของ $L$ ถึงจุดวิกฤต $-1$</p><p>กรณีศึกษา: $1/M_s=0.629$</p></div>
+<div><img class="fig" src="assets/fig13.svg" alt="Nyquist ของ L กับวงกลมรัศมี 1/Ms = 0.629 รอบจุด -1" style="width:82%"></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>28 / 52</span></div></section><section class="slide"><div class="hdr"><h2>ทฤษฎีบท 12.7: ขอบเขตของ GM และ PM จาก Ms</h2><span class="sec">12.7 ความทนทาน</span></div>
+<div class="body">
+<div class="box thm"><h4>ทฤษฎีบท 12.7 (Skogestad &amp; Postlethwaite)</h4>
+$$GM\ge\frac{M_s}{M_s-1},\qquad PM\ge2\arcsin\frac{1}{2M_s}$$</div>
+<div class="cols"><div><div class="box warn"><h4>ขอบเขตทำงานทางเดียว</h4>$M_s$ ต่ำ ⇒ GM, PM ดี<br>GM, PM ดี $\not\Rightarrow$ $M_s$ ต่ำ เพราะ Nyquist อาจเข้าใกล้ $-1$ ที่ความถี่ที่ไม่ใช่ทั้ง $\omega_{gc}$ และ $\omega_{pc}$</div></div>
+<div><div class="box ex"><h4>กรณีศึกษา $M_s=1.5905$</h4>ขอบเขต: GM $\ge2.69$, PM $\ge36.7^\circ$<br>จริง: GM $=3.14$ (9.94 dB), PM $=61.4^\circ$ ✓</div></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>29 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.7.4 ช่วงค่า Ms ที่แนะนำ</h2><span class="sec">12.7 ความทนทาน</span></div>
+<div class="body">
+<table class="tbl center"><tr><th>$M_s$</th><th>GM ขั้นต่ำ</th><th>PM ขั้นต่ำ</th><th>ลักษณะ</th></tr>
+<tr><td>1.4</td><td>3.50 (10.88 dB)</td><td>$41.85^\circ$</td><td>ทนทานสูง ตอบสนองช้า</td></tr>
+<tr class="hlrow"><td><b>1.6</b></td><td><b>2.67 (8.52 dB)</b></td><td>$\mathbf{36.42^\circ}$</td><td><b>สมดุล ใช้ทั่วไปในอุตสาหกรรม</b></td></tr>
+<tr><td>2.0</td><td>2.00 (6.02 dB)</td><td>$28.96^\circ$</td><td>เร็ว ทนทานน้อย</td></tr></table>
+<div class="box key"><h4>แนวคิด functional safety</h4>ยอมรับระบบที่<b>ช้าลงเล็กน้อย</b>เพื่อแลกกับ $M_s$ ที่ปลอดภัย: $M_s$ คือ<b>เงื่อนไขบังคับ</b>ของขั้นที่ 1 ในการออกแบบสองขั้น (12.8)</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>30 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.8 ขั้นตอนการออกแบบสองขั้น</h2><span class="sec">12.8 ออกแบบสองขั้น</span></div>
+<div class="body"><img class="fig" src="assets/fig14.svg" alt="ขั้นที่ 1 ล็อก C(s) ภายใต้ Ms แล้วขั้นที่ 2 เลือก b c โดยไม่แตะ S T GS CS" style="width:80%">
+<div class="cols"><div><b>SIMC</b> (Skogestad IMC) สำหรับ FOPDT: $$K_p=\frac{\tau}{K(\lambda+\theta)},\quad T_i=\min\{\tau,4(\lambda+\theta)\}$$</div>
+<div class="small"><p>$\lambda$ = ค่าคงตัวเวลาวงปิดที่ต้องการ<br>$\lambda=\theta$ ให้ $M_s\approx1.6$ สำหรับ FOPDT ทั่วไป<br>$\lambda$ มากขึ้น → ช้าลงแต่ทนทานขึ้น</p></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>31 / 52</span></div></section><section class="slide"><div class="hdr"><h2>ตัวอย่าง 12.2: 2-DOF PI สำหรับกรณีศึกษา</h2><span class="sec">12.8 ออกแบบสองขั้น</span></div>
+<div class="body">
+<div class="box ex"><h4>ขั้นที่ 1: SIMC ด้วย $\lambda=\theta=30$ s</h4>
+$$K_p=\frac{150}{1.2(30+30)}=2.0833,\quad T_i=\min\{150,240\}=150\text{ s},\quad K_i=\frac{K_p}{T_i}=0.013889$$</div>
+<div class="cols"><div><b>ความทนทาน</b><ul><li>$M_s=1.5905$ ที่ $\omega=0.0381$ rad/s, $M_t=1.0000$</li><li>GM $=3.14$ (9.94 dB) ที่ $\omega_{pc}=0.0524$</li>
+<li>PM $=61.4^\circ$ ที่ $\omega_{gc}=0.0167$ rad/s</li><li>ผ่านขอบเขต (12.20): GM $\ge2.69$, PM $\ge36.7^\circ$</li></ul></div>
+<div><b>Regulatory (ไม่ขึ้นกับ $b$)</b><ul><li>$IAE_d=1/K_i=72.00$</li><li>$e_{max}=0.3510$ ที่ $t\approx104$ s</li><li>$b=0$ กับ $b=1$ ทับกันสนิท</li></ul><p><b>Servo</b>: ขึ้นกับ $b$ → ตารางถัดไป</p></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>32 / 52</span></div></section><section class="slide"><div class="hdr"><h2>ขั้นที่ 2: ผลของ b ต่อ servo (ch12_04_2dof_sweep.m)</h2><span class="sec">12.8 ออกแบบสองขั้น</span></div>
+<div class="body">
+<table class="tbl center"><tr><th>$b$</th><th>$u(0^+)$</th><th>$IE_r$</th><th>$IAE_r$</th><th>$ITAE_r$</th><th>TV</th><th>$M_p$ (%)</th><th>$t_s$ (s)</th></tr>
+<tr><td>0</td><td>0.000</td><td>210.0</td><td>210.0</td><td>33 296</td><td>0.904</td><td>0.00</td><td>646.3</td></tr>
+<tr><td>0.25</td><td>0.521</td><td>172.5</td><td>172.5</td><td>25 422</td><td>0.651</td><td>0.00</td><td>603.1</td></tr>
+<tr><td>0.50</td><td>1.042</td><td>135.0</td><td>135.0</td><td>17 547</td><td>1.091</td><td>0.00</td><td>542.3</td></tr>
+<tr><td>0.75</td><td>1.562</td><td>97.5</td><td>97.5</td><td>9 673</td><td>1.653</td><td>0.00</td><td>438.2</td></tr>
+<tr><td>1.00</td><td>2.083</td><td>60.0</td><td><b>65.07</b></td><td>2 591</td><td>2.217</td><td><b>4.06</b></td><td>181.7</td></tr></table>
+<ul><li>$IE_r$ ตรงกับ (12.14) ทุกแถว: $b=0$ → $60+150=210$</li><li>$b=1$ มี overshoot ⇒ $IAE_r>IE_r$ (65.07 เทียบกับ 60.0)</li>
+<li>ตลอดการเปลี่ยน $b$: $M_s$, GM, PM และ $IAE_d$ <b>คงที่</b></li></ul></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>33 / 52</span></div></section><section class="slide"><div class="hdr"><h2>TV กับ ITAEr: ดัชนีแต่ละตัวเลือก b ต่างกัน</h2><span class="sec">12.8 ออกแบบสองขั้น</span></div>
+<div class="body">
+<div class="cols c"><div><img class="fig" src="assets/fig15.svg" alt="TV ต่ำสุด 0.634 ที่ b=0.20 ส่วน ITAEr ลดลงต่อเนื่องจนถึง b=1" style="width:100%"></div>
+<div><div class="box key"><h4>บทเรียนจากกรณีศึกษา</h4><ul>
+<li>$ITAE_r$ ลดลง <b>12.9 เท่า</b> ($b$: 0 → 1)</li>
+<li>TV ต่ำสุดที่ $b=0.20$ <b>ไม่ใช่</b> $b=0$: เมื่อ $b$ น้อย พจน์ $I$ ต้องผลัก $u$ เกินแล้วดึงกลับ</li>
+<li>$M_p$ เริ่มเกิน 0.5% เมื่อ $b\approx0.95$</li>
+<li>การเลือก $b$ = <b>การตัดสินใจทางวิศวกรรม</b> ไม่ใช่การหาค่าเหมาะสมของดัชนีเดียว</li></ul></div></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>34 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.8.4 เปรียบเทียบวิธีจูน (1): Analytical — IMC และ SIMC</h2><span class="sec">12.8 ออกแบบสองขั้น</span></div>
+<div class="body">
+<p>IMC = direct synthesis: กำหนดวงปิดเป้าหมาย $T=e^{-\theta s}/(\lambda s+1)$ แล้วหา $C=T/\bigl(G(1-T)\bigr)$</p>
+$$C(s)=\frac{\tau s+1}{K}\cdot\frac{1}{(\lambda s+1)-e^{-\theta s}}\;\xrightarrow{\;e^{-\theta s}\approx1-\theta s\;}\;K_p=\frac{\tau}{K(\lambda+\theta)},\;T_i=\tau$$
+<ul><li>SIMC แก้ $T_i=\min\{\tau,4(\lambda+\theta)\}$: เมื่อ $\tau$ ยาวมาก การตัด pole ด้วย zero ของ PI ทำให้กำจัด load disturbance ช้า</li></ul>
+<div class="box ex"><h4>ตัวอย่าง 12.3: IMC กับ loop shaping คือเรื่องเดียวกัน</h4>$T_i=\tau$ ⇒ zero ตัด pole พอดี: $L(s)=\dfrac{K_pK}{T_i}\cdot\dfrac{e^{-\theta s}}{s}=\dfrac{e^{-30s}}{60s}$<br>
+$\omega_c=1/(\lambda+\theta)=0.01667$ rad/s, $PM=90^\circ-\theta\omega_c\cdot\frac{180^\circ}{\pi}=61.35^\circ$<br>⇒ การเลือก $\lambda$ ใน IMC คือการเลือก $\omega_c=1/(\lambda+\theta)$ ในภาษา loop shaping</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>35 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.8.4 เปรียบเทียบวิธีจูน (2): pidtune และ systune</h2><span class="sec">12.8 ออกแบบสองขั้น</span></div>
+<div class="body">
+<div class="cols"><div><b>pidtune: frequency-domain loop shaping</b>
+$$|L(j\omega_c)|=1,\quad\angle L(j\omega_c)=-180^\circ+PM$$
+<p class="small">หา $T_i$ จากเงื่อนไขเฟส แล้ว $K_p$ จากเงื่อนไขขนาด (บทที่ 11) · pidtune เพิ่มการเลือก $\omega_c$ อัตโนมัติ + <code>DesignFocus</code></p></div>
+<div><b>systune: structured $H_\infty$</b>
+$$\min_\vartheta\max_i\|f_i(\vartheta)\|_\infty\ \text{s.t.}\ \max_j\|g_j(\vartheta)\|_\infty\le1$$
+<p class="small">non-convex, nonsmooth → อาจได้ local optimum → ใช้ <code>RandomStart</code> · <code>TuningGoal.Margins</code> ใช้ <b>disk margin</b>:</p>
+$$\alpha=\frac{2}{\|S-T\|_\infty},\ GM\in\Bigl[\tfrac{2-\alpha}{2+\alpha},\tfrac{2+\alpha}{2-\alpha}\Bigr],\ PM=\pm2\arctan\tfrac{\alpha}{2}$$</div></div>
+<div class="box ex"><h4>กรณีศึกษา (<code>ch12_06_diskmargin.m</code>)</h4>$\alpha=0.8832$ ที่ $\omega=0.0343$ rad/s → disk GM $=\pm8.24$ dB, disk PM $=\pm47.65^\circ$ ต่ำกว่า GM/PM คลาสสิก (9.94 dB, 61.4°) เพราะ disk margin พิจารณาขนาดและเฟส<b>พร้อมกัน</b></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>36 / 52</span></div></section><section class="slide"><div class="hdr"><h2>ผลจริงบน R2026a: SIMC vs pidtune vs systune</h2><span class="sec">12.8 ออกแบบสองขั้น</span></div>
+<div class="body">
+<div class="cols c"><div class="small"><table class="tbl tight"><tr><th></th><th>SIMC</th><th>pidtune</th><th>systune</th></tr>
+<tr><td>$K_p$</td><td>2.0833</td><td>1.3246</td><td>1.2712</td></tr><tr><td>$T_i$ (s)</td><td>150.0</td><td>104.4</td><td>164.3</td></tr>
+<tr><td>$M_s$</td><td>1.5905</td><td>1.3805</td><td><b>1.3065</b></td></tr><tr><td>GM (dB)</td><td>9.94</td><td>13.48</td><td>14.30</td></tr>
+<tr><td>PM</td><td>61.4°</td><td>60.0°</td><td>75.4°</td></tr><tr><td>disk $\alpha$</td><td>0.8832</td><td>1.0559</td><td>1.2039</td></tr>
+<tr><td>$M_p$ servo</td><td>4.1%</td><td>8.1%</td><td>0%</td></tr><tr><td>$t_s$ servo (s)</td><td><b>182</b></td><td>428</td><td>374</td></tr>
+<tr><td>$IAE_d$ (≈$1/K_i$)</td><td><b>72.0</b></td><td>80.0</td><td>127.7</td></tr><tr><td>$e_{max}$</td><td><b>0.351</b></td><td>0.405</td><td>0.423</td></tr></table>
+<p class="tiny">pidtune: PM 60°, disturbance-rejection · systune: Tracking 150 s + Margins 6 dB/45°, <code>pade(G,3)</code>, 5 random starts</p></div>
+<div><img class="fig" src="assets/fig16.svg" alt="servo step ของ SIMC pidtune systune" style="width:88%"><img class="fig" src="assets/fig17.svg" alt="load disturbance ของ SIMC pidtune systune" style="width:88%"></div></div>
+<div class="box key"><h4>อ่านผล</h4>เครื่องมืออัตโนมัติให้ $M_s$ ต่ำกว่า (ทนทานกว่า) แต่แลกด้วย disturbance rejection ที่ช้ากว่า ($IAE_d$ +11% และ +77%) ส่วน SIMC ($\lambda=\theta$) ทำหน้าที่ขั้นที่ 1 ได้ดีที่สุดที่ $M_s\approx1.6$</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>37 / 52</span></div></section><section class="slide"><div class="hdr"><h2>สรุปเปรียบเทียบสามแนวทาง</h2><span class="sec">12.8 ออกแบบสองขั้น</span></div>
+<div class="body">
+<table class="tbl small"><tr><th></th><th>Analytical (SIMC)</th><th>pidtune</th><th>systune</th></tr>
+<tr><td>ทฤษฎี</td><td>IMC, direct synthesis</td><td>Loop shaping</td><td>Structured $H_\infty$</td></tr>
+<tr><td>ผู้ใช้กำหนด</td><td>$\lambda$ ตัวเดียว</td><td>ชนิด, $\omega_c$, PM, DesignFocus</td><td>Tuning goals หลายข้อ</td></tr>
+<tr><td>ความโปร่งใส</td><td>สูงมาก</td><td>ปานกลาง</td><td>ปานกลาง (ขึ้นกับ goals)</td></tr>
+<tr><td>ขอบเขต</td><td>SISO ที่ลดรูปเป็น FOPDT/SOPDT</td><td>SISO LTI ใดก็ได้</td><td>SISO/MIMO, multi-loop, cascade</td></tr>
+<tr><td>จุดแข็ง</td><td>สอนง่าย ใช้ตรวจผลเครื่องมืออื่น</td><td>เร็ว ใช้ง่าย</td><td>บังคับ robustness ได้ตรง ๆ</td></tr>
+<tr><td>จุดอ่อน</td><td>ผูกกับแบบจำลองอย่างง่าย</td><td>คุม trade-off ได้จำกัด</td><td>ต้องตั้งโจทย์เป็น อาจได้ local optimum</td></tr></table>
+<div class="box note"><h4>ใช้ร่วมกัน</h4>ใช้ SIMC เป็น<b>ค่าอ้างอิงที่อธิบายได้</b> แล้วใช้ pidtune/systune เมื่อโครงสร้างซับซ้อนขึ้น โดยตรวจ $M_s$ และ $IAE_d$ เทียบกับ SIMC ทุกครั้ง</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>38 / 52</span></div></section><section class="slide"><div class="hdr"><h2>โค้ด MATLAB: เปรียบเทียบสามวิธี (แก้ให้รันบน R2026a)</h2><span class="sec">12.8 ออกแบบสองขั้น</span></div>
+<div class="body">
+<pre><code class="language-matlab">G  = tf(1.2,[150 1],&#x27;InputDelay&#x27;,30);
+C1 = pidstd(150/(1.2*60),150);                                   % 1) SIMC, lambda = theta
+opt = pidtuneOptions(&#x27;PhaseMargin&#x27;,60,&#x27;DesignFocus&#x27;,&#x27;disturbance-rejection&#x27;);
+C2 = pidtune(G,&#x27;PI&#x27;,opt);                                        % 2) pidtune
+C0 = tunablePID(&#x27;C&#x27;,&#x27;PI&#x27;); C0.u = &#x27;e&#x27;; C0.y = &#x27;u&#x27;;
+Gs = pade(G,3); Gs.u = &#x27;u&#x27;; Gs.y = &#x27;y&#x27;;                          % systune needs a rational plant
+T0 = connect(Gs,C0,sumblk(&#x27;e = r - y&#x27;),&#x27;r&#x27;,&#x27;y&#x27;,{&#x27;u&#x27;});
+T  = systune(T0,[TuningGoal.Tracking(&#x27;r&#x27;,&#x27;y&#x27;,150) TuningGoal.Margins(&#x27;u&#x27;,6,45)], ...
+             systuneOptions(&#x27;RandomStart&#x27;,5));
+C3 = pid(getBlockValue(T,&#x27;C&#x27;));                                  % 3) systune
+w = logspace(-5,0,40000);
+for C = {pid(C1), C2, C3}                                        % compare on the TRUE plant
+    L = G*C{1};  dm = diskmargin(L);
+    Ms = max(abs(squeeze(freqresp(feedback(1,L),w))));           % NOT norm(S,inf): internal delay
+    fprintf(&#x27;Ms = %.4f, alpha = %.4f\n&#x27;, Ms, dm.DiskMargin);
+end</code></pre>
+<div class="box warn"><h4>พบตอนรันจริงบน R2026a</h4><code>norm(S,inf)</code> และ <code>getPeakGain</code> ใช้กับ model ที่มี <b>internal delay</b> ไม่ได้ (error) → ใช้ <code>freqresp</code> บนกริดละเอียด หรือ <code>norm(pade(S,6),inf)</code> (ได้ 1.5904) ส่วน <code>diskmargin</code> และ <code>margin</code> ใช้กับ delay ได้ตรง</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>39 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.9.1–12.9.2 Feedforward และ Cascade</h2><span class="sec">12.9 เทคนิคเสริม</span></div>
+<div class="body">
+<div class="cols"><div><p><b>Feedforward</b>: วัด disturbance ได้ก่อนที่จะส่งผลต่อเอาต์พุต</p>$$C_{ff}(s)=-\frac{G_d(s)}{G(s)}$$
+<ul><li>ชดเชยก่อนลูปป้อนกลับเห็นค่าผิดพลาด</li><li>ปฏิบัติจริง: <b>static</b> $C_{ff}=-G_d(0)/G(0)$ หรือ lead-lag</li>
+<li>เพราะ $G^{-1}$ อาจไม่ causal (มี dead time) หรือไม่เสถียร (zero ฝั่งขวา)</li></ul></div>
+<div><p><b>Cascade</b>: ลูปในเร็ว (เช่น flow) อยู่ในลูปนอกช้า (เช่น อุณหภูมิ)</p><ul>
+<li>ลูปในกำจัด disturbance ในส่วนของมันก่อนถึงลูปนอก</li><li>ลูปในต้องเร็วกว่าลูปนอก <b>3–5 เท่า</b></li><li>จูนลูปใน<b>ก่อนเสมอ</b></li></ul>
+<img class="fig" src="assets/fig18.svg" alt="cascade: C1 ลูปนอก C2 ลูปใน G2 กระบวนการใน G1 กระบวนการนอก" style="width:85%"></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>40 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.9.3–12.9.4 Smith predictor และ Gain scheduling</h2><span class="sec">12.9 เทคนิคเสริม</span></div>
+<div class="body">
+<div class="cols"><div><p><b>Smith predictor</b>: dead time ยาว ($\theta/\tau>1$)</p><ul>
+<li>ใช้แบบจำลองทำนายเอาต์พุตที่ไม่มี dead time → ออกแบบเสมือนไม่มี dead time ในลูป</li>
+<li><b>ข้อจำกัด</b>: ไวต่อความคลาดเคลื่อนของแบบจำลอง โดยเฉพาะ $\theta$</li><li>ไม่ช่วยการกำจัด load disturbance เท่าที่คาด</li></ul></div>
+<div><p><b>Gain scheduling</b>: พลวัตเปลี่ยนตามจุดทำงาน (วาล์วไม่เชิงเส้น, pH)</p><ul>
+<li>จูน PID หลายชุดตามจุดทำงาน แล้วสลับ/ประมาณค่าระหว่างชุด</li><li>ตัวแปร scheduling ต้องวัดได้และ<b>เปลี่ยนช้ากว่า</b>พลวัตของลูป</li></ul></div></div>
+<table class="tbl small"><tr><th>เทคนิค</th><th>สถานการณ์ที่เหมาะสม</th></tr>
+<tr><td>Feedforward</td><td>disturbance หลักวัดได้ และทราบ $G_d$ พอสมควร</td></tr>
+<tr><td>Cascade</td><td>มีตัวแปรกลางที่วัดได้และตอบสนองเร็วกว่าตัวแปรหลัก</td></tr>
+<tr><td>Smith predictor</td><td>dead time ยาวกว่าค่าคงตัวเวลา และแบบจำลองแม่นยำ</td></tr>
+<tr><td>Gain scheduling</td><td>พลวัตเปลี่ยนตามจุดทำงานที่ระบุได้ด้วยตัวแปรที่วัดได้</td></tr></table></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>41 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.10.1 การ discretize และการเลือก Ts</h2><span class="sec">12.10 ดิจิทัล</span></div>
+<div class="body">
+<p><b>Backward Euler</b> (derivative on measurement):</p>
+$$I_k=I_{k-1}+K_iT_se_k,\qquad D_k=\frac{T_f}{T_f+T_s}D_{k-1}-\frac{K_d}{T_f+T_s}\bigl(y_k-y_{k-1}\bigr)$$
+<p>หรือ <b>Tustin</b> $s\leftarrow\frac{2}{T_s}\frac{z-1}{z+1}$: รักษาเสถียรภาพ และตอบสนองเชิงความถี่ใกล้เคียงกว่า</p>
+<div class="cols"><div><div class="box key"><h4>กฎการเลือก $T_s$</h4>$T_s\approx(0.05\text{–}0.1)\,T_{63}$ ของวงปิด หรือ $\omega_{gc}T_s\approx0.05\text{–}0.15$<br>ZOH ≈ หน่วงครึ่งคาบ → PM ลด $\approx\omega_{gc}T_s/2$ rad</div></div>
+<div class="small"><table class="tbl"><tr><th>$T_s$ (s)</th><th>$\omega_{gc}T_s$</th><th>PM ลด</th><th>PM</th><th>$M_p$ (sampled PI)</th></tr>
+<tr><td>1</td><td>0.017</td><td>0.48°</td><td>60.87°</td><td>4.61%</td></tr><tr><td>5</td><td>0.083</td><td>2.39°</td><td>58.96°</td><td>7.18%</td></tr>
+<tr><td>10</td><td>0.167</td><td>4.77°</td><td>56.58°</td><td>10.98%</td></tr><tr><td>20</td><td>0.333</td><td>9.55°</td><td>51.80°</td><td>19.31%</td></tr></table>
+<p class="tiny"><code>ch12_08_digital.m</code>: PM₀ = 61.35°, $\omega_{gc}=0.01667$ rad/s</p></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>42 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.10.2 Positional form และ Velocity form</h2><span class="sec">12.10 ดิจิทัล</span></div>
+<div class="body">
+<div class="cols"><div><p><b>Positional</b>: คำนวณ $u_k$ ทั้งค่า · <b>Velocity (incremental)</b>: คำนวณเฉพาะส่วนเปลี่ยน</p>
+$$\Delta u_k=K_p\Bigl[(e_k-e_{k-1})+\frac{T_s}{T_i}e_k\Bigr],\qquad u_k=u_{k-1}+\Delta u_k$$
+<ul><li>anti-windup <b>เกิดขึ้นเอง</b>เมื่อจำกัด $u_k$ หลังการบวก</li><li>สลับ Manual/Auto ได้ราบรื่น → นิยมใน PLC/DCS</li></ul></div>
+<div><div class="box ex"><h4>ตัวอย่าง 12.11: $K_p=2$, $T_i=20$ s, $T_s=1$ s</h4>$u_0=0$, $e_0=0$; $e_1,e_2,e_3=1,0.8,0.5$
+<table class="tbl"><tr><th>$k$</th><th>$e_k$</th><th>$\Delta u_k$</th><th>$u_k$</th></tr>
+<tr><td>1</td><td>1.0</td><td>+2.10</td><td><b>2.10</b></td></tr><tr><td>2</td><td>0.8</td><td>−0.32</td><td><b>1.78</b></td></tr><tr><td>3</td><td>0.5</td><td>−0.55</td><td><b>1.23</b></td></tr></table>
+<p class="small">$\Delta u_1=2[(1-0)+\tfrac{1}{20}(1)]=2.10$</p></div></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>43 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.10.3 คำสั่ง MATLAB สำหรับกรณีศึกษา</h2><span class="sec">12.10 ดิจิทัล</span></div>
+<div class="body"><pre><code class="language-matlab">G  = tf(1.2,[150 1],&#x27;InputDelay&#x27;,30);
+K = 1.2; tau = 150; theta = 30; lam = theta;
+Kp = tau/(K*(lam+theta));  Ti = min(tau,4*(lam+theta));
+C  = pidstd(Kp,Ti);                         % ideal (standard) form
+C2 = pid2(Kp,Kp/Ti,0,0,0.5,0);              % 2-DOF: (Kp, Ki, Kd, Tf, b, c)
+L = G*C;  S = feedback(1,L);  T = feedback(L,1);
+w  = logspace(-5,0,40000);
+Ms = max(abs(squeeze(freqresp(S,w))))       % 1.5905   (norm(S,inf) errors: internal delay)
+[Gm,Pm] = margin(L)                         % GM = 3.14, PM = 61.4 deg
+b  = 0.5;                                   % 2-DOF closed loop: build Cr and Cy explicitly
+Cy = pid(Kp,Kp/Ti);                         % feedback part = C(s)
+Cr = pid(b*Kp,Kp/Ti);                       % setpoint part, b*Kp + Ki/s
+Tr    = feedback(G,Cy)*Cr;                  % servo,       r -&gt; y
+Tdist = feedback(G,Cy);                     % regulatory,  d -&gt; y   (no b inside)
+t = 0:0.1:900;                              % FINE grid (see &quot;numerical pitfalls&quot;)
+step(Tr,Tdist,t), legend(&#x27;r \rightarrow y&#x27;,&#x27;d \rightarrow y&#x27;)</code></pre></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>44 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.10.4 บล็อก PID Controller (2DOF) ใน Simulink</h2><span class="sec">12.10 ดิจิทัล</span></div>
+<div class="body">
+<div class="cols"><div><ul><li>มีพารามิเตอร์ $b$ และ $c$ โดยตรง</li><li>แท็บ <b>Output Saturation</b>: $u_{min}$, $u_{max}$</li>
+<li>Anti-windup: <b>back-calculation</b> ($K_b=1/T_t$) หรือ <b>clamping</b></li>
+<li>บล็อกเดียวกันนี้เป็นตัวควบคุมใน <b>MIL</b> และนำไปสร้างโค้ดสำหรับ <b>SIL/PIL/HIL</b> ในบทที่ 13</li></ul></div>
+<div><div class="box warn"><h4>ลำดับอาร์กิวเมนต์</h4><code>pid2(Kp,Ki,Kd,Tf,b,c)</code> ใช้ $K_i$ (parallel)<br><code>pidstd2(Kp,Ti,Td,N,b,c)</code> ใช้ $T_i$ (ideal)<br>สลับสองคำสั่งนี้ → ตัวควบคุมผิด<b>โดยไม่มีข้อความเตือน</b></div></div></div>
+<div class="box ex"><h4>แบบฝึกหัด 12.12</h4>สร้างกรณีศึกษาใน Simulink ด้วย PID Controller (2DOF), back-calculation $K_b=1/75$, $0\le u\le1$ แล้วเทียบกับตารางในตัวอย่าง 12.1 ($M_p=0$, $t_s=501.4$ s)</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>45 / 52</span></div></section><section class="slide"><div class="hdr"><h2>ข้อควรระวังเชิงตัวเลขที่พบตอนตรวจบทนี้บน R2026a</h2><span class="sec">12.10 ดิจิทัล</span></div>
+<div class="body">
+<ol class="small"><li><b><code>step()</code> บนกริดเวลาหยาบกับ delay</b>: $M_p$ ของ SIMC ($b=1$)
+<table class="tbl center"><tr><th>กริด</th><th>$dt=5$ s</th><th>$dt=1$ s</th><th>$dt=0.1$ s</th><th><code>ch12_sim_pi</code> / <code>pade(G,10)</code></th></tr>
+<tr><td>$M_p$</td><td class="bad"><b>6.94%</b></td><td>4.60%</td><td>4.11%</td><td><b>4.06%</b> / 4.05%</td></tr></table>→ ใช้กริดละเอียด ($dt\le0.1$ s) ก่อนรายงาน $M_p$</li>
+<li><b><code>norm(S,inf)</code> กับ internal delay</b>: error บน R2026a → <code>freqresp</code> บนกริดละเอียด หรือ <code>pade</code></li>
+<li><b><code>systune</code> กับ delay</b>: ต้องใช้ <code>pade(G,3)</code> ในขั้นจูน แล้ว<b>ตรวจ $M_s$ กับ $G$ ตัวจริง</b></li>
+<li><b><code>exist('data','dir')</code></b> คืนค่าจริงถ้ามีโฟลเดอร์ชื่อ <code>data</code> ที่ใดก็ได้ใน MATLAB path → ใช้ <code>isfolder(fullfile(pwd,'data'))</code></li></ol>
+<div class="box key"><h4>ทัศนคติของบท</h4>ตรวจผลด้วยหลายวิธีเสมอ: ผลเชิงปิด ($IE_d=-d_0/K_i$, $IE_r$) คือเครื่องมือจับความผิดพลาดของการจำลองที่ดีที่สุด</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>46 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.11.1 สรุป</h2><span class="sec">12.11 สรุป</span></div>
+<div class="body">
+<ol><li>PID ในอุดมคติต้องเสริม <b>derivative filter</b>, <b>anti-windup</b> และ <b>bumpless transfer</b> ก่อนใช้จริงเสมอ</li>
+<li>ideal, parallel, series แปลงกันได้ · ideal → series ได้เมื่อ $T_i\ge4T_d$ เท่านั้น</li>
+<li><b>2-DOF PID แยก servo ออกจาก regulatory</b>: $b,c$ ไม่กระทบ $S,T,GS,CS$</li>
+<li>$IE_d=-d_0/K_i$ และ $IE_r=1/(K_iK)+T_i(1-b)$ คือผลเชิงปิดที่ใช้<b>ตรวจการจำลอง</b>ได้ทันที</li>
+<li>ดัชนีสมรรถนะต้องแยก 4 กลุ่ม: regulatory, servo, control effort, robustness</li>
+<li><b>ออกแบบสองขั้น</b>: ล็อก $C(s)$ ภายใต้เงื่อนไข $M_s$ ก่อน แล้วเลือก $b,c$</li>
+<li>SIMC ($\lambda=\theta$) = loop shaping ที่ $\omega_c=1/(\lambda+\theta)$ · pidtune/systune ใช้เมื่อโครงสร้างซับซ้อน</li>
+<li>ดิจิทัล: $T_s$ ทำให้ PM ลด $\approx\omega_{gc}T_s/2$ · velocity form มี anti-windup ในตัว</li></ol></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>47 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.11.2 แบบฝึกหัด (1/2)</h2><span class="sec">12.11 สรุป</span></div>
+<div class="body">
+<ol class="ex" style="counter-reset: ex 0">
+<li>เหตุใด derivative kick จึงเกิดเฉพาะเมื่อ setpoint เปลี่ยน และเหตุใด PI-D จึงแก้ได้ <span class="muted">LO12.1, 12.3</span></li>
+<li>แปลง PID แบบ series $K_c'=2$, $T_i'=10$ s, $T_d'=2$ s เป็นแบบ ideal <span class="muted">LO12.2</span></li>
+<li>ideal $K_p=3$, $T_i=20$ s, $T_d=5$ s แปลงเป็น parallel และ series ได้หรือไม่ <span class="muted">LO12.2</span></li>
+<li>PID $K_p=2$, $T_d=5$ s, $N=10$ มี $T_f$ และอัตราขยายความถี่สูงเท่าใด <span class="muted">LO12.3</span></li>
+<li>อธิบายด้วยรูปที่ 12.2 ว่าทำไมกรณีไม่มี anti-windup จึงเข้าที่ช้ากว่า ทั้งที่อิ่มตัวนานเท่ากัน <span class="muted">LO12.4</span></li>
+<li>PI $K_i=0.05$ ถูกป้อน load disturbance $d_0=2$ หา $IE_d$ และเปลี่ยนหรือไม่เมื่อเปลี่ยน $K_p$ หรือ $b$ <span class="muted">LO12.5</span></li></ol></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>48 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.11.2 แบบฝึกหัด (2/2)</h2><span class="sec">12.11 สรุป</span></div>
+<div class="body">
+<ol class="ex" style="counter-reset: ex 6">
+<li>2-DOF PI $K_i=0.02$, $T_i=50$ s, กระบวนการ $K=2$ หา $IE_r$ เมื่อ $b=0.4$ <span class="muted">LO12.5, 12.6</span></li>
+<li>$M_s=1.6$ หาขอบเขตล่างของ GM และ PM และอธิบายว่าทำไมข้อความกลับไม่จริง <span class="muted">LO12.7</span></li>
+<li>จูน PI ด้วย SIMC ($\lambda=\theta$) สำหรับ $G=0.8e^{-20s}/(100s+1)$ และอธิบายว่าทำไม $M_s$ เท่ากับกรณีศึกษา <span class="muted">LO12.8</span></li>
+<li>ถังผสม: flow ขาเข้าวัดได้และเปลี่ยนบ่อย วาล์วไอน้ำไม่เชิงเส้น เสนอเทคนิคเสริมพร้อมเหตุผล <span class="muted">LO12.9</span></li>
+<li>Velocity PI $K_p=2$, $T_i=20$ s, $T_s=1$ s, $e_{1..3}=1,0.8,0.5$ หา $u_1,u_2,u_3$ <span class="muted">LO12.10</span></li>
+<li>สร้างกรณีศึกษาใน Simulink ด้วย PID Controller (2DOF), back-calculation $K_b=1/75$, $0\le u\le1$ แล้วเทียบกับตัวอย่าง 12.1 <span class="muted">LO12.10</span></li></ol></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>49 / 52</span></div></section><section class="slide"><div class="hdr"><h2>12.11.3 คำตอบแบบฝึกหัดที่เป็นตัวเลข (ch12_09_exercises.m)</h2><span class="sec">12.11 สรุป</span></div>
+<div class="body">
+<table class="tbl"><tr><th>ข้อ</th><th>คำตอบ</th></tr>
+<tr><td>12.2</td><td>$K_p=2.4$, $T_i=12$ s, $T_d=1.6667$ s</td></tr>
+<tr><td>12.3</td><td>parallel: $K_i=0.15$, $K_d=15$ · series: กรณีขอบเขตพอดี ($T_d/T_i=1/4$) $K_c'=1.5$, $T_i'=T_d'=10$ s</td></tr>
+<tr><td>12.4</td><td>$T_f=0.5$ s, อัตราขยายความถี่สูง $K_p(1+N)=22$</td></tr>
+<tr><td>12.6</td><td>$IE_d=-40$ · ไม่เปลี่ยนเมื่อเปลี่ยน $K_p$ หรือ $b$</td></tr>
+<tr><td>12.7</td><td>$IE_r=25+50(0.6)=55$</td></tr>
+<tr><td>12.8</td><td>GM $\ge2.67$ (8.52 dB), PM $\ge36.42^\circ$</td></tr>
+<tr><td>12.9</td><td>$K_p=3.125$, $T_i=100$ s · $M_s=1.5905$ เพราะ $M_s$ ของ SIMC PI บน FOPDT ขึ้นกับ $\theta/\tau$ เท่านั้น (= 0.2)</td></tr>
+<tr><td>12.11</td><td>$u_1=2.10$, $u_2=1.78$, $u_3=1.23$</td></tr></table>
+<div class="box note"><h4>ตรวจแล้ว</h4>ทุกค่าตรงกับผลรัน <code>ch12_run_all</code> บน MATLAB R2026a Update 5</div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>50 / 52</span></div></section><section class="slide"><div class="hdr"><h2>เชื่อมต่อบทที่ 13: MBD V-Model</h2><span class="sec">12.11 สรุป</span></div>
+<div class="body">
+<div class="cols c"><div><p>ตัวควบคุมที่ออกแบบในบทนี้คือตัวที่นำไปทำ</p><ul>
+<li><b class="c-mil">MIL</b>: PID Controller (2DOF) + saturation + back-calculation</li>
+<li><b class="c-sil">SIL</b>: velocity/positional form แบบ discrete ($T_s$ จาก 12.10)</li>
+<li><b class="c-pil">PIL</b>: โค้ดเดียวกันบนไมโครคอนโทรลเลอร์</li>
+<li><b class="c-hil">HIL</b>: ชุด TCLab ($K\approx0.44$, $\tau\approx112$ s, $\theta\approx20$ s)</li></ul></div>
+<div><div class="box key"><h4>Mini Project (บทที่ 14)</h4>ออกแบบสองขั้นบน TCLab จริง: identify FOPDT → SIMC ภายใต้ $M_s\le1.6$ → เลือก $b$ จากข้อกำหนด → verify ตาม V-Model</div>
+<p>ไฟล์ MATLAB: <a href="mfiles/index.html">mfiles/</a> → <code>ch12_run_all</code> · สไลด์ PDF: <a href="ch12_slides.pdf">ch12_slides.pdf</a></p></div></div></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>51 / 52</span></div></section><section class="slide"><div class="hdr"><h2>เอกสารอ้างอิงประจำบท</h2><span class="sec">12.11 สรุป</span></div>
+<div class="body">
+<ol class="refs"><li>K. J. Åström and T. Hägglund, <i>Advanced PID Control</i>. ISA, 2006.</li>
+<li>K. J. Åström and R. M. Murray, <i>Feedback Systems</i>, 2nd ed. Princeton Univ. Press, 2021.</li>
+<li>S. Skogestad, "Simple analytic rules for model reduction and PID controller tuning," <i>J. Process Control</i>, 13(4), 291–309, 2003.</li>
+<li>M. Araki and H. Taguchi, "Two-degree-of-freedom PID controllers," <i>IJCAS</i>, 1(4), 401–411, 2003.</li>
+<li>A. Visioli, <i>Practical PID Control</i>. Springer, 2006.</li>
+<li>D. E. Seborg <i>et al.</i>, <i>Process Dynamics and Control</i>, 4th ed. Wiley, 2016.</li>
+<li>S. Skogestad and I. Postlethwaite, <i>Multivariable Feedback Control</i>, 2nd ed. Wiley, 2005.</li>
+<li>The MathWorks, "Two-degree-of-freedom PID controllers," Control System Toolbox Documentation.</li>
+<li>D. E. Rivera, M. Morari, S. Skogestad, "Internal model control: PID controller design," <i>I&amp;EC Process Des. Dev.</i>, 25(1), 252–265, 1986.</li>
+<li>P. Apkarian and D. Noll, "Nonsmooth $H_\infty$ synthesis," <i>IEEE TAC</i>, 51(1), 71–86, 2006.</li>
+<li>P. Seiler, A. Packard, P. Gahinet, "An introduction to disk margins," <i>IEEE CSM</i>, 40(5), 78–95, 2020.</li></ol></div><div class="ftr"><span>01068007 Control Systems · Chapter 12 · รศ.ดร.อาจินต์ น่วมสำราญ</span><span>52 / 52</span></div></section></div>
+<div id="nav"><span id="cnt"></span><button onclick="show(cur-1)" aria-label="ก่อนหน้า">◀</button><button onclick="show(cur+1)" aria-label="ถัดไป">▶</button><button onclick="fs()">เต็มจอ</button></div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let cur=0;
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720)*0.98;slides.forEach(e=>e.style.transform=`scale(${s})`);}
+function show(i){cur=Math.max(0,Math.min(slides.length-1,i));slides.forEach((e,k)=>e.classList.toggle('on',k===cur));
+ document.getElementById('cnt').textContent=`${cur+1} / ${slides.length}`;history.replaceState(null,'','#'+(cur+1));}
+document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){show(cur+1);e.preventDefault()}
+ else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){show(cur-1);e.preventDefault()}else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);
+ else if(e.key==='f')fs();});
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>50)show(cur+(d<0?1:-1));x0=null;});
+function fs(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+addEventListener('resize',fit);fit();show((parseInt(location.hash.slice(1))||1)-1);
+addEventListener('hashchange',()=>{const k=(parseInt(location.hash.slice(1))||1)-1;if(k!==cur)show(k);});
+</script>
+<script defer src="lib/katex/katex.min.js"></script>
+<script defer src="lib/katex/contrib/auto-render.min.js"
+ onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false})"></script>
+<script defer src="lib/hljs/highlight.min.js"></script>
+<script defer src="lib/hljs/matlab.min.js" onload="hljs.highlightAll()"></script>
+</body></html>
