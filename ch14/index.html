@@ -1,0 +1,483 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chapter 14: บทสรุปรายวิชาและปฏิบัติการระบบควบคุม (CS_LAB)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lib/katex/katex.min.css">
+<link rel="stylesheet" href="lib/hljs/github.min.css">
+<style>
+:root{--dark:#1F2A44;--or:#E35205;--mil:#0072BD;--sil:#D95319;--pil:#4d7a1e;--hil:#7E2F8E;--bg:#0f1524;--paper:#ffffff;--ink:#1F2A44;--muted:#6b7280}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);font-family:'Sarabun','Noto Sans Thai',sans-serif;color:var(--ink)}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+.slide{position:absolute;width:1280px;height:720px;background:var(--paper);display:none;flex-direction:column;transform-origin:center center;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+.slide.on{display:flex}
+.hdr{background:var(--dark);color:#fff;padding:13px 36px 11px;display:flex;justify-content:space-between;align-items:baseline;border-bottom:4px solid var(--or);gap:20px}
+.hdr h2{margin:0;font-size:28px;font-weight:700}.hdr .sec{color:#f7b28e;font-size:16px;white-space:nowrap}
+.body{flex:1;min-height:0;padding:14px 40px 6px;font-size:19.5px;line-height:1.42;overflow:hidden}
+.body p{margin:4px 0}
+.ftr{display:flex;justify-content:space-between;padding:6px 24px;font-size:13px;color:#8b93a3;border-top:1px solid #eee}
+.cols{display:flex;gap:26px;align-items:flex-start}.cols>div{flex:1;min-width:0}
+.fig{display:block;margin:4px auto;max-height:450px;object-fit:contain}
+.box{border-radius:6px;margin:8px 0;border:1.5px solid;overflow:hidden;padding:2px 12px 6px;font-size:.9em}.box h4{margin:-2px -12px 4px;padding:3px 12px;color:#fff;font-size:17px}
+.box.key{border-color:var(--or);background:#fdf0e8}.box.key h4{background:var(--or)}
+.box.note{border-color:#0b5a93;background:#eef5fb}.box.note h4{background:#0b5a93}
+.box.thm{border-color:#0b5a93;background:#f1f7fc}.box.thm h4{background:#0b5a93}
+.box.warn{border-color:#a12a2a;background:#fcf0f0}.box.warn h4{background:#a12a2a}
+.box.ex{border-color:#4d7a1e;background:#f3f8ec}.box.ex h4{background:#4d7a1e}
+.box ul,.box ol{margin:4px 0}.hl{color:var(--or)}.muted{color:var(--muted)}.bad{color:#a12a2a}.center{text-align:center}
+ul,ol{margin:6px 0;padding-left:26px}li{margin:2px 0}ul.labs,ol.labs{list-style:none;padding-left:6px}
+table.tbl{border-collapse:collapse;margin:6px auto;font-size:.86em}table.tbl th,table.tbl td{padding:3px 10px;border-bottom:1px solid #e1e4e9;text-align:left;vertical-align:top}
+table.tbl th{border-bottom:2px solid var(--dark)}table.tbl tr:first-child td{border-top:2px solid var(--dark)}table.tbl tr:last-child td{border-bottom:2px solid var(--dark)}
+.c-mil{color:var(--mil)}.c-sil{color:var(--sil)}.c-pil{color:var(--pil)}.c-hil{color:var(--hil)}
+code{font-family:'JetBrains Mono',Consolas,monospace;font-size:.82em;background:#f3f4f6;padding:0 4px;border-radius:3px}
+pre{margin:6px 0;font-size:.6em;line-height:1.33;background:#f6f7f9;border:1px solid #dde;border-radius:6px;padding:8px 12px;overflow:auto;max-height:480px}pre code{background:none;padding:0;font-size:1em}
+.title{background:var(--dark);color:#fff;justify-content:center;padding:0 90px}
+.title .k{color:#f7b28e;font-size:20px}.title h1{font-size:72px;margin:8px 0 0}.title h3{font-size:42px;margin:4px 0;line-height:1.25}.title .en{color:#f7a06b;font-size:30px}
+.title .bar{height:5px;background:var(--or);margin:28px -90px 24px}.title .s{font-size:20px}.title .a{font-size:20px;margin-top:14px}.title .i{font-size:16px;color:#c9cfdb}
+#nav{position:fixed;bottom:14px;right:18px;display:flex;gap:8px;z-index:9}
+#nav button{background:rgba(31,42,68,.85);color:#fff;border:1px solid #f7b28e55;border-radius:6px;padding:8px 14px;font-size:16px;cursor:pointer;font-family:inherit}
+#nav button:hover{background:var(--or)}#cnt{color:#cfd5e1;font-size:14px;align-self:center;margin-right:6px}
+.hdr code,.box h4 code{background:rgba(255,255,255,.18);color:inherit}
+.katex{font-size:1.0em}.katex-display{margin:.35em 0}
+@media print{#nav{display:none}.slide{display:flex!important;position:relative;transform:none!important;page-break-after:always;box-shadow:none}#stage{position:static;display:block}}
+</style></head><body>
+<div id="stage"><section class="slide title"><div class="k">01068007 ระบบควบคุม: การวิเคราะห์และการออกแบบเชิงแบบจำลอง</div>
+<h1>บทที่ 14</h1><h3>บทสรุปรายวิชา<br>และปฏิบัติการระบบควบคุม (CS_LAB)</h3><div class="en">Course Summary · Control Systems Laboratory</div>
+<div class="bar"></div><div class="s">แบบจำลอง · วิเคราะห์ · ออกแบบ · นำไปใช้ · ทวนสอบ — บทที่ 1–13 · LAB 1–3 · Mini Project</div>
+<div class="a">รศ.ดร.อาจินต์ น่วมสำราญ</div><div class="i">ภาควิชาวิศวกรรมการวัดและควบคุม คณะวิศวกรรมศาสตร์ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</div></section><section class="slide"><div class="hdr"><h2>บทนี้ใช้ทำอะไร</h2><span class="sec">ภาพรวม</span></div>
+<div class="body">
+<div class="cols"><div>
+<ul><li>ทบทวน<b>ทั้งรายวิชา</b> บทที่ 1–13 ในเส้นเรื่องเดียว: ระบบจริง → แบบจำลอง → วิเคราะห์ → ออกแบบ → นำไปใช้ → ทวนสอบ
+</li><li>รวม<b>สูตรและเกณฑ์ตัดสินใจ</b>ที่ต้องใช้จริง
+</li><li>เชื่อมกับ<b>ปฏิบัติการ CS_LAB</b> (LAB 1–3) ที่ทำแนวคิดเดียวกันบนเครื่องมือและอุปกรณ์จริง
+</li><li>เตรียม<b> Mini Project</b> (MBD V-Model) และการสอบปลายภาค
+</li></ul>
+</div><div>
+<div class="box key"><h4>ประโยคเดียวของวิชา</h4>
+ ระบบควบคุมที่ดีเริ่มจาก<b>แบบจำลองที่เชื่อถือได้</b> วิเคราะห์ด้วย<b>เครื่องมือที่เหมาะกับคำถาม</b> ออกแบบภายใต้<b>ข้อจำกัดจริง</b> และ<b>พิสูจน์ด้วยหลักฐาน</b>ทุกขั้น
+</div>
+<div class="box ex"><h4>วิธีใช้สไลด์ชุดนี้</h4>
+ แต่ละหน้าสรุปหนึ่งบท: แนวคิดหลัก · สูตร · ข้อผิดพลาดที่พบบ่อย · ลิงก์ไปบทเต็ม
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>2 / 32</span></div></section><section class="slide"><div class="hdr"><h2>แผนที่รายวิชา: 4 ส่วน 14 บท</h2><span class="sec">ภาพรวม</span></div>
+<div class="body">
+<img class="fig" src="assets/fig01.svg" alt="FigCourseMap" style="width:96%">
+
+ ส่วนที่ 1 สร้างภาษาและแบบจำลอง · ส่วนที่ 2 ให้เครื่องมือวิเคราะห์ · ส่วนที่ 3 ใช้เครื่องมือนั้นออกแบบ · ส่วนที่ 4 นำตัวควบคุมไปทำงานจริงและพิสูจน์ผล
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>3 / 32</span></div></section><section class="slide"><div class="hdr"><h2>เส้นเรื่องเดียวของทั้งวิชา</h2><span class="sec">ภาพรวม</span></div>
+<div class="body">
+<img class="fig" src="assets/fig02.svg" alt="FigStory" style="width:96%">
+
+<div class="cols"><div>
+<b>ถามก่อนเลือกเครื่องมือ</b>: อยากรู้ผลตอบสนอง (เวลา), ผลของ gain (RL), หรือ margin และ robustness (ความถี่)?
+</div><div>
+<b>ออกแบบจาก requirement</b>: $M_p$, $t_s$, $e_{ss}$, PM, $M_s$, ข้อจำกัดของ actuator
+</div><div>
+<b>ปิดวงด้วยหลักฐาน</b>: MIL → SIL → PIL → HIL และผลต่างทุกขั้นต้องอธิบายได้
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>4 / 32</span></div></section><section class="slide"><div class="hdr"><h2>CLO ของรายวิชากับบทที่เกี่ยวข้อง</h2><span class="sec">ภาพรวม</span></div>
+<div class="body">
+
+<table class="tbl"><tr><td>CLO</td><td>บทหลัก</td><td>บทรอง</td></tr><tr><td>CLO1</td><td>1 ภาพรวม ประวัติ</td><td>3</td></tr><tr><td>CLO2</td><td>2 คณิตศาสตร์, 3 แบบจำลอง</td><td>4, 5</td></tr><tr><td>CLO3</td><td>4 การลดรูป</td><td>6</td></tr><tr><td>CLO4</td><td>5 โดเมนเวลา, 6 $e_{ss}$ และเสถียรภาพ</td><td>7, 9, 10</td></tr><tr><td>CLO5</td><td>7 Root Locus, 8 ตัวควบคุม, 9 RL Design</td><td>11, 12, 13</td></tr><tr><td>CLO6</td><td>10 FRA, 11 FR Design, 12 2-DOF + Robustness</td><td>8, 13</td></tr><tr><td>CLO7</td><td>13 MBD V-Model, 14 Mini Project</td><td>ทุก CLO</td></tr></table>
+
+<div class="box warn"><h4>CLO7 เป็น Must-Pass</h4>
+ Mini Project (20 คะแนน) ต้องแสดงครบ MIL / SIL / PIL / HIL / Standalone พร้อมหลักฐานการทวนสอบ — ใช้ทุกบทที่ผ่านมา
+</div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>5 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 1–2: ภาพรวม และคณิตศาสตร์ที่ใช้ตลอดวิชา</h2><span class="sec">ส่วนที่ 1 พื้นฐาน</span></div>
+<div class="body">
+<div class="cols"><div>
+<b>บทที่ 1 ภาพรวม</b>
+<ul><li>วงเปิด (open loop) กับวงปิด (closed loop): วงปิดลดผลของ disturbance และความไม่แน่นอนของ plant แต่เสี่ยงต่อเสถียรภาพ
+</li><li>องค์ประกอบ: reference → controller → actuator → plant → sensor → feedback
+</li><li>หลักไมล์: Watt governor (1788), negative-feedback amplifier ของ Black (1927), Nyquist (1932), Bode (ช่วงทศวรรษ 1940), root locus ของ Evans (1948), state space / Kalman (1960)
+</li></ul>
+</div><div>
+<b>บทที่ 2 คณิตศาสตร์</b>
+<ul><li>Laplace: $\mathcal{L}\{\dot f\}=sF(s)-f(0)$, ตาราง step, ramp, $e^{-at}$, $\sin\omega t$
+</li><li>partial fractions → ขั้วแต่ละตัวคือ <b>mode</b> ของผลตอบสนอง
+</li><li>final value theorem: $y(\infty)=\lim_{s\to0}sY(s)$ (ใช้ได้เมื่อระบบเสถียร)
+</li><li>ขั้วซ้ายมือ = ลู่เข้า, ขั้วบนแกน $j\omega$ = แกว่งค้าง, ขั้วขวามือ = ไม่เสถียร
+</li></ul>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>6 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 3: แบบจำลองทางคณิตศาสตร์</h2><span class="sec">ส่วนที่ 1 พื้นฐาน</span></div>
+<div class="body">
+<div class="cols"><div>
+
+<table class="tbl"><tr><td>ระบบ</td><td>ตัวเก็บพลังงาน</td><td>ตัวสูญเสีย</td></tr><tr><td>ไฟฟ้า</td><td>$L$, $C$</td><td>$R$</td></tr><tr><td>กลเชิงเส้น</td><td>$m$, $k$</td><td>$b$</td></tr><tr><td>ความร้อน</td><td>$C_{th}$</td><td>$R_{th}$</td></tr><tr><td>ของไหล</td><td>$C_h$ (ถัง)</td><td>$R_h$ (วาล์ว)</td></tr></table>
+
+<ul><li>TF: $G(s)=Y(s)/U(s)$ เมื่อเงื่อนไขเริ่มต้นเป็นศูนย์
+</li><li>state space: $\dot x=Ax+Bu,\ y=Cx+Du$, $\;G(s)=C(sI-A)^{-1}B+D$
+</li><li>DC motor (ความเร็ว): $\dfrac{\Omega}{V}=\dfrac{K}{(Js+b)(Ls+R)+K^2}$
+</li></ul>
+</div><div>
+<div class="box key"><h4>กรณีศึกษาที่ใช้ทั้งวิชา</h4>
+
+<ul><li>mass–spring–damper (LAB 1)
+</li><li>RC: $1/(\tau s+1)$, $\tau=RC$ (บทที่ 13)
+</li><li>TCLab: $1.2e^{-30s}/(150s+1)$ (บทที่ 12)
+</li><li>DC motor (LAB 2)
+</li></ul>
+</div>
+<div class="box warn"><h4>พลาดบ่อย</h4>
+ ลืมหน่วย, ลืม dead time, ใช้ค่าอุปกรณ์ nominal โดยไม่ identify (บทที่ 13: TCLab ผิด 3.4 °C)
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>7 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 4: การลดรูปแบบจำลอง 4 วิธี</h2><span class="sec">ส่วนที่ 1 พื้นฐาน</span></div>
+<div class="body">
+
+<table class="tbl"><tr><td>วิธี</td><td>หลักการ</td><td>เหมาะกับ</td></tr><tr><td><b>(1) Algebraic</b></td><td>เขียนสมการของทุกสัญญาณแล้วกำจัดตัวแปรกลาง</td><td>ระบบเล็ก, ตรวจคำตอบ</td></tr><tr><td><b>(2) Block Diagram Reduction</b></td><td>อนุกรม $G_1G_2$, ขนาน $G_1\pm G_2$, ป้อนกลับ $\dfrac{G}{1\pm GH}$, ย้ายจุดแยก/จุดรวม</td><td>แผนภาพที่ลูปซ้อนกันไม่มาก</td></tr><tr><td><b>(3) Signal Flow Graph + Mason</b></td><td>$T=\dfrac{1}{\Delta}\sum_k P_k\Delta_k$, $\;\Delta=1-\sum L_i+\sum L_iL_j-\cdots$ (ลูปไม่แตะกัน)</td><td>หลายลูปพันกัน</td></tr><tr><td><b>(4) State-Space Method</b></td><td>เขียน $\dot x=Ax+Bu$ จากแผนภาพ แล้ว $T=C(sI-A)^{-1}B+D$</td><td>ระบบใหญ่, ใช้ MATLAB</td></tr></table>
+
+<div class="box key"><h4>ตรวจข้ามวิธี</h4>
+ ทั้ง 4 วิธีต้องให้ $T(s)$ เดียวกัน — ใช้วิธีหนึ่งคำนวณ อีกวิธีตรวจ (เช่น Mason กับ <code>feedback</code>/<code>ss</code> ใน MATLAB)
+</div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>8 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 5: การวิเคราะห์ในโดเมนเวลา</h2><span class="sec">ส่วนที่ 2 วิเคราะห์</span></div>
+<div class="body">
+<div class="cols"><div>
+<b>อันดับ 1</b>: $G=\dfrac{K}{\tau s+1}$
+$$
+t_r\approx2.2\tau,\quad t_s(2\%)\approx4\tau,\quad M_p=0
+$$
+<b>อันดับ 2</b>: $G=\dfrac{\omega_n^2}{s^2+2\zeta\omega_ns+\omega_n^2}$
+$$
+M_p=e^{-\pi\zeta/\sqrt{1-\zeta^2}},\qquad t_p=\frac{\pi}{\omega_n\sqrt{1-\zeta^2}}
+$$
+$$
+t_s(2\%)\approx\frac{4}{\zeta\omega_n},\qquad t_r\approx\frac{1.8}{\omega_n}
+$$
+</div><div>
+<ul><li>ขั้วที่ $s=-\zeta\omega_n\pm j\omega_n\sqrt{1-\zeta^2}$: ส่วนจริงกำหนด $t_s$, มุมกำหนด $\zeta$ ($\cos\theta=\zeta$)
+</li><li><b>dominant poles</b>: ขั้วอื่นอยู่ไกลกว่า 5 เท่าจึงประมาณเป็นอันดับ 2 ได้
+</li><li>zero ซ้ายมือเพิ่ม overshoot, zero ขวามือทำให้ undershoot
+</li></ul>
+<div class="box ex"><h4>LAB 1</h4>
+ $1/(s^2+0.5s+0.8)$: $\omega_n=0.894$, $\zeta=0.280$ → $M_p=40\%$, $t_s\approx16$ s
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>9 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 6: ความผิดพลาดสถานะคงตัว และเสถียรภาพ</h2><span class="sec">ส่วนที่ 2 วิเคราะห์</span></div>
+<div class="body">
+<div class="cols"><div>
+
+<table class="tbl"><tr><td>Type</td><td>step</td><td>ramp</td><td>parabola</td></tr><tr><td>0</td><td>$\dfrac{1}{1+K_p}$</td><td>$\infty$</td><td>$\infty$</td></tr><tr><td>1</td><td>0</td><td>$\dfrac{1}{K_v}$</td><td>$\infty$</td></tr><tr><td>2</td><td>0</td><td>0</td><td>$\dfrac{1}{K_a}$</td></tr></table>
+
+
+ $K_p=\lim_{s\to0}G$, $\;K_v=\lim_{s\to0}sG$, $\;K_a=\lim_{s\to0}s^2G$ (unity feedback)
+</div><div>
+<b>Routh–Hurwitz</b>
+<ul><li>เสถียร ⇔ คอลัมน์แรกเครื่องหมายเดียวกันหมด
+</li><li>จำนวนครั้งที่เปลี่ยนเครื่องหมาย = จำนวนขั้วขวามือ
+</li><li>แถวศูนย์ทั้งแถว → auxiliary polynomial (ขั้วสมมาตร เช่นบนแกน $j\omega$)
+</li><li>ใช้หา $K$ วิกฤต และความถี่ที่ตัดแกน $j\omega$
+</li></ul>
+<div class="box ex"><h4>LAB 2</h4>
+ $s^3+6s^2+5s+K$: เสถียรเมื่อ $0&lt;K&lt;30$, ที่ $K=30$ ได้ $\omega=\sqrt5$
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>10 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 7: Root Locus</h2><span class="sec">ส่วนที่ 2 วิเคราะห์</span></div>
+<div class="body">
+<div class="cols"><div>
+ $1+KG(s)H(s)=0$
+<ul><li>เงื่อนไขมุม: $\angle GH=(2k+1)180°$
+</li><li>เงื่อนไขขนาด: $K=1/|GH|$ ที่จุดบน locus
+</li><li>เริ่มที่ขั้ว ($K=0$) จบที่ศูนย์หรือ $\infty$
+</li><li>แกนจริง: อยู่ทางซ้ายของจำนวนขั้ว+ศูนย์ที่เป็นเลขคี่
+</li></ul>
+</div><div>
+
+<ul><li>asymptote: $\theta=\dfrac{(2k+1)180°}{n-m}$, $\;\sigma_a=\dfrac{\sum p-\sum z}{n-m}$
+</li><li>breakaway: $dK/ds=0$
+</li><li>ตัดแกน $j\omega$: จาก Routh
+</li><li>มุมออกจากขั้วเชิงซ้อน / มุมเข้าศูนย์เชิงซ้อน
+</li></ul>
+<div class="box key"><h4>ใช้ตอบคำถาม</h4>
+ “ถ้าเพิ่ม gain แล้วขั้วจะไปทางไหน” — เห็นทั้ง $\zeta$, $\omega_n$ และ $K$ วิกฤตในภาพเดียว
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>11 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 8: ตัวควบคุม ตัวชดเชย และตัวกรองสัญญาณ</h2><span class="sec">ส่วนที่ 2 วิเคราะห์</span></div>
+<div class="body">
+
+<table class="tbl"><tr><td>ชนิด</td><td>รูปแบบ</td><td>ใช้เมื่อ</td></tr><tr><td>P</td><td>$K_p$</td><td>เร่งผลตอบสนอง แต่ type 0 ยังมี $e_{ss}$</td></tr><tr><td>PI</td><td>$K_p(1+\frac{1}{T_is})$</td><td>กำจัด $e_{ss}$ ของ step (เพิ่ม type), แลกกับ phase lag</td></tr><tr><td>PD / PID</td><td>$K_p(1+\frac{1}{T_is}+T_ds)$</td><td>เพิ่ม damping/PM; ต้องมี filter บนพจน์ D</td></tr><tr><td>Lead</td><td>$K\frac{s+z}{s+p}$, $z&lt;p$</td><td>ปรับ transient, เพิ่ม PM</td></tr><tr><td>Lag</td><td>$K\frac{s+z}{s+p}$, $z&gt;p$ ใกล้ 0</td><td>เพิ่ม gain ที่ความถี่ต่ำเพื่อลด $e_{ss}$</td></tr><tr><td>Lead–lag</td><td>ผลคูณของทั้งสอง</td><td>ต้องการทั้ง transient และ $e_{ss}$</td></tr><tr><td>LPF / HPF / Notch</td><td>—</td><td>ตัด noise / ตัด offset / ตัด resonance</td></tr></table>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>12 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 9: การออกแบบด้วย Root Locus</h2><span class="sec">ส่วนที่ 3 ออกแบบ</span></div>
+<div class="body">
+<ol><li>จาก requirement → $\zeta$, $\omega_n$ → ขั้วที่ต้องการ $s_d=-\zeta\omega_n\pm j\omega_n\sqrt{1-\zeta^2}$
+</li><li>ถ้า $s_d$ ไม่อยู่บน locus: หา <b>angle deficiency</b> $\phi=(2k+1)180°-\angle G(s_d)$ แล้ววาง lead zero/pole ให้ได้มุม $\phi$
+</li><li>หา $K$ จากเงื่อนไขขนาดที่ $s_d$
+</li><li>ถ้า $e_{ss}$ ยังไม่พอ: เพิ่ม lag โดย $z/p=K_{v,new}/K_{v,old}$ วางใกล้จุดกำเนิด (ราว 1/10 ของส่วนจริงของ $s_d$) เพื่อไม่ให้ locus เดิมขยับ
+</li><li>ตรวจ: ขั้วที่เหลือยัง dominant หรือไม่, zero ที่เพิ่มเข้าไปทำให้ overshoot เพิ่มเท่าใด → จำลองเสมอ
+</li></ol>
+<div class="box key"><h4>แนวคิดหลัก</h4>
+ lead = “ดัด locus” ให้ผ่านจุดที่ต้องการ, lag = “เพิ่ม gain ความถี่ต่ำ” โดยไม่ดัด locus
+</div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>13 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 10: การวิเคราะห์ผลตอบสนองความถี่</h2><span class="sec">ส่วนที่ 3 ออกแบบ</span></div>
+<div class="body">
+<div class="cols"><div>
+<ul><li>Bode: ขั้วแต่ละตัว $-20$ dB/dec, $-90°$; dead time ลด phase $\omega\theta$ โดยขนาดไม่เปลี่ยน
+</li><li><b>Nyquist</b>: $Z=N+P$ ($N$ = จำนวนรอบที่ล้อม $-1$ ตามเข็ม, $P$ = ขั้ววงเปิดขวามือ) เสถียรเมื่อ $Z=0$
+</li><li>GM ที่ $\omega_{pc}$ (phase $=-180°$), PM ที่ $\omega_{gc}$ ($|L|=1$)
+</li><li>delay margin $=\text{PM}/\omega_{gc}$
+</li></ul>
+</div><div>
+<div class="box thm"><h4>ความสัมพันธ์ประมาณ</h4>
+ $\zeta\approx\text{PM}/100$ (PM < 60°)<br>
+$\omega_B\approx\omega_{gc}$ ถึง $2\omega_{gc}$ ($\omega_B$ = bandwidth วงปิด)
+</div>
+<div class="box ex"><h4>LAB 2: $10/(s(s+1)(s+5))$</h4>
+ GM = 3 (9.54 dB) ที่ $\omega_{pc}=\sqrt5$; PM = 25.4° ที่ $\omega_{gc}=1.23$ rad/s → overshoot มาก ต้องชดเชย
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>14 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 11: การออกแบบด้วยผลตอบสนองความถี่</h2><span class="sec">ส่วนที่ 3 ออกแบบ</span></div>
+<div class="body">
+<div class="cols"><div>
+<b>Lead</b> $C=K_c\dfrac{Ts+1}{\alpha Ts+1}$, $0&lt;\alpha&lt;1$
+$$
+\sin\phi_m=\frac{1-\alpha}{1+\alpha},\qquad \omega_m=\frac{1}{T\sqrt\alpha}
+$$
+ที่ $\omega_m$ ขนาดเพิ่ม $10\log_{10}(1/\alpha)$ dB
+<ol><li>เลือก $K_c$ จาก $e_{ss}$
+</li><li>$\phi_m=$ PM ที่ต้องการ $-$ PM เดิม $+$ 5–12°
+</li><li>วาง $\omega_m$ ที่ $\omega_{gc}$ ใหม่
+</li></ol>
+</div><div>
+<b>Lag</b> $C=\dfrac{Ts+1}{\beta Ts+1}$, $\beta&gt;1$
+<ul><li>ลด gain ความถี่สูง $20\log_{10}\beta$ dB → $\omega_{gc}$ เลื่อนไปที่ที่ phase เดิมพอ
+</li><li>วาง $1/T\approx\omega_{gc}/10$ เพื่อให้ phase lag ที่ $\omega_{gc}$ เล็ก
+</li></ul>
+<div class="box key"><h4>เลือกอย่างไร</h4>
+ lead: ต้องการเร็วขึ้นและ PM มากขึ้น · lag: ต้องการ $e_{ss}$ ดีขึ้นยอมช้าลง · lead–lag: ทั้งสองอย่าง
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>15 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 12: การเพิ่มสมรรถนะการควบคุมแบบพีไอดี</h2><span class="sec">ส่วนที่ 3 ออกแบบ</span></div>
+<div class="body">
+<div class="cols"><div>
+<ul><li>derivative filter $T_d/N$, PI-D / I-PD ตัด derivative kick
+</li><li>anti-windup: clamping, back-calculation $T_t=T_i/2$
+</li><li>2-DOF: $b$, $c$ ไม่เปลี่ยน $M_s$ (ทฤษฎีบท 12.3)
+</li><li>$IE_d=-d_0/K_i$, $\;IE_r=\dfrac{1}{K_iK}+T_i(1-b)$
+</li><li>$M_s\approx1.6$ → GM $\ge2.67$, PM $\ge36.4°$
+</li><li>ออกแบบสองขั้น: C เพื่อ disturbance และ $M_s$ → $b$, $c$ เพื่อ setpoint
+</li></ul>
+</div><div>
+<div class="box ex"><h4>TCLab, SIMC PI ($\lambda=\theta$)</h4>
+ $K_p=2.0833$, $T_i=150$ s, $M_s=1.59$, GM 9.94 dB, PM 61.35°
+</div>
+<div class="box note"><h4>เครื่องมือ</h4>
+ PIDTunerApp2 v2.1 · วิดีโอสรุปบท 4 นาที · <a href="https://arjanjin.github.io/ch12/"><code>arjanjin.github.io/ch12</code></a>
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>16 / 32</span></div></section><section class="slide"><div class="hdr"><h2>บทที่ 13: ออกแบบโดยอ้างอิงโมเดลและทวนสอบแบบ V-Model</h2><span class="sec">ส่วนที่ 4 นำไปใช้</span></div>
+<div class="body">
+<div class="cols"><div>
+<img class="fig" src="assets/fig03.svg" alt="VModelDiagram" style="width:100%">
+</div><div>
+<ul><li>UUT ตัวเดียวกันใน MIL → SIL → PIL → HIL
+</li><li>SIL ต่างจาก MIL $\approx0.63\,T_s/\tau$; PM หาย $\omega_cT_s/2$
+</li><li>PIL ต่างจาก SIL $\le\lfloor(K_pq_y+q_u)/q_u\rfloor$ LSB
+</li><li>HIL เปิดเผย tolerance ($C$ −20% → ไม่ผ่าน $t_s$)
+</li><li>เกณฑ์ back-to-back ต้อง<b>คำนวณจากระบบ</b>
+</li></ul>
+<div class="box note">
+ ชุดแล็บ <code>RC_VModel_R4</code> (P-code + firmware .bin) · <a href="https://arjanjin.github.io/ch13/"><code>arjanjin.github.io/ch13</code></a>
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>17 / 32</span></div></section><section class="slide"><div class="hdr"><h2>สูตรรวม (1/2): โดเมนเวลา และ Root Locus</h2><span class="sec">สูตรรวม</span></div>
+<div class="body">
+
+<table class="tbl"><tr><td>ผลตอบสนองอันดับ 2</td><td>$M_p=e^{-\pi\zeta/\sqrt{1-\zeta^2}}$, $t_p=\pi/\omega_d$, $t_s\approx4/(\zeta\omega_n)$, $\omega_d=\omega_n\sqrt{1-\zeta^2}$</td></tr><tr><td>จาก $M_p$ ไป $\zeta$</td><td>$\zeta=\dfrac{-\ln M_p}{\sqrt{\pi^2+\ln^2M_p}}$ &emsp; ($M_p$=5% → $\zeta$=0.69, 10% → 0.59)</td></tr><tr><td>ความผิดพลาดสถานะคงตัว</td><td>$e_{ss}=\lim_{s\to0}\dfrac{sR(s)}{1+G(s)}$; $K_p$, $K_v$, $K_a$</td></tr><tr><td>ทฤษฎีบทค่าสุดท้าย</td><td>$y(\infty)=\lim_{s\to0}sY(s)$ (ระบบต้องเสถียร)</td></tr><tr><td>Mason</td><td>$T=\frac{1}{\Delta}\sum P_k\Delta_k$</td></tr><tr><td>Root locus</td><td>มุม $(2k+1)180°$, ขนาด $K=1/|GH|$, $\sigma_a=\frac{\sum p-\sum z}{n-m}$, $\theta_a=\frac{(2k+1)180°}{n-m}$</td></tr><tr><td>ขั้วที่ต้องการ</td><td>$s_d=-\zeta\omega_n\pm j\omega_d$; angle deficiency $\phi=(2k+1)180°-\angle G(s_d)$</td></tr></table>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>18 / 32</span></div></section><section class="slide"><div class="hdr"><h2>สูตรรวม (2/2): ความถี่ ความทนทาน และดิจิทัล</h2><span class="sec">สูตรรวม</span></div>
+<div class="body">
+
+<table class="tbl"><tr><td>Nyquist</td><td>$Z=N+P$, เสถียรเมื่อ $Z=0$</td></tr><tr><td>Margin</td><td>GM $=1/|L(j\omega_{pc})|$, PM $=180°+\angle L(j\omega_{gc})$, delay margin $=$ PM$/\omega_{gc}$</td></tr><tr><td>Lead</td><td>$\sin\phi_m=\frac{1-\alpha}{1+\alpha}$, $\omega_m=\frac{1}{T\sqrt\alpha}$</td></tr><tr><td>Sensitivity</td><td>$S=\frac{1}{1+L}$, $T=\frac{L}{1+L}$, $M_s=\max|S|$; GM $\ge\frac{M_s}{M_s-1}$, PM $\ge2\sin^{-1}\frac{1}{2M_s}$</td></tr><tr><td>SIMC (FOPDT)</td><td>$K_c=\dfrac{\tau}{K(\lambda+\theta)}$, $T_i=\min\{\tau,4(\lambda+\theta)\}$</td></tr><tr><td>2-DOF PI</td><td>$IE_d=-d_0/K_i$, $IE_r=\frac{1}{K_iK}+T_i(1-b)$</td></tr><tr><td>ZOH</td><td>$y(k+1)=e^{-T_s/\tau}y(k)+(1-e^{-T_s/\tau})u(k)$; PM หาย $\approx\omega_{gc}T_s/2$</td></tr><tr><td>Back-to-back PIL</td><td>$|\Delta u|\le K_pq_y+q_u$</td></tr></table>
+
+<div class="box key"><h4>ข้อสังเกตที่น่าจำ</h4>
+ SIMC ด้วย $\lambda=\theta$ ให้วงเปิดรูปเดียวกันทุก FOPDT ที่ $\tau\le8\theta$: $M_s=1.59$, PM $=61.35°$, GM $=9.94$ dB (TCLab ของบทที่ 12 และ FOPDT ของ CS_LAB ได้ค่าเดียวกัน)
+</div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>19 / 32</span></div></section><section class="slide"><div class="hdr"><h2>กรณีศึกษาเดียว ผ่านทั้งวิชา: TCLab $G=1.2e^{-30s}/(150s+1)$</h2><span class="sec">สูตรรวม</span></div>
+<div class="body">
+
+<table class="tbl"><tr><td>บท</td><td>คำถาม</td><td>คำตอบ</td></tr><tr><td>3</td><td>แบบจำลอง</td><td>energy balance → FOPDT $K$=1.2, $\tau$=150 s, $\theta$=30 s</td></tr><tr><td>5</td><td>ผลตอบสนองวงเปิด</td><td>$t_s\approx30+4(150)=630$ s</td></tr><tr><td>6</td><td>$e_{ss}$ วงปิดด้วย P</td><td>type 0: $1/(1+1.2K_p)$ → ต้องมี I</td></tr><tr><td>10</td><td>margin ของ SIMC PI</td><td>PM 61.35° ที่ $\omega_{gc}=0.0167$ rad/s, GM 9.94 dB</td></tr><tr><td>12</td><td>robustness, 2-DOF</td><td>$M_s=1.59$; $b=1$: $M_p$ 4.11%, $IE_r$=60; $b=0$: $IE_r$=210</td></tr><tr><td>12</td><td>anti-windup</td><td>$0\le u\le1$: back-calculation → $M_p=0$, $t_s=501.4$ s</td></tr><tr><td>13</td><td>บนบอร์ดจริง</td><td>identify ใหม่ $K$=0.44, $\tau$=111.5 s, $\theta$=20.4 s; PIL = SIL; HIL RMS 0.24 °C</td></tr></table>
+
+<div class="box note">
+ ปัญหาเดียวกันตอบได้หลายเครื่องมือ — ผลที่ได้จากต่างเครื่องมือ<b>ต้องสอดคล้องกัน</b> นี่คือการตรวจคำตอบที่ดีที่สุด
+</div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>20 / 32</span></div></section><section class="slide"><div class="hdr"><h2>ปฏิบัติการระบบควบคุม (CS_LAB): จากแบบจำลองสู่การทดลองจริง</h2><span class="sec">CS_LAB</span></div>
+<div class="body">
+<div class="cols"><div>
+<img class="fig" src="assets/cs_lab_poster.jpg" alt="" style="width:100%">
+</div><div>
+ 3 ปฏิบัติการ เดินตาม 4 ขั้นเดียวกับรายวิชา:<br>
+<table class="tbl"><tr><td>ขั้น</td><td>ทำอะไร</td></tr><tr><td>สร้างแบบจำลอง</td><td>MATLAB / Simulink / Simscape</td></tr><tr><td>วิเคราะห์</td><td>step, Bode, Nyquist, margin</td></tr><tr><td>ออกแบบ</td><td>P/PI/PID, lead/lag/lead–lag</td></tr><tr><td>นำไปใช้</td><td>App Designer + Arduino + ของจริง</td></tr></table>
+
+<div class="box key">
+ ปิดท้ายด้วย <b>system identification</b>: สร้างแบบจำลองจากข้อมูลจริง แล้ววนกลับไปออกแบบใหม่
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>21 / 32</span></div></section><section class="slide"><div class="hdr"><h2>LAB 1 — Time Domain: แบบจำลอง สัญญาณทดสอบ และเกณฑ์</h2><span class="sec">CS_LAB</span></div>
+<div class="body">
+<div class="cols"><div>
+<img class="fig" src="assets/fig04.svg" alt="FigLabOne" style="width:100%">
+</div><div>
+ mass–spring–damper $G(s)=\dfrac{1}{s^2+0.5s+0.8}$ (MATLAB/Simulink)
+<ul><li>$\omega_n=0.894$ rad/s, $\zeta=0.280$
+</li><li>$M_p=40.1\%$, $t_p=3.66$ s, $t_s\approx16$ s
+</li><li>DC gain $1/0.8=1.25$ → วงเปิดไม่ติดตาม setpoint
+</li><li>เกณฑ์ที่วัด: rise time, settling time, overshoot, steady-state error
+</li><li>ปรับด้วย <b>P / PI / PID</b> แล้วตรวจด้วย LTI Viewer / SISO Tool
+</li></ul>
+ เชื่อมบทที่ 3, 5, 6, 8
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>22 / 32</span></div></section><section class="slide"><div class="hdr"><h2>LAB 2 — Frequency Domain: Simscape และการชดเชย</h2><span class="sec">CS_LAB</span></div>
+<div class="body">
+<div class="cols"><div>
+<img class="fig" src="assets/fig05.svg" alt="FigLabTwo" style="width:100%">
+</div><div>
+ แบบจำลองกายภาพใน <b>Simscape</b>: วงจรไฟฟ้า, ระบบกล, มอเตอร์กระแสตรง<br>
+ตัวอย่าง $G(s)=\dfrac{10}{s(s+1)(s+5)}$
+<ul><li>GM = 3 (9.54 dB) ที่ $\omega_{pc}=\sqrt5=2.24$ rad/s
+</li><li>PM = 25.4° ที่ $\omega_{gc}=1.23$ rad/s
+</li><li>type 1: $K_v=2$ → $e_{ss}$ ramp $=0.5$
+</li><li>ออกแบบ <b>lead / lag / lead–lag</b> แล้วตรวจทั้ง step response และสัญญาณควบคุม
+</li></ul>
+ เชื่อมบทที่ 6, 8, 10, 11
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>23 / 32</span></div></section><section class="slide"><div class="hdr"><h2>LAB 3 — App Designer และอุปกรณ์จริง</h2><span class="sec">CS_LAB</span></div>
+<div class="body">
+<div class="cols"><div>
+<img class="fig" src="assets/fig06.svg" alt="FigLabThree" style="width:92%"><br>
+<img class="fig" src="assets/cslab_140.jpg" alt="" style="width:92%">
+</div><div>
+<ul><li>สร้าง control panel ด้วย <b>App Designer</b> (setpoint, กราฟ, บันทึกข้อมูล)
+</li><li>เชื่อม <b>Arduino</b> ผ่าน Serial
+</li><li>plant: RC, <b>TCLab</b> (2 heaters / 2 sensors), <b>VTOL</b> (แขนหมุนรอบจุดหมุน)
+</li><li>ของจริงมี: noise, ความหน่วง, การอิ่มตัว, ความละเอียดของ converter
+</li></ul>
+<div class="box note">
+ เป็นขั้น PIL/HIL ของบทที่ 13 — ใช้ชุด <code>RC_VModel_R4</code> ต่อยอดได้ทันที
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>24 / 32</span></div></section><section class="slide"><div class="hdr"><h2>System Identification: สร้างแบบจำลองจากข้อมูล</h2><span class="sec">CS_LAB</span></div>
+<div class="body">
+<div class="cols"><div>
+<img class="fig" src="assets/fig07.svg" alt="FigFOPDT" style="width:100%">
+</div><div>
+
+<ul><li>ข้อมูล 2 แบบ: <b>step data</b> (โดเมนเวลา) และ <b>frequency response</b> (โดเมนความถี่)
+</li><li>สัญญาณกระตุ้น: step หรือ <b>PRBS</b> (กระตุ้นหลายความถี่)
+</li><li>fit <b>FOPDT</b> $\dfrac{Ke^{-\theta s}}{\tau s+1}$: $K=\Delta y/\Delta u$, $\theta$ จากจุดเริ่มตอบสนอง, $\tau$ จากจุด 63.2%
+</li><li>ตัวอย่าง: $K=0.8$, $\tau=160$ s, $\theta=20$ s → $\Delta y=0.8\times50=40$
+</li><li>ตรวจความสอดคล้อง: <code>compare</code> (เวลา) และ <code>bode</code> (ความถี่)
+</li></ul>
+<div class="box ex"><h4>ต่อไปทำอะไร</h4>
+ SIMC ($\lambda=\theta$): $K_c=160/(0.8\times40)=5.0$, $T_i=160$ s → $M_s=1.59$, PM 61.35°
+</div>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>25 / 32</span></div></section><section class="slide"><div class="hdr"><h2>LAB ↔ บทเรียน: ทักษะที่ได้จาก CS_LAB</h2><span class="sec">CS_LAB</span></div>
+<div class="body">
+
+<table class="tbl"><tr><td></td><td>LAB 1 Time Domain</td><td>LAB 2 Frequency Domain</td><td>LAB 3 App &amp; Hardware</td></tr><tr><td>เครื่องมือ</td><td>MATLAB, Simulink</td><td>Simscape, Bode, Nyquist</td><td>App Designer, Arduino</td></tr><tr><td>แบบจำลอง</td><td>mass–spring–damper</td><td>ไฟฟ้า, กล, DC motor</td><td>RC, TCLab, VTOL</td></tr><tr><td>วิเคราะห์</td><td>$t_r$, $t_s$, $M_p$, $e_{ss}$</td><td>GM, PM, bandwidth</td><td>ข้อมูลจริง, noise</td></tr><tr><td>ออกแบบ</td><td>P / PI / PID</td><td>lead / lag / lead–lag</td><td>PID บนบอร์ด</td></tr><tr><td>บทที่</td><td>3, 5, 6, 8</td><td>6, 8, 10, 11</td><td>12, 13</td></tr></table>
+
+<div class="box key"><h4>ข้อสรุปของ CS_LAB</h4>
+ “การออกแบบที่ตรวจสอบได้ด้วยผลการทดลอง” — เข้าใจระบบ → เลือกแบบจำลอง → ออกแบบตัวควบคุม → ทดลองจริง → ตรวจสอบหลักฐาน
+</div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>26 / 32</span></div></section><section class="slide"><div class="hdr"><h2>สรุป CS_LAB แบบวิดีโอ (4 นาที)</h2><span class="sec">CS_LAB</span></div>
+<div class="body">
+<video controls preload="metadata" poster="assets/cs_lab_poster.jpg" style="display:block;margin:0 auto;width:100%;max-height:520px;border-radius:6px;background:#000"><source src="assets/cs_lab_summary.mp4" type="video/mp4"></video><p class="center" style="margin-top:6px;font-size:.8em">Control Systems Laboratory: LAB 1 · LAB 2 · LAB 3 · System Identification · 3:55 · คำบรรยายภาษาไทยในภาพ · <a href="assets/cs_lab_summary.mp4" download>ดาวน์โหลด MP4</a></p>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>27 / 32</span></div></section><section class="slide"><div class="hdr"><h2>จากรายวิชาสู่ Mini Project (MBD V-Model, 20 คะแนน)</h2><span class="sec">Mini Project</span></div>
+<div class="body">
+<div class="cols"><div>
+
+<table class="tbl"><tr><td>ขั้น</td><td>หลักฐานที่ต้องส่ง</td></tr><tr><td>Requirement</td><td>REQ ที่วัดได้ + traceability</td></tr><tr><td>แบบจำลอง</td><td>identify จากข้อมูลจริง</td></tr><tr><td>MIL</td><td>ผลเทียบทฤษฎี</td></tr><tr><td>SIL</td><td>ผลต่างเทียบ MIL + เหตุผล</td></tr><tr><td>PIL</td><td>numerical equivalence, exec time</td></tr><tr><td>HIL</td><td>ผลบน plant จริง เทียบ MIL</td></tr><tr><td>Standalone</td><td>ทำงานโดยไม่มี PC</td></tr></table>
+</div><div>
+<div class="box key"><h4>เกณฑ์ที่ใช้ทุกบท</h4>
+
+<ul><li>ใช้แบบจำลองที่<b>ระบุจากบอร์ดของกลุ่มเอง</b>
+</li><li>ตรวจ $M_s$, GM, PM ก่อนลงบอร์ด (บทที่ 10–12)
+</li><li>มี anti-windup และ test case ที่อิ่มตัว
+</li><li>อธิบายผลต่างระหว่างทุกขั้นได้ (บทที่ 13)
+</li></ul>
+</div>
+ ส่งงานผ่าน Google Form (บัญชี KMITL) หรือสาธิตบนเครื่องของกลุ่มในห้องเรียน
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>28 / 32</span></div></section><section class="slide"><div class="hdr"><h2>Checklist ก่อนสอบปลายภาค</h2><span class="sec">Mini Project</span></div>
+<div class="body">
+<div class="cols"><div>
+
+<ul class="labs"><li class="lab"><b class="hl">$\square$</b>  แปลงแผนภาพเป็น $T(s)$ ได้ครบ 4 วิธี
+</li><li class="lab"><b class="hl">$\square$</b>  อ่าน $\zeta$, $\omega_n$, $M_p$, $t_s$ จากขั้ว
+</li><li class="lab"><b class="hl">$\square$</b>  ตาราง $e_{ss}$ ตาม type และ Routh
+</li><li class="lab"><b class="hl">$\square$</b>  วาด root locus ตามกฎ และหา $K$ วิกฤต
+</li><li class="lab"><b class="hl">$\square$</b>  ออกแบบ lead/lag ด้วย RL
+</li></ul>
+</div><div>
+
+<ul class="labs"><li class="lab"><b class="hl">$\square$</b>  วาด Bode, นับ Nyquist, หา GM/PM
+</li><li class="lab"><b class="hl">$\square$</b>  ออกแบบ lead/lag ในโดเมนความถี่
+</li><li class="lab"><b class="hl">$\square$</b>  SIMC, 2-DOF, anti-windup, $M_s$
+</li><li class="lab"><b class="hl">$\square$</b>  อธิบาย MIL/SIL/PIL/HIL และเกณฑ์ back-to-back
+</li><li class="lab"><b class="hl">$\square$</b>  identify FOPDT จาก step data
+</li></ul>
+</div></div>
+
+<div class="box note">
+ สอบปลายภาค: วันพุธที่ 4 พ.ย. 2026 เวลา 13:30–16:30 น.
+</div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>29 / 32</span></div></section><section class="slide"><div class="hdr"><h2>โจทย์ทบทวนรวม (ใช้ plant ของ LAB 2: $G=10/(s(s+1)(s+5))$)</h2><span class="sec">ทบทวน</span></div>
+<div class="body">
+
+<ol class="labs"><li class="lab"><b class="hl"><b>R1</b></b>  หา $e_{ss}$ ของ step และ ramp ในวงปิด unity feedback
+</li><li class="lab"><b class="hl"><b>R2</b></b>  ด้วย Routh หา gain สูงสุด $K_{max}$ (เมื่อ $G=K/(s(s+1)(s+5))$) และความถี่ที่แกว่ง
+</li><li class="lab"><b class="hl"><b>R3</b></b>  จาก R2 หา GM ของ $K=10$ ทั้งเป็นเท่าและ dB แล้วตรวจกับ Bode
+</li><li class="lab"><b class="hl"><b>R4</b></b>  PM ของ $K=10$ คือ 25.4° — ประมาณ $\zeta$ และ $M_p$ ของวงปิด
+</li><li class="lab"><b class="hl"><b>R5</b></b>  ต้องการ PM = 50° โดยคง $K_v=2$: lead ต้องให้ $\phi_m$ ประมาณเท่าใด และได้ $\alpha$ เท่าใด
+</li><li class="lab"><b class="hl"><b>R6</b></b>  FOPDT ของ CS_LAB ($K$=0.8, $\tau$=160, $\theta$=20): หา SIMC PI ที่ $\lambda=\theta$ และอธิบายว่าทำไม $M_s$ เท่ากับของ TCLab บทที่ 12
+</li></ol>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>30 / 32</span></div></section><section class="slide"><div class="hdr"><h2>เฉลยโจทย์ทบทวน</h2><span class="sec">ทบทวน</span></div>
+<div class="body">
+
+<table class="tbl"><tr><td>R1</td><td>type 1: step $e_{ss}=0$; $K_v=\lim sG=10/5=2$ → ramp $e_{ss}=0.5$</td></tr><tr><td>R2</td><td>$s^3+6s^2+5s+K$: แถว $s^1$: $(30-K)/6&gt;0$ → $K_{max}=30$; auxiliary $6s^2+30=0$ → $\omega=\sqrt5=2.24$ rad/s</td></tr><tr><td>R3</td><td>GM $=30/10=3$ = 9.54 dB ที่ $\omega_{pc}=2.24$ rad/s (ตรงกับ Bode ของ LAB 2)</td></tr><tr><td>R4</td><td>$\zeta\approx0.25$ → $M_p\approx e^{-\pi(0.25)/\sqrt{1-0.0625}}=44\%$ (ประมาณ; ระบบอันดับ 3)</td></tr><tr><td>R5</td><td>$\phi_m\approx50-25.4+\text{5–12}°\approx30$–37° → $\alpha=\frac{1-\sin\phi_m}{1+\sin\phi_m}\approx0.33$–0.25; $\omega_{gc}$ ใหม่สูงขึ้น ต้องคำนวณ PM ซ้ำ</td></tr><tr><td>R6</td><td>$K_c=\frac{160}{0.8(20+20)}=5$, $T_i=\min(160,160)=160$ s; $T_i=\tau$ หักล้างขั้ว → $L=\frac{e^{-\theta s}}{2\theta s}$ รูปเดียวกับ TCLab → $M_s=1.59$, PM 61.35°, GM 9.94 dB</td></tr></table>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>31 / 32</span></div></section><section class="slide"><div class="hdr"><h2>ปิดรายวิชา</h2><span class="sec">ทบทวน</span></div>
+<div class="body">
+<div class="cols"><div>
+<div class="box key"><h4>สิ่งที่นำติดตัวไป</h4>
+
+<ol><li><b>แบบจำลอง</b>คือสิ่งที่ต้องพิสูจน์ ไม่ใช่สิ่งที่สมมติแล้วจบ
+</li><li>เลือก<b>เครื่องมือ</b>ตามคำถาม (เวลา / RL / ความถี่)
+</li><li>ออกแบบภายใต้<b>ข้อจำกัดจริง</b>: actuator, noise, delay, tolerance
+</li><li><b>ตรวจข้ามวิธี</b>: ผลจากต่างเครื่องมือต้องสอดคล้องกัน
+</li><li>ส่งมอบพร้อม<b>หลักฐาน</b>: requirement ↔ test ↔ ผล
+</li></ol>
+</div>
+</div><div>
+ สื่อประกอบรายวิชา
+<ul><li>บทที่ 11: <a href="https://arjanjin.github.io/ch11/"><code>arjanjin.github.io/ch11</code></a>
+</li><li>บทที่ 12: <a href="https://arjanjin.github.io/ch12/"><code>arjanjin.github.io/ch12</code></a> (PIDTunerApp2, วิดีโอ)
+</li><li>บทที่ 13: <a href="https://arjanjin.github.io/ch13/"><code>arjanjin.github.io/ch13</code></a> (ชุดแล็บ V-Model, วิดีโอ)
+</li><li>บทที่ 14: <a href="https://arjanjin.github.io/ch14/"><code>arjanjin.github.io/ch14</code></a> (วิดีโอ CS_LAB)
+</li></ul>
+
+ เอกสารอ้างอิงหลัก: Ogata, <i>Modern Control Engineering</i>; Franklin–Powell–Emami-Naeini, <i>Feedback Control of Dynamic Systems</i>; Åström–Murray, <i>Feedback Systems</i>; Åström–Hägglund, <i>Advanced PID Control</i>
+</div></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 14 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch14_slides.pdf">PDF</a></span><span>32 / 32</span></div></section></div>
+<div id="nav"><span id="cnt"></span><button onclick="show(cur-1)" aria-label="ก่อนหน้า">◀</button><button onclick="show(cur+1)" aria-label="ถัดไป">▶</button><button onclick="fs()">เต็มจอ</button></div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let cur=0;
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720)*0.98;slides.forEach(e=>e.style.transform=`scale(${s})`);}
+function show(i){cur=Math.max(0,Math.min(slides.length-1,i));slides.forEach((e,k)=>{e.classList.toggle('on',k===cur);if(k!==cur)e.querySelectorAll('video').forEach(v=>v.pause());});
+ document.getElementById('cnt').textContent=`${cur+1} / ${slides.length}`;history.replaceState(null,'','#'+(cur+1));}
+document.addEventListener('keydown',e=>{if(e.target&&e.target.tagName==='VIDEO'&&[' ','ArrowLeft','ArrowRight'].includes(e.key))return;if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){show(cur+1);e.preventDefault()}
+ else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){show(cur-1);e.preventDefault()}else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);
+ else if(e.key==='f')fs();});
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>50)show(cur+(d<0?1:-1));x0=null;});
+function fs(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+function autosize(){slides.forEach(sl=>{const was=sl.classList.contains('on');sl.classList.add('on');
+ const b=sl.querySelector('.body');if(b){let f=24;b.style.fontSize=f+'px';while(b.scrollHeight>b.clientHeight+1&&f>13){f-=0.5;b.style.fontSize=f+'px';}}
+ if(!was)sl.classList.remove('on');});}
+addEventListener('load',()=>{autosize();setTimeout(autosize,400);});
+addEventListener('resize',fit);fit();show((parseInt(location.hash.slice(1))||1)-1);
+addEventListener('hashchange',()=>{const k=(parseInt(location.hash.slice(1))||1)-1;if(k!==cur)show(k);});
+</script>
+<script defer src="lib/katex/katex.min.js"></script>
+<script defer src="lib/katex/contrib/auto-render.min.js"
+ onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,strict:false})"></script>
+<script defer src="lib/hljs/highlight.min.js"></script>
+<script defer src="lib/hljs/matlab.min.js"></script>
+<script defer src="lib/hljs/cpp.min.js" onload="hljs.highlightAll()"></script>
+</body></html>
