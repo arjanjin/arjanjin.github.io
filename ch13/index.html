@@ -65,7 +65,7 @@ pre{margin:6px 0;font-size:.6em;line-height:1.33;background:#f6f7f9;border:1px s
 </li></ul>
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>2 / 55</span></div></section><section class="slide"><div class="hdr"><h2>ผลลัพธ์การเรียนรู้ (LO13.1–13.10)</h2><span class="sec">ภาพรวม</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>2 / 56</span></div></section><section class="slide"><div class="hdr"><h2>ผลลัพธ์การเรียนรู้ (LO13.1–13.10)</h2><span class="sec">ภาพรวม</span></div>
 <div class="body">
 
 <div class="cols"><div>
@@ -87,7 +87,7 @@ pre{margin:6px 0;font-size:.6em;line-height:1.33;background:#f6f7f9;border:1px s
 <div class="box ex"><h4>เชื่อมกับ CLO ของรายวิชา</h4>
  ต่อยอดตัวควบคุมจากบทที่ 12 (PI + anti-windup) ไปสู่ระบบฝังตัวจริงบน Arduino UNO R4 WiFi ด้วยชุดแล็บ <code>RC_VModel_R4</code> และ TCLab — ใช้เป็นฐานของ mini-project MBD V-Model
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>3 / 55</span></div></section><section class="slide"><div class="hdr"><h2>กรณีศึกษาตลอดบท: วงจร RC บน Arduino UNO R4 WiFi</h2><span class="sec">ภาพรวม</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>3 / 56</span></div></section><section class="slide"><div class="hdr"><h2>กรณีศึกษาตลอดบท: วงจร RC บน Arduino UNO R4 WiFi</h2><span class="sec">ภาพรวม</span></div>
 <div class="body">
 <div class="cols"><div>
 <img class="fig" src="assets/fig01.svg" alt="RCWiring" style="width:88%">
@@ -105,7 +105,7 @@ $$
 
  plant ตัวที่ 2: <b>TCLab</b> (heater + TMP36) ใช้ firmware และ UUT <b>ตัวเดียวกัน</b>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>4 / 55</span></div></section><section class="slide"><div class="hdr"><h2>แผนที่ของบท</h2><span class="sec">ภาพรวม</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>4 / 56</span></div></section><section class="slide"><div class="hdr"><h2>แผนที่ของบท</h2><span class="sec">ภาพรวม</span></div>
 <div class="body">
 <img class="fig" src="assets/fig02.svg" alt="FigXiL" style="width:92%">
 
@@ -116,7 +116,7 @@ $$
 </div><div>
 <b>13.8–13.11</b> back-to-back, real time, สถาปัตยกรรม, มาตรฐาน
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>5 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.1.1 Code-first เทียบกับ Model-Based Design</h2><span class="sec">13.1 MBD</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>5 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.1.1 Code-first เทียบกับ Model-Based Design</h2><span class="sec">13.1 MBD</span></div>
 <div class="body">
 <div class="cols"><div>
 <b>Code-first</b> (เขียนโค้ดแล้วลองกับของจริง)
@@ -137,7 +137,7 @@ $$
 <div class="box key"><h4>หลักการ</h4>
  “ทดสอบ<b>สิ่งเดียวกัน</b>ในสภาพแวดล้อมที่สมจริงขึ้นทีละขั้น” — ผลต่างระหว่างขั้นที่ติดกันต้อง<b>อธิบายได้</b>ด้วยปัจจัยที่เปลี่ยนเพียงตัวเดียว
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>6 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.1.2 V-Model ของงานควบคุม</h2><span class="sec">13.1 MBD</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>6 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.1.2 V-Model ของงานควบคุม</h2><span class="sec">13.1 MBD</span></div>
 <div class="body">
 <img class="fig" src="assets/fig03.svg" alt="VModelDiagram" style="width:80%">
 
@@ -146,7 +146,7 @@ $$
 </div><div>
 <b>ฝั่งขวา (ขึ้นบน)</b>: integrate และ<b>ทวนสอบเทียบกับระดับเดียวกันฝั่งซ้าย</b>; เส้นประ = back-to-back test
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>7 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.1.3 Verification กับ Validation</h2><span class="sec">13.1 MBD</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>7 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.1.3 Verification กับ Validation</h2><span class="sec">13.1 MBD</span></div>
 <div class="body">
 <div class="cols"><div>
 <div class="box thm"><h4>Verification — “build the thing right”</h4>
@@ -162,7 +162,7 @@ $$
 
 
 <table class="tbl"><tr><td>ขั้น</td><td>เปลี่ยนจากขั้นก่อน</td><td>สิ่งที่พิสูจน์</td></tr><tr><td><span class="c-mil"><b>MIL</b></span></td><td>— (สมการต่อเนื่อง)</td><td>แนวคิดการออกแบบตรง requirement</td></tr><tr><td><span class="c-sil"><b>SIL</b></span></td><td>ต่อเนื่อง → $T_s$, ZOH, quantize</td><td>ผลของ sampling และ converter</td></tr><tr><td><span class="c-pil"><b>PIL</b></span></td><td>double บน PC → float32 บน MCU</td><td>compiler, FPU, เวลา execute</td></tr><tr><td><span class="c-hil"><b>HIL</b></span></td><td>plant model → plant จริง, real time</td><td>I/O, tolerance, noise, timing จริง</td></tr></table>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>8 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.1.4 Single source of truth: Unit Under Test (UUT)</h2><span class="sec">13.1 MBD</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>8 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.1.4 Single source of truth: Unit Under Test (UUT)</h2><span class="sec">13.1 MBD</span></div>
 <div class="body">
 <div class="cols"><div>
  MATLAB — <code>ch13_pi_step.m</code>
@@ -190,7 +190,7 @@ end</code></pre>
 <div class="box key"><h4>ทำไมต้องเหมือนกันบรรทัดต่อบรรทัด</h4>
  ถ้า UUT ต่างกันแม้เพียงลำดับคำสั่ง (อัปเดต $I$ ก่อนหรือหลังคำนวณ $u$) ผลต่างระหว่างขั้นจะปนกับ “bug” และ back-to-back test จะไม่มีความหมาย ในอุตสาหกรรมใช้ <b>code generation</b> (เช่น Embedded Coder) แทนการเขียนคู่ด้วยมือ
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>9 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.2.1 Requirement ที่ดีต้องทดสอบได้</h2><span class="sec">13.2 Requirement</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>9 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.2.1 Requirement ที่ดีต้องทดสอบได้</h2><span class="sec">13.2 Requirement</span></div>
 <div class="body">
 <div class="cols"><div>
 <span class="bad"><b>ไม่ดี</b></span> (ทดสอบไม่ได้)
@@ -211,7 +211,7 @@ end</code></pre>
 <div class="box ex"><h4>ลักษณะของ requirement ที่ดี</h4>
  <b>เจาะจง</b> (มีปริมาณและหน่วย) · <b>วัดได้</b> (บอกวิธีวัดและสัญญาณ) · <b>ทำได้จริง</b> (ไม่ขัดกับฟิสิกส์ เช่น $|u|\le5$ V) · <b>มีเหตุผล</b> (โยงกับผู้ใช้) · <b>มีรหัสอ้างอิง</b> (REQ-xx) เพื่อทำ traceability
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>10 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.2.2 ชุด requirement ของกรณีศึกษา</h2><span class="sec">13.2 Requirement</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>10 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.2.2 ชุด requirement ของกรณีศึกษา</h2><span class="sec">13.2 Requirement</span></div>
 <div class="body">
 
 <table class="tbl"><tr><td>รหัส</td><td>ข้อกำหนด</td><td>เหตุผล / ที่มา</td><td>ขั้นที่ทวนสอบ</td></tr><tr><td><code><b>REQ-01</b></code></td><td>$t_r$ (10–90%) $\le1.5$ s</td><td>ทฤษฎี $2.2\,\tau_{cl}=1.10$ s + margin</td><td>MIL SIL HIL</td></tr><tr><td><code><b>REQ-02</b></code></td><td>$M_p\le5\%$</td><td>ไม่ให้ $V_c$ เกินช่วงใช้งาน</td><td>MIL SIL HIL</td></tr><tr><td><code><b>REQ-03</b></code></td><td>$t_s$ (2%) $\le2.5$ s</td><td>ทฤษฎี $3.9\,\tau_{cl}=1.96$ s + margin</td><td>MIL SIL HIL</td></tr><tr><td><code><b>REQ-04</b></code></td><td>$|e_{ss}|\le5$ mV (4 LSB DAC)</td><td>integrator (type 1)</td><td>SIL HIL</td></tr><tr><td><code><b>REQ-05</b></code></td><td>$0\le u\le5$ V</td><td>ช่วงของ DAC</td><td>MIL SIL PIL HIL</td></tr><tr><td><code><b>REQ-06</b></code></td><td>$r$: 0→4.5 V ต้องได้ $M_p\le5\%$</td><td>actuator อิ่มตัว → ต้องมี AW</td><td>MIL SIL</td></tr><tr><td><code><b>REQ-07</b></code></td><td>execute $\le$ 10% ของ $T_s$</td><td>เหลือเวลาให้ I/O และ serial</td><td>PIL</td></tr><tr><td><code><b>REQ-08</b></code></td><td>ผ่าน REQ-01…05 เมื่อ $C=C_{nom}(1\pm0.2)$</td><td>tolerance ของ electrolytic</td><td>SIL HIL</td></tr></table>
@@ -219,7 +219,7 @@ end</code></pre>
 <div class="box note"><h4>สังเกต</h4>
  margin ระหว่างค่าทฤษฎีกับเกณฑ์ (เช่น 1.96 s กับ 2.5 s) คือ<b>งบความคลาดเคลื่อน</b>ที่ sampling, quantization และ tolerance ของอุปกรณ์จะใช้ไป — HIL จะบอกว่างบพอหรือไม่
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>11 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.2.3 Traceability: requirement ↔ test case ↔ ผลทดสอบ</h2><span class="sec">13.2 Requirement</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>11 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.2.3 Traceability: requirement ↔ test case ↔ ผลทดสอบ</h2><span class="sec">13.2 Requirement</span></div>
 <div class="body">
 
 <div class="cols"><div>
@@ -234,7 +234,7 @@ end</code></pre>
 </li></ul>
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>12 / 55</span></div></section><section class="slide"><div class="hdr"><h2>ตัวอย่าง 13.1: ตรวจ REQ อัตโนมัติ (<code>ch13_01_requirements.m</code>)</h2><span class="sec">13.2 Requirement</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>12 / 56</span></div></section><section class="slide"><div class="hdr"><h2>ตัวอย่าง 13.1: ตรวจ REQ อัตโนมัติ (<code>ch13_01_requirements.m</code>)</h2><span class="sec">13.2 Requirement</span></div>
 <div class="body">
 <div class="cols"><div>
 <pre><code class="language-matlab">REQ = { ...
@@ -257,7 +257,7 @@ end</code></pre>
  ผ่านทั้งหมดที่ nominal แต่<b>ยังไม่ได้</b>ทดสอบ REQ-08 (tolerance) — จะเห็นใน 13.7
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>13 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.3.1 ระดับความละเอียดของแบบจำลอง (model fidelity)</h2><span class="sec">13.3 แบบจำลอง plant</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>13 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.3.1 ระดับความละเอียดของแบบจำลอง (model fidelity)</h2><span class="sec">13.3 แบบจำลอง plant</span></div>
 <div class="body">
 
 <table class="tbl"><tr><td>ระดับ</td><td>ตัวอย่าง</td><td>ข้อดี</td><td>ข้อจำกัด</td></tr><tr><td><b>First principles</b></td><td>RC: $RC\dot v_c+v_c=u$</td><td>พารามิเตอร์มีความหมายทางฟิสิกส์</td><td>ต้องรู้ค่าอุปกรณ์ (C ±20%)</td></tr><tr><td><b>Grey box</b></td><td>TCLab energy balance: $mc_p\dot T=UA(T_a-T)+\varepsilon\sigma A(T_a^4-T^4)+\alpha Q$</td><td>ไม่เป็นเชิงเส้นครบ, fit ได้ไม่กี่ตัว</td><td>ต้องมีข้อมูลทดลองและ optimizer</td></tr><tr><td><b>Black box</b></td><td>FOPDT $\dfrac{Ke^{-\theta s}}{\tau s+1}$</td><td>ใช้ออกแบบ PI ด้วย SIMC ได้ทันที</td><td>ใช้ได้รอบจุดทำงานเท่านั้น</td></tr></table>
@@ -265,7 +265,7 @@ end</code></pre>
 <div class="box key"><h4>หลักการเลือก</h4>
  แบบจำลอง<b>สำหรับออกแบบ</b>ควรง่ายที่สุดที่ยังจับพลวัตหลักได้ (FOPDT) ส่วนแบบจำลอง<b>สำหรับทวนสอบ</b> (MIL/SIL) ควรละเอียดกว่า เพื่อให้ “ตัวควบคุมที่ออกแบบจากแบบจำลองง่าย” ถูกทดสอบกับ plant ที่ใกล้ของจริงกว่า — ช่องว่างระหว่างสองแบบคือ <b class="hl">model uncertainty</b>
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>14 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.3.2 แบบจำลองและการออกแบบ PI ของกรณีศึกษา</h2><span class="sec">13.3 แบบจำลอง plant</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>14 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.3.2 แบบจำลองและการออกแบบ PI ของกรณีศึกษา</h2><span class="sec">13.3 แบบจำลอง plant</span></div>
 <div class="body">
 <div class="cols"><div>
  จาก Kirchhoff: $RC\,\dot v_c+v_c=u$
@@ -292,7 +292,7 @@ $$
  ทันทีหลัง step: $u=K_p\cdot2.5=5$ V $=U_{max}$ พอดี — ตัวควบคุมอยู่<b>ที่ขอบ</b>ของ saturation ซึ่งเป็น boundary case ที่ต้องทดสอบ
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>15 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.3.3 System identification บน TCLab จริง</h2><span class="sec">13.3 แบบจำลอง plant</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>15 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.3.3 System identification บน TCLab จริง</h2><span class="sec">13.3 แบบจำลอง plant</span></div>
 <div class="body">
 <div class="cols"><div>
 <img class="fig" src="assets/fig04.svg" alt="PlotRealStep" style="width:100%">
@@ -304,7 +304,7 @@ $$
  แบบจำลองที่ไม่ได้ identify ทำนายผิดถึง 3.4 °C — MIL ที่ผ่านด้วยแบบจำลองผิด<b>ไม่ใช่หลักฐาน</b>
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>16 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.4.1 Model-in-the-Loop: ทดสอบ “แนวคิด” ของการออกแบบ</h2><span class="sec">13.4 MIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>16 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.4.1 Model-in-the-Loop: ทดสอบ “แนวคิด” ของการออกแบบ</h2><span class="sec">13.4 MIL</span></div>
 <div class="body">
 <div class="cols"><div>
  ตัวควบคุมและ plant เป็น<b>สมการต่อเนื่อง</b>ทั้งคู่ state $x=[y;\,I]$:
@@ -325,7 +325,7 @@ $u=\mathrm{sat}(K_pe+I)$, แก้ด้วย <b>RK4 fixed-step</b> 1 ms
 </li></ul>
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>17 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.4.2 โค้ด MIL (<code>ch13_sim_mil.m</code>)</h2><span class="sec">13.4 MIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>17 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.4.2 โค้ด MIL (<code>ch13_sim_mil.m</code>)</h2><span class="sec">13.4 MIL</span></div>
 <div class="body">
 <div class="cols"><div>
 <pre><code class="language-matlab">dt = P.dtMIL;  t = (0:dt:P.tend).&#x27;;  x = [0; 0];
@@ -355,7 +355,7 @@ end</code></pre>
  ทำให้ <code>ch13_metrics</code>, <code>ch13_b2b</code> และการ plot เขียนครั้งเดียวใช้ได้กับ MIL/SIL/PIL/HIL
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>18 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.4.3 ผล MIL เทียบทฤษฎี</h2><span class="sec">13.4 MIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>18 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.4.3 ผล MIL เทียบทฤษฎี</h2><span class="sec">13.4 MIL</span></div>
 <div class="body">
 <div class="cols"><div>
 <img class="fig" src="assets/fig05.svg" alt="FigMIL" style="width:100%">
@@ -369,7 +369,7 @@ end</code></pre>
  ยืนยันว่า<b>การออกแบบ</b>ถูก และเป็น<b>เส้นอ้างอิง</b>ของ SIL และ HIL
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>19 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.4.4 ออกแบบ test case: nominal ไม่พอ</h2><span class="sec">13.4 MIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>19 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.4.4 ออกแบบ test case: nominal ไม่พอ</h2><span class="sec">13.4 MIL</span></div>
 <div class="body">
 <div class="cols"><div>
 <b>เทคนิคเลือก test case</b>
@@ -382,7 +382,7 @@ end</code></pre>
 
 <table class="tbl"><tr><td>TC</td><td>สิ่งที่ตรวจ</td></tr><tr><td>step 0→2.5 V</td><td>nominal, ขอบ saturation</td></tr><tr><td>step 0→4.5 V, $\tau_{cl}$=0.2</td><td>อิ่มตัวนาน → AW</td></tr><tr><td>step 0→0.5 V</td><td>ใกล้ 0 V (DAC ไม่เชิงเส้น)</td></tr><tr><td>$C$ ±20%</td><td>tolerance (REQ-08)</td></tr><tr><td>noise ADC 2 mV</td><td>sensitivity ต่อ noise</td></tr><tr><td>$T_s$ 5–100 ms</td><td>การเลือก $T_s$</td></tr></table>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>20 / 55</span></div></section><section class="slide"><div class="hdr"><h2>ตัวอย่าง 13.2: test case ที่ทำให้อิ่มตัว (REQ-06)</h2><span class="sec">13.4 MIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>20 / 56</span></div></section><section class="slide"><div class="hdr"><h2>ตัวอย่าง 13.2: test case ที่ทำให้อิ่มตัว (REQ-06)</h2><span class="sec">13.4 MIL</span></div>
 <div class="body">
 <img class="fig" src="assets/fig06.svg" alt="FigWindup" style="width:88%">
 
@@ -395,7 +395,7 @@ end</code></pre>
  test case แบบ nominal (0→2.5 V) <b>จับ bug นี้ไม่ได้</b> เพราะ $u$ แตะ $U_{max}$ เพียงชั่วขณะ — ต้องออกแบบ test case ที่<b>บังคับ</b>ให้เข้าสู่สภาวะที่ต้องการตรวจ
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>21 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.5.1 Software-in-the-Loop: “โค้ด” แทน “สมการ”</h2><span class="sec">13.5 SIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>21 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.5.1 Software-in-the-Loop: “โค้ด” แทน “สมการ”</h2><span class="sec">13.5 SIL</span></div>
 <div class="body">
 <div class="cols"><div>
 <pre><code class="language-matlab">a = exp(-P.Ts/P.tau);  x = 0;  I = 0;
@@ -419,7 +419,7 @@ end</code></pre>
  <code>ch13_params('quant',false)</code> ปิด quantization เพื่อแยกผลของ sampling ออกจากผลของ converter
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>22 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.5.2 ZOH discretization แบบแม่นตรง</h2><span class="sec">13.5 SIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>22 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.5.2 ZOH discretization แบบแม่นตรง</h2><span class="sec">13.5 SIL</span></div>
 <div class="body">
 <div class="cols"><div>
  ระหว่าง $kT_s\le t&lt;(k+1)T_s$ มี $u(t)=u(k)$ คงที่ แก้ $\tau\dot y+y=u(k)$ ได้ตรง ๆ:
@@ -437,12 +437,12 @@ ZOH แม่นตรงทำให้เหลือเฉพาะ (1)
  $\Phi=e^{AT_s}$, $\Gamma=\int_0^{T_s}e^{A\eta}d\eta\,B$
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>23 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.5.3 Back-to-back: SIL เทียบ MIL</h2><span class="sec">13.5 SIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>23 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.5.3 Back-to-back: SIL เทียบ MIL</h2><span class="sec">13.5 SIL</span></div>
 <div class="body">
 <img class="fig" src="assets/fig07.svg" alt="FigMilSil" style="width:92%">
 
  $\max|y_{SIL}-y_{MIL}|=12.5$ mV ที่ $T_s$=20 ms (เกิดที่ $t\approx1.7$ s) — SIL นำ MIL เล็กน้อย ($t_r$ 1.080 กับ 1.099 s) เพราะขั้ว discrete ของวงปิดเทียบเท่า $\tau_{eq}=0.495$ s (หัวข้อ 13.5.5)
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>24 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.5.4 การเลือก $T_s$: กวาดค่าใน SIL</h2><span class="sec">13.5 SIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>24 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.5.4 การเลือก $T_s$: กวาดค่าใน SIL</h2><span class="sec">13.5 SIL</span></div>
 <div class="body">
 <div class="cols"><div>
 <img class="fig" src="assets/fig08.svg" alt="FigTsSweep" style="width:100%">
@@ -454,7 +454,7 @@ ZOH แม่นตรงทำให้เหลือเฉพาะ (1)
  $\max|\Delta y|\approx0.63\,T_s/\tau$ (V) โตเชิงเส้นกับ $T_s$ — ใช้เป็น<b>เกณฑ์ผ่าน</b>ของ SIL vs MIL ได้
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>25 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.5.5 ทฤษฎีเบื้องหลัง: ZOH ≈ หน่วงเวลา $T_s/2$</h2><span class="sec">13.5 SIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>25 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.5.5 ทฤษฎีเบื้องหลัง: ZOH ≈ หน่วงเวลา $T_s/2$</h2><span class="sec">13.5 SIL</span></div>
 <div class="body">
 <div class="cols"><div>
  ZOH ที่ความถี่ต่ำ:
@@ -484,7 +484,7 @@ $\tau_{eq}=-T_s/\ln p=0.495$ s $&lt;\tau_{cl}=0.5$ s → SIL เร็วกว�
  มุมมองความถี่ (หน่วง $T_s/2$) บอก<b>ความเสี่ยงต่อเสถียรภาพ</b> ส่วนมุมมอง $T(z)$ บอก<b>รูปร่างผลตอบสนอง</b>ได้แม่นกว่า
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>26 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.5.6 Quantization ของ ADC/DAC: limit cycle ไม่ใช่ offset</h2><span class="sec">13.5 SIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>26 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.5.6 Quantization ของ ADC/DAC: limit cycle ไม่ใช่ offset</h2><span class="sec">13.5 SIL</span></div>
 <div class="body">
 <div class="cols"><div>
 
@@ -503,7 +503,7 @@ $$
  quantization + integrator → <b>limit cycle</b> ที่มีแอมพลิจูดระดับ LSB; plant (RC) กรองให้ $y$ ripple เล็กกว่า LSB ของ $u$ มาก
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>27 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.6.1 Processor-in-the-Loop: โค้ดเดียวกันบน processor จริง</h2><span class="sec">13.6 PIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>27 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.6.1 Processor-in-the-Loop: โค้ดเดียวกันบน processor จริง</h2><span class="sec">13.6 PIL</span></div>
 <div class="body">
 <div class="cols"><div>
 <img class="fig" src="assets/fig09.svg" alt="SeqDiagram" style="width:96%">
@@ -519,7 +519,7 @@ $$
  ใน Simulink คือ PIL block / SIL-PIL Manager ของ Embedded Coder ซึ่งทำ lock-step แบบเดียวกันผ่าน serial หรือ debugger
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>28 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.6.2 ASCII protocol: firmware เดียวรองรับ PIL และ HIL</h2><span class="sec">13.6 PIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>28 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.6.2 ASCII protocol: firmware เดียวรองรับ PIL และ HIL</h2><span class="sec">13.6 PIL</span></div>
 <div class="body">
 <div class="cols"><div>
 
@@ -541,7 +541,7 @@ $$
 }</code></pre>
  ไม่ใช้ <code>readStringUntil</code> (blocking) เพื่อเรียกได้ภายใน real-time loop
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>29 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.6.3 Numerical equivalence: SIL (double) เทียบ PIL (float32)</h2><span class="sec">13.6 PIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>29 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.6.3 Numerical equivalence: SIL (double) เทียบ PIL (float32)</h2><span class="sec">13.6 PIL</span></div>
 <div class="body">
 <div class="cols"><div>
 <img class="fig" src="assets/fig10.svg" alt="FigPILdu" style="width:100%">
@@ -555,7 +555,7 @@ $$
  <code>ch13_sim_sil(P,"single")</code> แปลงตัวแปรของ UUT เป็น <code>single()</code> ซึ่งเป็น IEEE-754 binary32 เดียวกับ FPU ของ Cortex-M4F
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>30 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.6.4 เกณฑ์ผ่านของ PIL: คำนวณจาก resolution × gain</h2><span class="sec">13.6 PIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>30 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.6.4 เกณฑ์ผ่านของ PIL: คำนวณจาก resolution × gain</h2><span class="sec">13.6 PIL</span></div>
 <div class="body">
 <div class="cols"><div>
  ถ้า $y$ ที่ quantize ต่างกัน 1 LSB ของ ADC ตัวควบคุมขยายไปที่ $u$ ด้วย $K_p$ แล้ว DAC/PWM ปัดได้อีกไม่เกิน 1 LSB:
@@ -572,7 +572,7 @@ $$
  เกณฑ์ทำนายค่าสูงสุดบน mock ได้ตรงทั้งสอง plant (1 LSB และ 3 LSB) ส่วนบอร์ดจริงของ TCLab ได้ 0 เพราะ $y$ แทบไม่เคยตกที่ขอบ code
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>31 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.6.5 เวลา execute และ CPU load (REQ-07)</h2><span class="sec">13.6 PIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>31 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.6.5 เวลา execute และ CPU load (REQ-07)</h2><span class="sec">13.6 PIL</span></div>
 <div class="body">
 <div class="cols"><div>
  วัดบน RA4M1 จริง (48 MHz, FPU) ด้วย <code>micros()</code> ครอบ <code>pi_step()</code>:
@@ -588,7 +588,7 @@ REQ-07 ($\le$10% ของ $T_s$) ผ่านโดยเหลือ margin �
  ค่าที่อ่านได้ละเอียดระดับ µs จึงบอกได้เพียงว่า “ไม่กี่ µs” ถ้าต้องการละเอียดกว่านี้ใช้ cycle counter (DWT) ของ Cortex-M
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>32 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.6.6 Mock target: ทดสอบ PIL/HIL ได้โดยไม่มีบอร์ด</h2><span class="sec">13.6 PIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>32 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.6.6 Mock target: ทดสอบ PIL/HIL ได้โดยไม่มีบอร์ด</h2><span class="sec">13.6 PIL</span></div>
 <div class="body">
 <div class="cols"><div>
 <pre><code class="language-matlab">classdef rc_mock_target &lt; handle
@@ -615,7 +615,7 @@ s = rc_mock_target;  R = rc_pil_run(s, rc_params());</code></pre>
  mock ไม่ใช่ PIL จริง: ไม่ได้ทดสอบ compiler/FPU จริง จึงใช้<b>เสริม</b> ไม่ใช่<b>แทน</b>
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>33 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.7.1 HIL สองความหมาย</h2><span class="sec">13.7 HIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>33 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.7.1 HIL สองความหมาย</h2><span class="sec">13.7 HIL</span></div>
 <div class="body">
 
 <table class="tbl"><tr><td></td><td><b>HIL แบบอุตสาหกรรม</b></td><td><b>HIL ในแล็บนี้</b></td></tr><tr><td>ตัวควบคุม</td><td>ECU / PLC / controller จริง</td><td>UNO R4 WiFi จริง</td></tr><tr><td>plant</td><td>แบบจำลองบน <b>real-time simulator</b> (FPGA/CPU) ต่อผ่าน I/O จริง</td><td><b>plant จริง</b> (วงจร RC, TCLab)</td></tr><tr><td>เหมาะกับ</td><td>plant ราคาแพง อันตราย หรือยังไม่มี (เครื่องบิน รถ โรงงาน)</td><td>plant เล็ก ปลอดภัย ราคาถูก</td></tr><tr><td>ทดสอบ fault</td><td>ฉีด fault ได้ตามต้องการ (sensor ขาด, short)</td><td>ทำได้จำกัด</td></tr><tr><td>ข้อดี</td><td>ทำซ้ำได้ ควบคุมสภาพได้</td><td>เห็น tolerance, noise, อากาศ ของจริง</td></tr></table>
@@ -623,7 +623,7 @@ s = rc_mock_target;  R = rc_pil_run(s, rc_params());</code></pre>
 <div class="box key"><h4>สิ่งที่ทั้งสองแบบมีร่วมกัน</h4>
  ตัวควบคุม<b>ตัวจริง</b> รัน<b>ตามเวลาจริง</b> ผ่าน <b>I/O จริง</b> — เป็นขั้นแรกที่ timing, converter และการต่อสายจริงถูกทดสอบทั้งหมดพร้อมกัน
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>34 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.7.2 Real-time loop แบบ drift-free</h2><span class="sec">13.7 HIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>34 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.7.2 Real-time loop แบบ drift-free</h2><span class="sec">13.7 HIL</span></div>
 <div class="body">
 <div class="cols"><div>
 <pre><code class="language-cpp">const unsigned long Ts_us = (unsigned long)(Ts*1e6f);
@@ -645,7 +645,7 @@ while (!abortRun) {
 </li><li>ลำดับ sample → compute → write ตรงกับ SIL
 </li></ul>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>35 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.7.3 สิ่งที่ HIL เปิดเผย: tolerance ของอุปกรณ์ (REQ-08)</h2><span class="sec">13.7 HIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>35 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.7.3 สิ่งที่ HIL เปิดเผย: tolerance ของอุปกรณ์ (REQ-08)</h2><span class="sec">13.7 HIL</span></div>
 <div class="body">
 <div class="cols"><div>
 <img class="fig" src="assets/fig11.svg" alt="FigHILtol" style="width:100%">
@@ -657,7 +657,7 @@ while (!abortRun) {
  $C$ ต่ำกว่า nominal 20% → $t_s$ = 2.56 s <b>ไม่ผ่าน REQ-03</b> ทั้งที่ nominal ผ่านสบาย
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>36 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.7.4 อธิบายด้วยทฤษฎี: pole–zero cancellation ที่ไม่สมบูรณ์</h2><span class="sec">13.7 HIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>36 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.7.4 อธิบายด้วยทฤษฎี: pole–zero cancellation ที่ไม่สมบูรณ์</h2><span class="sec">13.7 HIL</span></div>
 <div class="body">
 <div class="cols"><div>
  $G=\dfrac{1}{\tau's+1}$, $C=K_p\dfrac{\tau s+1}{\tau s}$ โดย $\tau'\neq\tau$:
@@ -674,7 +674,7 @@ $$
  ออกแบบด้วย robustness (บทที่ 12: $M_s$) หรือเลือก $\tau_{cl}$ ให้ช้าลงเพื่อเพิ่ม margin ของ $t_s$, หรือ identify $\tau$ จริงก่อน (open-loop step)
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>37 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.7.5 HIL บนบอร์ดจริง: TCLab</h2><span class="sec">13.7 HIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>37 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.7.5 HIL บนบอร์ดจริง: TCLab</h2><span class="sec">13.7 HIL</span></div>
 <div class="body">
 <div class="cols"><div>
 <img class="fig" src="assets/fig13.svg" alt="PlotRealHIL" style="width:100%">
@@ -686,7 +686,7 @@ $$
  ตัวควบคุมตัวเดียวกับ RC (<code>pi_step()</code>) เปลี่ยนเพียงพารามิเตอร์และ I/O — controller ไม่ผูกกับ plant
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>38 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.7.6 สิ่งที่บอร์ดจริงสอน (TCLab, 24 ต.ค. 2026)</h2><span class="sec">13.7 HIL</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>38 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.7.6 สิ่งที่บอร์ดจริงสอน (TCLab, 24 ต.ค. 2026)</h2><span class="sec">13.7 HIL</span></div>
 <div class="body">
 
 <ol><li><b>PIL = SIL ทุก sample</b>: <code>pi_step()</code> ที่คอมไพล์ด้วย GCC-ARM บน FPU float32 ให้ code PWM ตรงกับ MATLAB (double) ทุก step; เกณฑ์ $K_pq_{ADC}$ เป็นกรณีเลวร้ายสุด
@@ -697,13 +697,13 @@ $$
 <div class="box key"><h4>ข้อสรุป</h4>
  HIL ไม่ได้ “พิสูจน์ว่าถูก” แต่ <b>เปิดเผยสมมติฐานที่ผิด</b> ของแบบจำลองและของวิธีวัด — ผลต่าง MIL–HIL ต้องอธิบายได้ทุกข้อ
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>39 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.8.1 Back-to-back test: เทียบขั้นที่ติดกัน ด้วยเกณฑ์ที่คำนวณได้</h2><span class="sec">13.8 Back-to-back</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>39 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.8.1 Back-to-back test: เทียบขั้นที่ติดกัน ด้วยเกณฑ์ที่คำนวณได้</h2><span class="sec">13.8 Back-to-back</span></div>
 <div class="body">
 <img class="fig" src="assets/fig14.svg" alt="FigBtoB" style="width:84%">
 
 
 <table class="tbl"><tr><td>คู่ที่เทียบ</td><td>สัญญาณ / ตัวชี้วัด</td><td>เกณฑ์ผ่าน (กรณีศึกษา)</td><td>ผล</td></tr><tr><td>SIL vs MIL</td><td>$\max|\Delta y|$</td><td>$\le0.63\,T_s/\tau\cdot$(1.5 เผื่อ) = 19 mV</td><td>12.5 mV ✓</td></tr><tr><td>PIL vs SIL</td><td>$\max|\Delta u|$</td><td>$\lfloor(K_pq_y+q_u)/q_u\rfloor$ = 1 LSB</td><td>1 LSB ✓</td></tr><tr><td>HIL vs MIL</td><td>RMS $\Delta y$</td><td>จาก tolerance analysis ($C$ ±20%): $\le$ 0.06 V</td><td>0.006–0.053 V ✓</td></tr><tr><td>HIL vs REQ</td><td>$t_r,M_p,t_s,e_{ss}$</td><td>REQ-01…05</td><td>$t_s$ ไม่ผ่านที่ $0.8\,C_{nom}$ ✗</td></tr></table>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>40 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.8.2 รายละเอียดที่มักพลาดในการเทียบสัญญาณ</h2><span class="sec">13.8 Back-to-back</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>40 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.8.2 รายละเอียดที่มักพลาดในการเทียบสัญญาณ</h2><span class="sec">13.8 Back-to-back</span></div>
 <div class="body">
 <div class="cols"><div>
 
@@ -726,7 +726,7 @@ end</code></pre>
  เกณฑ์ผ่านทุกตัวต้องมี<b>ที่มา</b> (ทฤษฎี, resolution, tolerance) และบันทึกไว้คู่กับ test case
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>41 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.8.3 สรุปผลการทวนสอบทั้งสอง plant</h2><span class="sec">13.8 Back-to-back</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>41 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.8.3 สรุปผลการทวนสอบทั้งสอง plant</h2><span class="sec">13.8 Back-to-back</span></div>
 <div class="body">
 
 <table class="tbl"><tr><td>ขั้น</td><td>$t_r$ (s)</td><td>$t_s$ (s)</td><td>$M_p$ (%)</td><td>back-to-back</td></tr><tr><td colspan="5"><b>RC</b> ($\tau$=1 s, $T_s$=20 ms, $K_p$=$K_i$=2)</td></tr><tr><td>ทฤษฎี</td><td>1.099</td><td>1.956</td><td>0</td><td>—</td></tr><tr><td><span class="c-mil"><b>MIL</b></span></td><td>1.099</td><td>1.957</td><td>0.00</td><td>—</td></tr><tr><td><span class="c-sil"><b>SIL</b></span></td><td>1.080</td><td>1.900</td><td>0.01</td><td>$\max|\Delta y|$ = 12.5 mV vs MIL</td></tr><tr><td><span class="c-pil"><b>PIL</b></span> (float32)</td><td>1.080</td><td>1.900</td><td>0.01</td><td>$\max|\Delta u|$ = 1 LSB vs SIL</td></tr><tr><td><span class="c-hil"><b>HIL</b></span> ($C$ 0.8–1.2)</td><td>1.06–1.10</td><td>1.68–2.56</td><td>0–1.36</td><td>RMS $\Delta y$ 0.006–0.053 V vs MIL</td></tr><tr><td colspan="5"><b>TCLab บอร์ดจริง</b> ($\lambda$=30 s, $T_s$=1 s, $K_p$=5.01, $K_i$=0.0449; $t_s$ ใช้แถบ ±0.5 °C)</td></tr><tr><td><span class="c-mil"><b>MIL</b></span> (EB ID)</td><td>74.3</td><td>104</td><td>3.72</td><td>—</td></tr><tr><td><span class="c-sil"><b>SIL</b></span></td><td>74.0</td><td>155</td><td>4.05</td><td>$\max|\Delta y|$ = 0.050 °C vs MIL</td></tr><tr><td><span class="c-pil"><b>PIL</b></span> (RA4M1)</td><td>74.0</td><td>155</td><td>4.05</td><td>$\max|\Delta u|$ = 0; exec 4.1/7 µs</td></tr><tr><td><span class="c-hil"><b>HIL</b></span></td><td>67.0</td><td>338</td><td>4.09</td><td>RMS $\Delta y$ = 0.24 °C vs MIL</td></tr></table>
@@ -734,7 +734,7 @@ end</code></pre>
 <div class="box note"><h4>อ่านตาราง</h4>
  MIL→SIL→PIL ผลต่างเล็กและ<b>ทำนายได้</b>; การกระโดดใหญ่เกิดที่ HIL เสมอ เพราะเป็นขั้นที่แบบจำลองถูกแทนด้วยของจริง
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>42 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.9.1 หน่วงเวลาในลูป: ZOH, การคำนวณ และ delay margin</h2><span class="sec">13.9 Real time</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>42 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.9.1 หน่วงเวลาในลูป: ZOH, การคำนวณ และ delay margin</h2><span class="sec">13.9 Real time</span></div>
 <div class="body">
 <div class="cols"><div>
  หน่วงรวม $T_d\approx T_s/2+t_d$ ($t_d$ = เวลาจาก sample ถึงเขียน DAC)
@@ -753,7 +753,7 @@ $$
  ลูปนี้ทน delay สูงมาก จึงยอมให้ log ผ่าน serial ภายในลูปได้ แต่ plant ที่เร็วกว่า (มอเตอร์, $\omega_c$ หลายร้อย rad/s) ต้องวาง I/O และการคำนวณให้ $t_d$ สั้นที่สุด
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>43 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.9.2 Jitter: คาบ sample ไม่คงที่</h2><span class="sec">13.9 Real time</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>43 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.9.2 Jitter: คาบ sample ไม่คงที่</h2><span class="sec">13.9 Real time</span></div>
 <div class="body">
 <div class="cols"><div>
 <img class="fig" src="assets/fig15.svg" alt="FigJitter" style="width:100%">
@@ -768,7 +768,7 @@ $$
 </li></ul>
  (<code>ch13_07_timing.m</code>, ส่วน b)
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>44 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.9.3 ความปลอดภัยใน firmware: fail-safe by design</h2><span class="sec">13.9 Real time</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>44 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.9.3 ความปลอดภัยใน firmware: fail-safe by design</h2><span class="sec">13.9 Real time</span></div>
 <div class="body">
 <div class="cols"><div>
 
@@ -789,7 +789,7 @@ $$
  แยก<b>ฟังก์ชันควบคุม</b>ออกจาก<b>ฟังก์ชันป้องกัน</b> และให้สถานะปลอดภัย (heater = 0, DAC ปิด) เป็นค่าเริ่มต้น — แนวคิดเดียวกับ BPCS/SIS ใน IEC 61511
 </div>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>45 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.10.1 สถาปัตยกรรมซอฟต์แวร์ 3 ชั้น</h2><span class="sec">13.10 สถาปัตยกรรม</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>45 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.10.1 สถาปัตยกรรมซอฟต์แวร์ 3 ชั้น</h2><span class="sec">13.10 สถาปัตยกรรม</span></div>
 <div class="body">
 <img class="fig" src="assets/fig16.svg" alt="ArchDiagram" style="width:78%">
 
@@ -800,7 +800,7 @@ $$
 </div><div>
 <b>UI</b> บาง: อ่านค่า → เรียก harness → plot; callback <code>liveFcn</code> ทำให้ harness ไม่ต้องรู้จัก GUI (<b>dependency inversion</b>)
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>46 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.10.2 จากชุดแล็บไปสู่ toolchain อุตสาหกรรม</h2><span class="sec">13.10 สถาปัตยกรรม</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>46 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.10.2 จากชุดแล็บไปสู่ toolchain อุตสาหกรรม</h2><span class="sec">13.10 สถาปัตยกรรม</span></div>
 <div class="body">
 
 <table class="tbl"><tr><td>หน้าที่</td><td>ในบทนี้ (เขียนเอง)</td><td>ใน MATLAB/Simulink (ตัวอย่าง)</td></tr><tr><td>requirement + traceability</td><td>ตาราง REQ + function handle</td><td>Requirements Toolbox</td></tr><tr><td>แบบจำลอง + MIL</td><td><code>ch13_sim_mil</code> (RK4)</td><td>Simulink model, Simulink Test</td></tr><tr><td>UUT บนชิป</td><td><code>pi_step()</code> เขียนคู่ด้วยมือ</td><td>Embedded Coder (code generation)</td></tr><tr><td>SIL</td><td><code>ch13_sim_sil</code></td><td>SIL simulation mode</td></tr><tr><td>PIL</td><td>lock-step ผ่าน serial</td><td>PIL simulation mode + target support</td></tr><tr><td>HIL</td><td>loop real time + plant จริง</td><td>Simulink Real-Time + real-time target</td></tr><tr><td>back-to-back</td><td><code>ch13_b2b</code></td><td>equivalence test (Simulink Test)</td></tr><tr><td>coverage</td><td>—</td><td>Simulink Coverage (decision, MC/DC)</td></tr><tr><td>version control</td><td><code>.m</code> text + builder ของ <code>.mlapp</code></td><td>Projects + Git, CI</td></tr></table>
@@ -808,7 +808,7 @@ $$
 <div class="box key"><h4>ทำไมเขียนเองก่อน</h4>
  เมื่อเห็นทุกชิ้นด้วยตาตัวเอง (ZOH, quantizer, float32, protocol, timing) นักศึกษาจะ<b>รู้ว่าเครื่องมืออัตโนมัติกำลังทำอะไร</b> และตีความผลต่างระหว่างขั้นได้ถูกต้อง
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>47 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.10.3 V-Model ในมาตรฐานความปลอดภัย</h2><span class="sec">13.10 สถาปัตยกรรม</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>47 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.10.3 V-Model ในมาตรฐานความปลอดภัย</h2><span class="sec">13.10 สถาปัตยกรรม</span></div>
 <div class="body">
 
 <table class="tbl"><tr><td>มาตรฐาน</td><td>ขอบเขต</td><td>สิ่งที่เกี่ยวกับบทนี้</td></tr><tr><td><b>IEC 61508-3</b></td><td>software ของระบบ E/E/PE ที่เกี่ยวกับความปลอดภัย</td><td>วงจรชีวิต software แบบ V; ความเข้มของการทดสอบเพิ่มตามระดับ SIL</td></tr><tr><td><b>IEC 61511</b></td><td>SIS ในอุตสาหกรรมกระบวนการ</td><td>วงจรชีวิตของ application program ใช้แนวคิดเดียวกัน</td></tr><tr><td><b>ISO 26262-6</b></td><td>software ในยานยนต์</td><td>รองรับ model-based development; ใช้ back-to-back ระหว่าง model กับ code ในการทวนสอบ</td></tr><tr><td><b>DO-178C + DO-331</b></td><td>software อากาศยาน</td><td>DO-331 เป็นภาคผนวกสำหรับ model-based development and verification</td></tr><tr><td><b>DO-330 / ISO 26262-8</b></td><td>tool qualification</td><td>ต้องแสดงว่าเครื่องมือ (code generator, test tool) เชื่อถือได้</td></tr></table>
@@ -816,7 +816,7 @@ $$
 <div class="box note"><h4>ข้อสังเกต</h4>
  มาตรฐานไม่ได้บังคับเครื่องมือยี่ห้อใด แต่บังคับ<b>หลักฐาน</b>: requirement ที่ทดสอบได้, traceability, เกณฑ์ผ่านที่มีเหตุผล และผลทดสอบที่ทำซ้ำได้ — ตรงกับที่ทำในบทนี้ทุกข้อ
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>48 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.11.1 สรุป</h2><span class="sec">13.11 สรุป</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>48 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.11.1 สรุป</h2><span class="sec">13.11 สรุป</span></div>
 <div class="body">
 
 <ol><li>MBD ทดสอบ<b>ตัวควบคุมตัวเดียวกัน</b> (UUT) ใน MIL → SIL → PIL → HIL โดยเปลี่ยนทีละปัจจัย
@@ -828,7 +828,10 @@ $$
 </li><li>เกณฑ์ back-to-back ต้อง<b>คำนวณจากระบบ</b> ไม่ใช่ตัวเลขคงที่
 </li><li>real-time loop แบบ <code>next += Ts</code> ไม่มี drift; jitter ระดับ µs ไม่มีผล; delay margin 0.775 s
 </li></ol>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>49 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.11.2 Checklist ก่อนบอกว่า “ผ่าน”</h2><span class="sec">13.11 สรุป</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>49 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.11.2 สรุปบทที่ 13 แบบวิดีโอ (2 นาที)</h2><span class="sec">13.11 สรุป</span></div>
+<div class="body">
+<video controls preload="metadata" poster="assets/ch13_summary_poster.jpg" style="display:block;margin:0 auto;width:100%;max-height:520px;border-radius:6px;background:#000"><source src="assets/ch13_summary.mp4" type="video/mp4"></video><p class="center" style="margin-top:6px;font-size:.8em">Chapter 13 · Dr.Jin V4 · 2:18 · คำบรรยายภาษาไทยในภาพ · <a href="assets/ch13_summary.mp4" download>ดาวน์โหลด MP4</a></p>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>50 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.11.3 Checklist ก่อนบอกว่า “ผ่าน”</h2><span class="sec">13.11 สรุป</span></div>
 <div class="body">
 <div class="cols"><div>
 
@@ -849,7 +852,7 @@ $$
 </li><li class="lab"><b class="hl">$\square$</b>  สถานะปลอดภัยเป็นค่าเริ่มต้น และมี watchdog
 </li></ul>
 </div></div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>50 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.11.3 แบบฝึกหัด (1/2)</h2><span class="sec">13.11 สรุป</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>51 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.11.4 แบบฝึกหัด (1/2)</h2><span class="sec">13.11 สรุป</span></div>
 <div class="body">
 
 <ol class="labs"><li class="lab"><b class="hl"><b>E13.1</b></b>  หา $a=e^{-T_s/\tau}$ ของกรณีศึกษา และแสดงว่า DC gain ของ $G(z)=\frac{1-a}{z-a}$ เท่ากับ 1
@@ -858,7 +861,7 @@ $$
 </li><li class="lab"><b class="hl"><b>E13.4</b></b>  หา $T_s$ ที่มากที่สุดที่ทำให้ PM ลดลงไม่เกิน 5° และหาขั้ว $p$ ของวงปิด discrete กับ $\tau_{eq}$ ที่ $T_s$ = 20 ms
 </li><li class="lab"><b class="hl"><b>E13.5</b></b>  ถ้า <code>pi_step()</code> ใช้เวลาสูงสุด 7 µs ที่ $T_s$ = 20 ms CPU load เท่าใด? REQ-07 ผ่านหรือไม่?
 </li></ol>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>51 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.11.3 แบบฝึกหัด (2/2)</h2><span class="sec">13.11 สรุป</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>52 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.11.4 แบบฝึกหัด (2/2)</h2><span class="sec">13.11 สรุป</span></div>
 <div class="body">
 
 <ol class="labs"><li class="lab"><b class="hl"><b>E13.6</b></b>  <code>micros()</code> เป็น <code>unsigned long</code> 32 บิต จะ overflow ทุกกี่นาที? ทำไม <code>(long)(micros()-next) < 0</code> จึงยังถูกต้องตอน overflow?
@@ -867,11 +870,11 @@ $$
 </li><li class="lab"><b class="hl"><b>E13.9</b></b>  เขียน requirement สำหรับการกำจัด load disturbance (เช่น ขั้นของ $d$ ที่ input ของ plant) พร้อม test case และเกณฑ์ผ่านที่คำนวณได้
 </li><li class="lab"><b class="hl"><b>E13.10</b></b>  อธิบายความต่างของ HIL แบบอุตสาหกรรมกับ HIL ในแล็บนี้ และยกตัวอย่าง fault ที่ทดสอบได้เฉพาะแบบอุตสาหกรรม
 </li></ol>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>52 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.11.4 เฉลยแบบฝึกหัด (ตรวจด้วย <code>ch13_09_exercises.m</code>)</h2><span class="sec">13.11 สรุป</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>53 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.11.5 เฉลยแบบฝึกหัด (ตรวจด้วย <code>ch13_09_exercises.m</code>)</h2><span class="sec">13.11 สรุป</span></div>
 <div class="body">
 
 <table class="tbl"><tr><td>E13.1</td><td>$a=e^{-0.02}=0.98020$; $G(1)=\frac{1-a}{1-a}=1$</td></tr><tr><td>E13.2</td><td>$q_{DAC}$=1.221 mV, $q_{ADC}$=0.305 mV, $K_pq_{ADC}$=0.610 mV → $\lfloor1.831/1.221\rfloor$ = <b>1 LSB</b></td></tr><tr><td>E13.3</td><td>$q_u=100/(0.784\times4095)$=0.0311%; $K_pq_y+q_u$=0.119% → <b>3 LSB = 0.093%</b></td></tr><tr><td>E13.4</td><td>$\omega_cT_s/2\le5°=0.0873$ rad → $T_s\le$ <b>87.3 ms</b>; $p=1-K_p(1-a)$=0.96040, $\tau_{eq}=-T_s/\ln p$=0.495 s</td></tr><tr><td>E13.5</td><td>$7\ \mu s/20$ ms = <b>0.035%</b> $\le$ 10% → ผ่าน (margin &nbsp;285 เท่า)</td></tr><tr><td>E13.6</td><td>$2^{32}$ µs = <b>71.6 นาที</b>; ผลต่าง unsigned ทำงานแบบ modulo $2^{32}$ แล้ว cast เป็น signed จึงได้เครื่องหมายถูกเมื่อห่างกันน้อยกว่า $2^{31}$ µs</td></tr><tr><td>E13.7</td><td>30 B × 50 Hz = <b>1.5 kB/s</b>; 115200 baud ≈ 11.5 kB/s (8N1) → ใช้ราว 13%</td></tr><tr><td>E13.8</td><td>$\omega_n$=1.581 rad/s, $\zeta$=1.186; ขั้ว $-0.867$ และ $-2.883$; zero ที่ $-1$ ไม่หักล้างขั้วอีกต่อไป ขั้วช้า $-0.867$ (ช้ากว่า $1/\tau_{cl}$=2 มาก) มี residue เล็กแต่ลู่เข้าช้า → หาง settling ยาว</td></tr><tr><td>E13.9</td><td>เช่น REQ-09: ขั้น $d$ = 0.5 V ที่ input ของ plant ต้องได้ $\max|e|\le$ 0.2 V และ IAE$_d\le$ 0.3 V·s; ทฤษฎี $y_d=0.5(e^{-t}-e^{-2t})$ → $\max|e|$=0.125 V, IAE$_d=d_0/K_i$=0.25 V·s (บทที่ 12)</td></tr><tr><td>E13.10</td><td>อุตสาหกรรมใช้ real-time simulator → ฉีด fault ได้ เช่น sensor ขาด/ค้าง, actuator ติด, short circuit, สภาวะอันตรายที่ทำกับ plant จริงไม่ได้</td></tr></table>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>53 / 55</span></div></section><section class="slide"><div class="hdr"><h2>13.11.5 ไฟล์ประกอบและแล็บ</h2><span class="sec">13.11 สรุป</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>54 / 56</span></div></section><section class="slide"><div class="hdr"><h2>13.11.6 ไฟล์ประกอบและแล็บ</h2><span class="sec">13.11 สรุป</span></div>
 <div class="body">
 <div class="cols"><div>
  <b><code>mfiles/</code></b> (MATLAB R2026a, base MATLAB)
@@ -893,7 +896,7 @@ $$
 <div class="box ex"><h4>งานที่มอบหมาย</h4>
  ทำ TC-01 ถึง TC-06 บนบอร์ดจริง บันทึกตาราง traceability พร้อมผล PASS/FAIL และอธิบายทุกผลต่างระหว่างขั้นด้วยปัจจัยที่เปลี่ยน
 </div>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>54 / 55</span></div></section><section class="slide"><div class="hdr"><h2>เอกสารอ้างอิงประจำบท</h2><span class="sec">13.11 สรุป</span></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>55 / 56</span></div></section><section class="slide"><div class="hdr"><h2>เอกสารอ้างอิงประจำบท</h2><span class="sec">13.11 สรุป</span></div>
 <div class="body">
 
 <ol><li>K. J. Åström and B. Wittenmark, <i>Computer-Controlled Systems: Theory and Design</i>, 3rd ed. Prentice Hall, 1997.
@@ -908,14 +911,14 @@ $$
 </li><li>Arduino, <i>UNO R4 WiFi</i> documentation (Renesas RA4M1), docs.arduino.cc.
 </li><li>APMonitor / BYU, <i>TCLab — Temperature Control Lab</i>, apmonitor.com.
 </li></ol>
-</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>55 / 55</span></div></section></div>
+</div><div class="ftr"><span>01068007 Control Systems · Chapter 13 · รศ.ดร.อาจินต์ น่วมสำราญ · <a href="ch13_slides.pdf">PDF</a> · <a href="mfiles/index.html">m-files</a></span><span>56 / 56</span></div></section></div>
 <div id="nav"><span id="cnt"></span><button onclick="show(cur-1)" aria-label="ก่อนหน้า">◀</button><button onclick="show(cur+1)" aria-label="ถัดไป">▶</button><button onclick="fs()">เต็มจอ</button></div>
 <script>
 const slides=[...document.querySelectorAll('.slide')];let cur=0;
 function fit(){const s=Math.min(innerWidth/1280,innerHeight/720)*0.98;slides.forEach(e=>e.style.transform=`scale(${s})`);}
-function show(i){cur=Math.max(0,Math.min(slides.length-1,i));slides.forEach((e,k)=>e.classList.toggle('on',k===cur));
+function show(i){cur=Math.max(0,Math.min(slides.length-1,i));slides.forEach((e,k)=>{e.classList.toggle('on',k===cur);if(k!==cur)e.querySelectorAll('video').forEach(v=>v.pause());});
  document.getElementById('cnt').textContent=`${cur+1} / ${slides.length}`;history.replaceState(null,'','#'+(cur+1));}
-document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){show(cur+1);e.preventDefault()}
+document.addEventListener('keydown',e=>{if(e.target&&e.target.tagName==='VIDEO'&&[' ','ArrowLeft','ArrowRight'].includes(e.key))return;if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){show(cur+1);e.preventDefault()}
  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){show(cur-1);e.preventDefault()}else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);
  else if(e.key==='f')fs();});
 let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>50)show(cur+(d<0?1:-1));x0=null;});
